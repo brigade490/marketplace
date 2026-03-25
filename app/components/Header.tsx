@@ -15,7 +15,7 @@ const trendingSearches = [
   'Office Furniture',
 ];
 
-const locations = ['All Locations', 'India', 'China', 'USA', 'Germany', 'Brazil', 'UAE'];
+const locations = ['All Locations', 'Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Hyderabad', 'Pune', 'Kolkata', 'Ahmedabad', 'Surat', 'Jaipur', 'Lucknow'];
 
 export default function Header() {
   const router = useRouter();
@@ -197,8 +197,8 @@ export default function Header() {
           ) : (
             <Link
               href="/auth/buyer"
-              className="px-5 py-2 text-sm font-semibold text-white transition-colors"
-              style={{ background: '#000000', borderRadius: '999px', border: '1.5px solid #ffffff33' }}
+              className="px-5 py-2 text-sm font-semibold transition-colors"
+              style={{ background: '#ffffff', color: '#000000', borderRadius: '999px' }}
             >
               Login / Signup
             </Link>
