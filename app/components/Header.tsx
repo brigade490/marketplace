@@ -115,7 +115,7 @@ export default function Header() {
 
           <Link
             href="/auth/buyer"
-            className="px-5 py-2 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors"
+            className="px-5 py-2 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors rounded-full"
           >
             Login / Signup
           </Link>

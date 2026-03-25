@@ -46,9 +46,7 @@ export default function SellerAuthPage() {
       {/* Left panel */}
       <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gray-900 text-white p-12">
         <div className="flex items-center gap-1">
-          <span className="text-3xl font-black tracking-tight">Bex</span>
-          <span className="text-3xl font-black text-yellow-400 tracking-tight">o</span>
-          <span className="w-2 h-2 rounded-full bg-yellow-400 mb-4 ml-0.5"></span>
+          <span className="text-3xl font-black tracking-tight text-white">Karobarrr</span>
         </div>
 
         <div>
@@ -57,7 +55,7 @@ export default function SellerAuthPage() {
             <span className="text-yellow-400">B2B buyers globally.</span>
           </h1>
           <p className="text-gray-400 text-lg leading-relaxed mb-8">
-            Start with a Bronze badge and grow to Gold as your business thrives on Bexo.
+            Start with a Bronze badge and grow to Gold as your business thrives on Karobarrr.
           </p>
 
           {/* Tier cards */}
@@ -81,7 +79,7 @@ export default function SellerAuthPage() {
         </div>
 
         <div className="text-xs text-gray-600">
-          © 2026 Bexo Technologies. All rights reserved.
+          © 2026 Karobarrr Technologies. All rights reserved.
         </div>
       </div>
 
@@ -91,9 +89,7 @@ export default function SellerAuthPage() {
           {/* Mobile logo */}
           <div className="flex items-center gap-1 mb-8 lg:hidden">
             <Link href="/" className="flex items-center gap-1">
-              <span className="text-2xl font-black text-gray-900">Bex</span>
-              <span className="text-2xl font-black text-yellow-400">o</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 mb-3 ml-0.5"></span>
+              <span className="text-2xl font-black text-gray-900">Karobarrr</span>
             </Link>
           </div>
 

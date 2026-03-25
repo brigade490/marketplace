@@ -15,10 +15,10 @@ function ProductCard() {
     <div
       className="shrink-0 bg-white relative"
       style={{
-        minWidth: '280px',
-        width: '280px',
-        minHeight: '380px',
-        height: '380px',
+        minWidth: '320px',
+        width: '320px',
+        minHeight: '450px',
+        height: '450px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
       }}
@@ -26,7 +26,7 @@ function ProductCard() {
       {/* Top 60% — image placeholder */}
       <div
         className="relative bg-white"
-        style={{ height: '260px', borderRadius: '12px 12px 0 0' }}
+        style={{ height: '320px', borderRadius: '12px 12px 0 0' }}
       >
         {/* Verified badge — absolute top right of image area */}
         <div
@@ -41,12 +41,12 @@ function ProductCard() {
       </div>
 
       {/* Bottom 40% — product info */}
-      <div className="px-3 pt-3" style={{ height: '120px' }}>
+      <div className="px-3 pt-3" style={{ height: '130px' }}>
         <p style={{ fontSize: '13px', fontWeight: 400, color: '#111827', lineHeight: 1.4, marginBottom: '6px' }}>
           Product Name
         </p>
         <p style={{ fontSize: '18px', fontWeight: 400, color: '#111827' }}>
-          $0.00
+          ₹0.00
         </p>
       </div>
     </div>

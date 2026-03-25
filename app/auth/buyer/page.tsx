@@ -29,9 +29,7 @@ export default function BuyerAuthPage() {
       {/* Left panel */}
       <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gray-900 text-white p-12">
         <div className="flex items-center gap-1">
-          <span className="text-3xl font-black tracking-tight">Bex</span>
-          <span className="text-3xl font-black text-yellow-400 tracking-tight">o</span>
-          <span className="w-2 h-2 rounded-full bg-yellow-400 mb-4 ml-0.5"></span>
+          <span className="text-3xl font-black tracking-tight text-white">Karobarrr</span>
         </div>
 
         <div>
@@ -40,7 +38,7 @@ export default function BuyerAuthPage() {
             <span className="text-yellow-400">trade safer.</span>
           </h1>
           <p className="text-gray-400 text-lg leading-relaxed mb-8">
-            Join thousands of businesses discovering verified suppliers and closing deals on Bexo every day.
+            Join thousands of businesses discovering verified suppliers and closing deals on Karobarrr every day.
           </p>
 
           <div className="space-y-4">
@@ -59,7 +57,7 @@ export default function BuyerAuthPage() {
         </div>
 
         <div className="text-xs text-gray-600">
-          © 2026 Bexo Technologies. All rights reserved.
+          © 2026 Karobarrr Technologies. All rights reserved.
         </div>
       </div>
 
@@ -69,9 +67,7 @@ export default function BuyerAuthPage() {
           {/* Mobile logo */}
           <div className="flex items-center gap-1 mb-8 lg:hidden">
             <Link href="/" className="flex items-center gap-1">
-              <span className="text-2xl font-black text-gray-900">Bex</span>
-              <span className="text-2xl font-black text-yellow-400">o</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 mb-3 ml-0.5"></span>
+              <span className="text-2xl font-black text-gray-900">Karobarrr</span>
             </Link>
           </div>
 
@@ -93,7 +89,7 @@ export default function BuyerAuthPage() {
 
           <div className="mb-6">
             <h2 className="text-2xl font-black text-gray-900">
-              {mode === "signup" ? "Join Bexo as a Buyer" : "Welcome back"}
+              {mode === "signup" ? "Join Karobarrr as a Buyer" : "Welcome back"}
             </h2>
             <p className="text-gray-500 text-sm mt-1">
               {mode === "signup"
@@ -222,7 +218,7 @@ export default function BuyerAuthPage() {
           {/* Switch role */}
           <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-100 text-center">
             <p className="text-xs text-gray-500">
-              Want to sell on Bexo?{" "}
+              Want to sell on Karobarrr?{" "}
               <Link href="/auth/seller" className="font-semibold text-yellow-600 hover:text-yellow-700">
                 Create a Seller Account →
               </Link>

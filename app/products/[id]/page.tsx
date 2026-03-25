@@ -13,7 +13,7 @@ const products: Record<string, {
 }> = {
   "1": {
     id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", seller: "TechMach Industries",
-    tier: "Gold", price: "$4,200", unit: "/ unit", minOrder: "Min. 5 units",
+    tier: "Gold", price: "₹4,200", unit: "/ unit", minOrder: "Min. 5 units",
     rating: 4.9, reviews: 128, location: "Germany", category: "Industrial Equipment",
     description: "Heavy-duty industrial conveyor belt system engineered for high-throughput manufacturing environments. Suitable for automotive, logistics, and food processing plants. Built with German engineering precision — designed to operate continuously for 80,000+ hours.",
     specs: [
@@ -35,7 +35,7 @@ const products: Record<string, {
   },
   "2": {
     id: "2", emoji: "💻", name: "Commercial LED Display Panels", seller: "BrightView Corp",
-    tier: "Silver", price: "$890", unit: "/ panel", minOrder: "Min. 10 units",
+    tier: "Silver", price: "₹890", unit: "/ panel", minOrder: "Min. 10 units",
     rating: 4.7, reviews: 94, location: "China", category: "Electronics & Tech",
     description: "High-brightness commercial-grade LED display panels designed for retail, hospitality, and outdoor advertising. Features real-time content management via cloud dashboard.",
     specs: [
@@ -59,8 +59,8 @@ const products: Record<string, {
 // Default fallback for unlisted IDs
 function getProduct(id: string) {
   return products[id] ?? {
-    id, emoji: "📦", name: `Product #${id}`, seller: "Bexo Seller",
-    tier: "Bronze", price: "$100", unit: "/ unit", minOrder: "Min. 10 units",
+    id, emoji: "📦", name: `Product #${id}`, seller: "Karobarrr Seller",
+    tier: "Bronze", price: "₹100", unit: "/ unit", minOrder: "Min. 10 units",
     rating: 4.5, reviews: 20, location: "Global", category: "General",
     description: "Product details will be available once connected to Supabase.",
     specs: [{ label: "Status", value: "Demo data" }],
@@ -344,7 +344,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <h3 className="font-black text-gray-900 mb-1">🚩 Report this Listing</h3>
-            <p className="text-xs text-gray-500 mb-4">Help us keep Bexo safe. Describe the issue below.</p>
+            <p className="text-xs text-gray-500 mb-4">Help us keep Karobarrr safe. Describe the issue below.</p>
 
             <form onSubmit={handleFlag} className="space-y-4">
               <div>

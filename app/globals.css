@@ -50,6 +50,11 @@ html {
   background: #9ca3af;
 }
 
+/* Fully rounded buttons everywhere (unlayered = overrides Tailwind utilities) */
+button {
+  border-radius: 999px;
+}
+
 /* Hide scrollbar for horizontal scroll containers */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

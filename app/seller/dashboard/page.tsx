@@ -6,28 +6,28 @@ import { useState } from "react";
 // ── Mock data ──────────────────────────────────────────────────────────────
 
 const mockProducts = [
-  { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", price: "$4,200", stock: 12, orders: 47, status: "Active", flagged: false },
-  { id: "2", emoji: "⚙️", name: "Precision CNC Machine Parts", price: "$320", stock: 50, orders: 23, status: "Active", flagged: false },
-  { id: "3", emoji: "🔩", name: "Stainless Steel Fastener Sets", price: "$145", stock: 0, orders: 89, status: "Out of stock", flagged: false },
-  { id: "4", emoji: "🏗️", name: "Heavy-Duty Storage Racks", price: "$780", stock: 8, orders: 12, status: "Active", flagged: true },
+  { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", price: "₹4,200", stock: 12, orders: 47, status: "Active", flagged: false },
+  { id: "2", emoji: "⚙️", name: "Precision CNC Machine Parts", price: "₹320", stock: 50, orders: 23, status: "Active", flagged: false },
+  { id: "3", emoji: "🔩", name: "Stainless Steel Fastener Sets", price: "₹145", stock: 0, orders: 89, status: "Out of stock", flagged: false },
+  { id: "4", emoji: "🏗️", name: "Heavy-Duty Storage Racks", price: "₹780", stock: 8, orders: 12, status: "Active", flagged: true },
 ];
 
 const mockOrders = [
-  { id: "ORD-0041", buyer: "🏭 Hartmann GmbH", product: "Industrial Conveyor Belt System", qty: 5, total: "$21,000", status: "Shipped", date: "Mar 22, 2026" },
-  { id: "ORD-0038", buyer: "🏗️ BuildCo AU", product: "Precision CNC Machine Parts", qty: 10, total: "$3,200", status: "Confirmed", date: "Mar 20, 2026" },
-  { id: "ORD-0035", buyer: "🚗 AutoMax Corp", product: "Stainless Steel Fastener Sets", qty: 200, total: "$29,000", status: "Delivered", date: "Mar 15, 2026" },
-  { id: "ORD-0031", buyer: "🏢 MegaMachines", product: "Industrial Conveyor Belt System", qty: 2, total: "$8,400", status: "Pending", date: "Mar 12, 2026" },
-  { id: "ORD-0028", buyer: "🔧 PartnerTech Ltd", product: "Heavy-Duty Storage Racks", qty: 3, total: "$2,340", status: "Delivered", date: "Mar 5, 2026" },
+  { id: "ORD-0041", buyer: "🏭 Hartmann GmbH", product: "Industrial Conveyor Belt System", qty: 5, total: "₹21,000", status: "Shipped", date: "Mar 22, 2026" },
+  { id: "ORD-0038", buyer: "🏗️ BuildCo AU", product: "Precision CNC Machine Parts", qty: 10, total: "₹3,200", status: "Confirmed", date: "Mar 20, 2026" },
+  { id: "ORD-0035", buyer: "🚗 AutoMax Corp", product: "Stainless Steel Fastener Sets", qty: 200, total: "₹29,000", status: "Delivered", date: "Mar 15, 2026" },
+  { id: "ORD-0031", buyer: "🏢 MegaMachines", product: "Industrial Conveyor Belt System", qty: 2, total: "₹8,400", status: "Pending", date: "Mar 12, 2026" },
+  { id: "ORD-0028", buyer: "🔧 PartnerTech Ltd", product: "Heavy-Duty Storage Racks", qty: 3, total: "₹2,340", status: "Delivered", date: "Mar 5, 2026" },
 ];
 
 const mockRequirements = [
-  { id: "REQ-114", buyer: "🏭 FabriMax Inc.", title: "Need 500 units conveyor belts — 800mm width", budget: "$250,000", deadline: "Apr 30, 2026", category: "Industrial Equipment", responded: false },
-  { id: "REQ-108", buyer: "🚗 AutoHub Ltd.", title: "Looking for OEM brake pads — 50K units/month", budget: "$80,000/mo", deadline: "May 15, 2026", category: "Auto Parts", responded: true },
-  { id: "REQ-096", buyer: "📦 LogiCorp", title: "Heavy-duty racking systems for 3 warehouses", budget: "$120,000", deadline: "Jun 1, 2026", category: "Construction Materials", responded: false },
+  { id: "REQ-114", buyer: "🏭 FabriMax Inc.", title: "Need 500 units conveyor belts — 800mm width", budget: "₹250,000", deadline: "Apr 30, 2026", category: "Industrial Equipment", responded: false },
+  { id: "REQ-108", buyer: "🚗 AutoHub Ltd.", title: "Looking for OEM brake pads — 50K units/month", budget: "₹80,000/mo", deadline: "May 15, 2026", category: "Auto Parts", responded: true },
+  { id: "REQ-096", buyer: "📦 LogiCorp", title: "Heavy-duty racking systems for 3 warehouses", budget: "₹120,000", deadline: "Jun 1, 2026", category: "Construction Materials", responded: false },
 ];
 
 const analyticsData = {
-  revenue: "$142,500",
+  revenue: "₹142,500",
   revenueChange: "+18%",
   orders: 47,
   ordersChange: "+12%",
@@ -358,7 +358,7 @@ export default function SellerDashboardPage() {
               {/* KPI grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
-                  { emoji: "💰", label: "Total Revenue", value: "$142,500", sub: "+18% vs last month" },
+                  { emoji: "💰", label: "Total Revenue", value: "₹142,500", sub: "+18% vs last month" },
                   { emoji: "🛒", label: "Total Orders", value: "47", sub: "+12% vs last month" },
                   { emoji: "🔄", label: "Conversion Rate", value: analyticsData.conversionRate, sub: "Views to orders" },
                   { emoji: "👁️", label: "Product Views", value: "8,420", sub: "+34% vs last month" },
@@ -426,7 +426,7 @@ export default function SellerDashboardPage() {
                   <input
                     type="text"
                     required
-                    placeholder="$0.00"
+                    placeholder="₹0.00"
                     value={newProduct.price}
                     onChange={(e) => setNewProduct((p) => ({ ...p, price: e.target.value }))}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-yellow-400"
