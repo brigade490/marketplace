@@ -30,11 +30,11 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f8f9fa]">
+    <header className="sticky top-0 z-50 bg-black">
       <div className="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-6">
 
         {/* Left: Logo */}
-        <Link href="/" className="shrink-0 text-2xl font-black text-black tracking-tight">
+        <Link href="/" className="shrink-0 text-2xl font-black text-white tracking-tight">
           BEXO
         </Link>
 
@@ -69,7 +69,7 @@ export default function Header() {
             />
 
             {/* Search button */}
-            <button className="px-6 text-sm font-semibold text-white bg-black hover:bg-[#dee2e6] hover:text-black transition-colors shrink-0">
+            <button className="px-6 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors shrink-0">
               Search
             </button>
           </div>
@@ -96,7 +96,7 @@ export default function Header() {
 
         {/* Right: Cart icon + Login/Signup */}
         <div className="flex items-center gap-4 shrink-0">
-          <button aria-label="Cart" className="text-black hover:text-gray-500 transition-colors">
+          <button aria-label="Cart" className="text-white hover:text-gray-300 transition-colors">
             <svg
               width="22"
               height="22"
@@ -115,7 +115,7 @@ export default function Header() {
 
           <Link
             href="/auth/buyer"
-            className="px-5 py-2 text-sm font-semibold text-white bg-black hover:bg-[#dee2e6] hover:text-black transition-colors"
+            className="px-5 py-2 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors"
           >
             Login / Signup
           </Link>
