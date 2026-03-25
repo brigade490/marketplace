@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 function Footer() {
   return (
-    <footer className="bg-[#f8f9fa] text-black">
+    <footer className="bg-[#f7f7f8] text-black">
       <div className="max-w-screen-xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -66,7 +66,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body className="min-h-full flex flex-col antialiased bg-[#f8f9fa]">
+      <body className="min-h-full flex flex-col antialiased bg-[#f7f7f8]">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

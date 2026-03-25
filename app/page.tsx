@@ -10,23 +10,41 @@ const sections = [
   { id: 'construction', title: 'Construction Materials' },
 ];
 
+function AdBanner() {
+  return (
+    <div
+      className="mx-6 mt-6"
+      style={{
+        background: '#ffffff',
+        height: '120px',
+        borderRadius: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span style={{ fontSize: '14px', color: '#9ca3af', fontWeight: 500 }}>Ad Space</span>
+    </div>
+  );
+}
+
 function ProductCard() {
   return (
     <div
       className="shrink-0 bg-white relative"
       style={{
-        minWidth: '320px',
-        width: '320px',
-        minHeight: '450px',
-        height: '450px',
+        minWidth: '360px',
+        width: '360px',
+        minHeight: '500px',
+        height: '500px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
       }}
     >
-      {/* Top 60% — image placeholder */}
+      {/* Image placeholder area */}
       <div
         className="relative bg-white"
-        style={{ height: '320px', borderRadius: '12px 12px 0 0' }}
+        style={{ height: '360px', borderRadius: '12px 12px 0 0' }}
       >
         {/* Verified badge — absolute top right of image area */}
         <div
@@ -40,8 +58,8 @@ function ProductCard() {
         </div>
       </div>
 
-      {/* Bottom 40% — product info */}
-      <div className="px-3 pt-3" style={{ height: '130px' }}>
+      {/* Product info area */}
+      <div className="px-3 pt-3" style={{ height: '140px' }}>
         <p style={{ fontSize: '13px', fontWeight: 400, color: '#111827', lineHeight: 1.4, marginBottom: '6px' }}>
           Product Name
         </p>
@@ -66,7 +84,7 @@ function ProductSection({ title }: { title: string }) {
   }
 
   return (
-    <div className="bg-[#f8f9fa]">
+    <div style={{ background: '#f7f7f8' }}>
       {/* Section heading */}
       <div className="px-14 pt-8 pb-3">
         <h2 className="text-xl font-black text-black">{title}</h2>
@@ -78,14 +96,14 @@ function ProductSection({ title }: { title: string }) {
         <button
           onClick={() => scroll('left')}
           aria-label={`Scroll ${title} left`}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white hover:bg-gray-50 transition-colors"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-colors"
           style={{
             width: '40px',
             height: '40px',
             borderRadius: '50%',
-            border: '1px solid #dee2e6',
+            background: '#000000',
+            color: '#ffffff',
             fontSize: '22px',
-            color: '#111',
           }}
         >
           ‹
@@ -106,14 +124,14 @@ function ProductSection({ title }: { title: string }) {
         <button
           onClick={() => scroll('right')}
           aria-label={`Scroll ${title} right`}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white hover:bg-gray-50 transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-colors"
           style={{
             width: '40px',
             height: '40px',
             borderRadius: '50%',
-            border: '1px solid #dee2e6',
+            background: '#000000',
+            color: '#ffffff',
             fontSize: '22px',
-            color: '#111',
           }}
         >
           ›
@@ -125,7 +143,8 @@ function ProductSection({ title }: { title: string }) {
 
 export default function HomePage() {
   return (
-    <div className="bg-[#f8f9fa]">
+    <div style={{ background: '#f7f7f8' }}>
+      <AdBanner />
       {sections.map((section) => (
         <ProductSection key={section.id} title={section.title} />
       ))}

@@ -39,7 +39,7 @@ export default function Header() {
         </Link>
 
         {/* Center: Location selector + Search bar */}
-        <div className="relative" style={{ width: '60%' }} ref={searchAreaRef}>
+        <div className="flex-1 relative" ref={searchAreaRef}>
           <div className="flex items-stretch bg-white h-11 overflow-hidden" style={{ borderRadius: '25px' }}>
 
             {/* Location selector */}
@@ -69,7 +69,7 @@ export default function Header() {
             />
 
             {/* Search button */}
-            <button className="px-6 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors shrink-0">
+            <button className="px-6 text-sm font-semibold text-white bg-black hover:bg-gray-800 transition-colors shrink-0">
               Search
             </button>
           </div>
@@ -83,7 +83,7 @@ export default function Header() {
               {trendingSearches.map((term) => (
                 <button
                   key={term}
-                  className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#f8f9fa] transition-colors"
+                  className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#f7f7f8] transition-colors"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setShowDropdown(false)}
                 >
@@ -115,7 +115,7 @@ export default function Header() {
 
           <Link
             href="/auth/buyer"
-            className="px-5 py-2 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors rounded-full"
+            className="px-5 py-2 text-sm font-semibold text-white bg-black hover:bg-gray-800 transition-colors rounded-full"
           >
             Login / Signup
           </Link>

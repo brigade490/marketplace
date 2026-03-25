@@ -18,7 +18,7 @@
 }
 
 :root {
-  --background: #f8f9fa;
+  --background: #f7f7f8;
   --foreground: #0d0f14;
 }
 
@@ -50,9 +50,11 @@ html {
   background: #9ca3af;
 }
 
-/* Fully rounded buttons everywhere (unlayered = overrides Tailwind utilities) */
+/* Fully rounded buttons, pure black with white text (unlayered = overrides Tailwind utilities) */
 button {
   border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
 }
 
 /* Hide scrollbar for horizontal scroll containers */
