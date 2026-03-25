@@ -15,7 +15,7 @@ function AdBanner() {
     <div
       style={{
         background: '#ffffff',
-        height: '200px',
+        height: '300px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

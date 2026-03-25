@@ -1,237 +1,193 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
-export default function BuyerAuthPage() {
-  const [mode, setMode] = useState<"login" | "signup">("signup");
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    password: "",
-    confirmPassword: "",
-  });
+export default function AuthPage() {
+  const router = useRouter();
+  const [tab, setTab] = useState<'login' | 'signup'>('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Auth logic will go here once Supabase is connected
-    alert(`${mode === "login" ? "Login" : "Sign up"} submitted — connect Supabase to enable auth.`);
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    const supabase = createClient();
+
+    if (tab === 'login') {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push('/');
+        router.refresh();
+      }
+    } else {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess('Check your email to confirm your account.');
+      }
+    }
+
+    setLoading(false);
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left panel */}
-      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gray-900 text-white p-12">
-        <div className="flex items-center gap-1">
-          <span className="text-3xl font-black tracking-tight text-white">Karobarrr</span>
-        </div>
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-16"
+      style={{ background: '#f7f7f8' }}
+    >
+      <div
+        className="w-full bg-white"
+        style={{
+          maxWidth: '440px',
+          borderRadius: '16px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.09)',
+          padding: '40px 36px',
+        }}
+      >
+        {/* Logo */}
+        <a href="/" className="block text-center text-2xl font-black text-black mb-8">
+          Karobarrr
+        </a>
 
-        <div>
-          <h1 className="text-4xl font-black leading-tight mb-4">
-            Source smarter,<br />
-            <span className="text-yellow-400">trade safer.</span>
-          </h1>
-          <p className="text-gray-400 text-lg leading-relaxed mb-8">
-            Join thousands of businesses discovering verified suppliers and closing deals on Karobarrr every day.
-          </p>
-
-          <div className="space-y-4">
-            {[
-              { emoji: "✅", text: "Access 48,000+ verified products" },
-              { emoji: "🛡️", text: "Fraud-monitored, secure marketplace" },
-              { emoji: "📋", text: "Post requirements & get proposals" },
-              { emoji: "🚚", text: "Track every order from placement to delivery" },
-            ].map((item) => (
-              <div key={item.text} className="flex items-center gap-3">
-                <span className="text-lg">{item.emoji}</span>
-                <span className="text-gray-300 text-sm">{item.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="text-xs text-gray-600">
-          © 2026 Karobarrr Technologies. All rights reserved.
-        </div>
-      </div>
-
-      {/* Right panel — form */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          {/* Mobile logo */}
-          <div className="flex items-center gap-1 mb-8 lg:hidden">
-            <Link href="/" className="flex items-center gap-1">
-              <span className="text-2xl font-black text-gray-900">Karobarrr</span>
-            </Link>
-          </div>
-
-          {/* Toggle */}
-          <div className="flex rounded-xl bg-gray-100 p-1 mb-8">
+        {/* Tab toggle */}
+        <div
+          className="flex mb-8 p-1"
+          style={{ background: '#f7f7f8', borderRadius: '10px' }}
+        >
+          {(['login', 'signup'] as const).map((t) => (
             <button
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "signup" ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-700"}`}
-              onClick={() => setMode("signup")}
+              key={t}
+              type="button"
+              onClick={() => { setTab(t); setError(''); setSuccess(''); }}
+              style={{
+                flex: 1,
+                padding: '8px 0',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: 600,
+                transition: 'all 0.15s',
+                background: tab === t ? '#000000' : 'transparent',
+                color: tab === t ? '#ffffff' : '#6b7280',
+              }}
             >
-              Create Account
+              {t === 'login' ? 'Login' : 'Sign Up'}
             </button>
-            <button
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "login" ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-700"}`}
-              onClick={() => setMode("login")}
-            >
-              Sign In
-            </button>
+          ))}
+        </div>
+
+        <h2 className="text-xl font-black text-black mb-1">
+          {tab === 'login' ? 'Welcome back' : 'Create your account'}
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">
+          {tab === 'login'
+            ? 'Sign in to your Karobarrr account.'
+            : 'Join thousands of B2B businesses on Karobarrr.'}
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@company.com"
+              required
+              className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none transition"
+              style={{
+                border: '1.5px solid #e5e7eb',
+                borderRadius: '10px',
+                background: '#ffffff',
+              }}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#000000')}
+              onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
+            />
           </div>
 
-          <div className="mb-6">
-            <h2 className="text-2xl font-black text-gray-900">
-              {mode === "signup" ? "Join Karobarrr as a Buyer" : "Welcome back"}
-            </h2>
-            <p className="text-gray-500 text-sm mt-1">
-              {mode === "signup"
-                ? "Create your free buyer account to start sourcing."
-                : "Sign in to access your buyer dashboard."}
-            </p>
+          <div>
+            <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              minLength={6}
+              className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none transition"
+              style={{
+                border: '1.5px solid #e5e7eb',
+                borderRadius: '10px',
+                background: '#ffffff',
+              }}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#000000')}
+              onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
+            />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === "signup" && (
-              <>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">Full Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="John Smith"
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">Company Name</label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={form.company}
-                    onChange={handleChange}
-                    placeholder="Acme Corp Ltd."
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="+1 555 000 0000"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-                  />
-                </div>
-              </>
-            )}
-
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="john@company.com"
-                required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-              />
+          {tab === 'login' && (
+            <div className="text-right">
+              <a href="#" className="text-xs text-gray-500 hover:text-black transition-colors">
+                Forgot password?
+              </a>
             </div>
+          )}
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1.5">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                required
-                minLength={8}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-              />
-            </div>
-
-            {mode === "signup" && (
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1.5">Confirm Password</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  required
-                  minLength={8}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition"
-                />
-              </div>
-            )}
-
-            {mode === "login" && (
-              <div className="text-right">
-                <a href="#" className="text-xs font-medium text-yellow-600 hover:text-yellow-700">
-                  Forgot password?
-                </a>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-xl bg-yellow-400 text-gray-900 font-bold text-sm hover:bg-yellow-500 transition-colors mt-2"
-            >
-              {mode === "signup" ? "Create Buyer Account 🚀" : "Sign In →"}
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">or continue with</span>
-            <div className="flex-1 h-px bg-gray-200" />
-          </div>
-
-          {/* OAuth */}
-          <div className="grid grid-cols-2 gap-3">
-            <button className="flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition">
-              🌐 Google
-            </button>
-            <button className="flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition">
-              💼 LinkedIn
-            </button>
-          </div>
-
-          {/* Switch role */}
-          <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-100 text-center">
-            <p className="text-xs text-gray-500">
-              Want to sell on Karobarrr?{" "}
-              <Link href="/auth/seller" className="font-semibold text-yellow-600 hover:text-yellow-700">
-                Create a Seller Account →
-              </Link>
+          {error && (
+            <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: '8px' }}>
+              {error}
             </p>
-          </div>
+          )}
 
-          <p className="text-xs text-gray-400 text-center mt-4">
-            By signing up, you agree to our{" "}
-            <a href="#" className="underline hover:text-gray-600">Terms of Service</a>
-            {" "}and{" "}
-            <a href="#" className="underline hover:text-gray-600">Privacy Policy</a>.
-          </p>
-        </div>
+          {success && (
+            <p className="text-xs text-green-700 bg-green-50 px-3 py-2" style={{ borderRadius: '8px' }}>
+              {success}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 text-sm font-bold text-white transition-opacity"
+            style={{
+              background: '#000000',
+              borderRadius: '999px',
+              opacity: loading ? 0.6 : 1,
+              cursor: loading ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {loading
+              ? 'Please wait...'
+              : tab === 'login'
+              ? 'Login'
+              : 'Create Account'}
+          </button>
+        </form>
+
+        <p className="text-xs text-gray-400 text-center mt-6">
+          By continuing, you agree to our{' '}
+          <a href="#" className="underline hover:text-black">Terms of Service</a>{' '}
+          and{' '}
+          <a href="#" className="underline hover:text-black">Privacy Policy</a>.
+        </p>
       </div>
     </div>
   );
