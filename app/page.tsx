@@ -15,9 +15,10 @@ function ProductCard() {
     <div
       className="shrink-0 bg-white relative"
       style={{
-        minWidth: '220px',
-        width: '220px',
-        height: '300px',
+        minWidth: '280px',
+        width: '280px',
+        minHeight: '380px',
+        height: '380px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
       }}
@@ -25,7 +26,7 @@ function ProductCard() {
       {/* Top 60% — image placeholder */}
       <div
         className="relative bg-white"
-        style={{ height: '60%', borderRadius: '12px 12px 0 0' }}
+        style={{ height: '260px', borderRadius: '12px 12px 0 0' }}
       >
         {/* Verified badge — absolute top right of image area */}
         <div
@@ -40,7 +41,7 @@ function ProductCard() {
       </div>
 
       {/* Bottom 40% — product info */}
-      <div className="px-3 pt-3" style={{ height: '40%' }}>
+      <div className="px-3 pt-3" style={{ height: '120px' }}>
         <p style={{ fontSize: '13px', fontWeight: 400, color: '#111827', lineHeight: 1.4, marginBottom: '6px' }}>
           Product Name
         </p>

@@ -35,12 +35,12 @@ export default function Header() {
 
         {/* Left: Logo */}
         <Link href="/" className="shrink-0 text-2xl font-black text-white tracking-tight">
-          BEXO
+          Karobarrr
         </Link>
 
         {/* Center: Location selector + Search bar */}
-        <div className="flex-1 max-w-2xl relative" ref={searchAreaRef}>
-          <div className="flex items-stretch bg-white h-11">
+        <div className="relative" style={{ width: '60%' }} ref={searchAreaRef}>
+          <div className="flex items-stretch bg-white h-11 overflow-hidden" style={{ borderRadius: '25px' }}>
 
             {/* Location selector */}
             <div className="relative flex items-center shrink-0">
