@@ -83,7 +83,10 @@ export default function Header() {
               {trendingSearches.map((term) => (
                 <button
                   key={term}
-                  className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#f7f7f8] transition-colors"
+                  className="w-full text-left px-4 py-2.5 text-sm transition-colors"
+                  style={{ background: '#ffffff', color: '#111827', borderRadius: '8px' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#f7f7f8')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setShowDropdown(false)}
                 >

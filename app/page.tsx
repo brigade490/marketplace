@@ -13,11 +13,9 @@ const sections = [
 function AdBanner() {
   return (
     <div
-      className="mx-6 mt-6"
       style={{
         background: '#ffffff',
-        height: '120px',
-        borderRadius: '12px',
+        height: '200px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
