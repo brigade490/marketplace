@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business' | 's-categories' | 's-location';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business' | 's-categories' | 's-location' | 's-gst' | 's-verify';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -15,6 +15,7 @@ export default function OnboardingPage() {
   const [sellerBusiness, setSellerBusiness] = useState({ businessName: '', businessType: '' });
   const [sellerCategories, setSellerCategories] = useState<string[]>([]);
   const [sellerLocation, setSellerLocation] = useState({ city: '', state: '', pincode: '' });
+  const [sellerGst, setSellerGst] = useState('');
 
   // Buyer form state
   const [buyerBasic, setBuyerBasic] = useState({ name: '', email: '' });
@@ -48,6 +49,8 @@ export default function OnboardingPage() {
     's-business': 2,
     's-categories': 3,
     's-location': 4,
+    's-gst': 5,
+    's-verify': 6,
   };
   const totalSellerSteps = 10; // full seller flow length
 
@@ -235,6 +238,27 @@ export default function OnboardingPage() {
           values={sellerLocation}
           onChange={setSellerLocation}
           onBack={() => goBack('s-categories')}
+          onNext={() => goTo('s-gst')}
+        />
+      )}
+
+      {step === 's-gst' && (
+        <SellerGstScreen
+          key="s-gst"
+          animClass={animClass}
+          value={sellerGst}
+          onChange={setSellerGst}
+          onBack={() => goBack('s-location')}
+          onNext={() => goTo('s-verify')}
+          onSkip={() => goTo('s-verify')}
+        />
+      )}
+
+      {step === 's-verify' && (
+        <SellerVerifyScreen
+          key="s-verify"
+          animClass={animClass}
+          onBack={() => goBack('s-gst')}
           onNext={() => router.push('/seller/dashboard')}
         />
       )}
@@ -1292,6 +1316,139 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
 
       <div className="mt-8">
         <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 5: GST Details ─────────────────────────── */
+function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }: {
+  animClass: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBack: () => void;
+  onNext: () => void;
+  onSkip: () => void;
+}) {
+  // Basic GSTIN format: 15 alphanumeric chars
+  const valid = value.trim().length === 15;
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">GST details</h1>
+      <p className="text-sm text-gray-500 mb-8">Add your GSTIN to unlock all seller features.</p>
+
+      <div className="flex flex-col gap-4 mb-auto">
+        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+          <input
+            type="text"
+            placeholder=" "
+            maxLength={15}
+            value={value}
+            onChange={(e) => onChange(e.target.value.toUpperCase())}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15, fontFamily: 'monospace' }}
+          />
+          <label>GSTIN</label>
+        </div>
+
+        {/* Note */}
+        <div
+          className="flex items-start gap-3 p-4"
+          style={{ borderRadius: '12px', background: '#fefce8', border: '1.5px solid #fde68a' }}
+        >
+          <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>⚠️</span>
+          <p className="text-xs text-yellow-800 leading-relaxed">
+            Some features like bulk orders and verified badge are limited until your GSTIN is added.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+        <button
+          onClick={onSkip}
+          className="w-full py-3 text-sm font-semibold"
+          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+        >
+          Skip for now
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 6: Business Verification ───────────────── */
+function SellerVerifyScreen({ animClass, onBack, onNext }: {
+  animClass: string;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const [gstCert, setGstCert] = useState<string | null>(null);
+  const [bizProof, setBizProof] = useState<string | null>(null);
+
+  function handleFile(setter: (v: string) => void) {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files?.[0]) setter(e.target.files[0].name);
+    };
+  }
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Business verification</h1>
+      <p className="text-sm text-gray-500 mb-8">Both documents are optional — upload when ready.</p>
+
+      <div className="flex flex-col gap-4 mb-auto">
+        {/* Upload row */}
+        {([
+          { id: 'gst-cert', label: 'GST Certificate', state: gstCert, setter: setGstCert },
+          { id: 'biz-proof', label: 'Business Proof', state: bizProof, setter: setBizProof },
+        ] as const).map(({ id, label, state, setter }) => (
+          <label
+            key={id}
+            htmlFor={id}
+            className="flex items-center justify-between p-4 cursor-pointer"
+            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb', background: '#fff' }}
+          >
+            <div className="flex items-center gap-3">
+              <span style={{ fontSize: 22 }}>{state ? '📄' : '📁'}</span>
+              <div>
+                <p className="text-sm font-bold text-black">{label}</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {state ? state : 'Tap to upload'}
+                </p>
+              </div>
+            </div>
+            <div
+              className="shrink-0 px-3 py-1 text-xs font-bold"
+              style={{
+                borderRadius: '999px',
+                background: state ? '#f0fdf4' : '#f3f4f6',
+                color: state ? '#16a34a' : '#6b7280',
+              }}
+            >
+              {state ? 'Uploaded' : 'Pending'}
+            </div>
+            <input id={id} type="file" accept=".pdf,image/*" className="hidden" onChange={handleFile(setter)} />
+          </label>
+        ))}
+
+        {/* Review note */}
+        <div
+          className="flex items-start gap-3 p-4"
+          style={{ borderRadius: '12px', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
+        >
+          <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>🔍</span>
+          <p className="text-xs text-blue-800 leading-relaxed">
+            A verified badge will be added to your profile after our team reviews your documents (usually within 24 hours).
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={false} onClick={onNext} />
       </div>
     </div>
   );
