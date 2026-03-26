@@ -30,38 +30,283 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
-/* Fully rounded buttons, pure black with white text (unlayered = overrides Tailwind utilities) */
+/* Global button styles */
 button {
   border-radius: 999px;
   background: #000000;
   color: #ffffff;
+  /* Tap feedback — universal */
+  transition: transform 120ms ease-out, opacity 120ms ease-out;
+}
+button:active {
+  transform: scale(0.97);
 }
 
 /* Hide scrollbar for horizontal scroll containers */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+/* ═══════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════ */
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+@keyframes scaleIn {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-3px); }
+  40%       { transform: translateX(3px); }
+  60%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+@keyframes checkBounce {
+  0%   { transform: scale(0.4); opacity: 0; }
+  55%  { transform: scale(1.2); opacity: 1; }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes greenPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+@keyframes slideFromRight {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideFromLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes dropdownExpand {
+  from { opacity: 0; transform: scaleY(0.94) translateY(-4px); }
+  to   { opacity: 1; transform: scaleY(1)    translateY(0); }
+}
+
+@keyframes confettiDrop {
+  0%   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(-90px) rotate(400deg); opacity: 0; }
+}
+
+@keyframes readyIn {
+  from { transform: scale(0.82); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+}
+
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes successTick {
+  0%   { stroke-dashoffset: 30; opacity: 0; }
+  50%  { opacity: 1; }
+  100% { stroke-dashoffset: 0;  opacity: 1; }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   UTILITY ANIMATION CLASSES
+═══════════════════════════════════════════════════ */
+
+/* Fade + slide up */
+.fade-up {
+  animation: fadeSlideUp 220ms ease-out both;
+}
+.fade-up-d1 { animation-delay: 50ms; }
+.fade-up-d2 { animation-delay: 100ms; }
+.fade-up-d3 { animation-delay: 150ms; }
+.fade-up-d4 { animation-delay: 200ms; }
+.fade-up-d5 { animation-delay: 250ms; }
+.fade-up-d6 { animation-delay: 300ms; }
+
+/* Scale in (modals, popups, chips) */
+.scale-in {
+  animation: scaleIn 200ms ease-out both;
+}
+
+/* Page/step slide transitions */
+.step-forward { animation: slideFromRight 230ms ease-out both; }
+.step-back    { animation: slideFromLeft  230ms ease-out both; }
+
+/* Step content change */
+.step-enter { animation: fadeSlideUp 200ms ease-out both; }
+
+/* Error shake */
+.shake { animation: shake 320ms ease-out; }
+
+/* Check icon bounce */
+.check-in { animation: checkBounce 380ms ease-out both; }
+
+/* OTP / success green pulse */
+.green-pulse { animation: greenPulse 600ms ease-out; }
+
+/* Dropdown expand */
+.dropdown-enter {
+  animation: dropdownExpand 180ms ease-out both;
+  transform-origin: top;
+}
+
+/* "You're ready" text */
+.ready-in { animation: readyIn 500ms 150ms ease-out both; }
+
+/* Confetti piece */
+.confetti-piece {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  animation: confettiDrop 900ms ease-out forwards;
+  pointer-events: none;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #ececec 25%, #e0e0e0 50%, #ececec 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 8px;
+}
+
+/* Progress bar smooth fill */
+.progress-bar {
+  transition: width 280ms ease-out;
+}
+
+/* Spinner */
+.spinner {
+  border: 2px solid #e5e7eb;
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spinnerRotate 700ms linear infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CARD HOVER LIFT
+═══════════════════════════════════════════════════ */
+
+.card-lift {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  will-change: transform;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.11) !important;
+}
+.card-lift .card-img {
+  transition: transform 250ms ease-out;
+  overflow: hidden;
+}
+.card-lift:hover .card-img {
+  transform: scale(1.02);
+}
+
+
+/* ═══════════════════════════════════════════════════
+   FLOATING LABEL INPUTS
+═══════════════════════════════════════════════════ */
+
+.float-field {
+  position: relative;
+}
+.float-field input,
+.float-field textarea {
+  padding-top: 20px;
+  padding-bottom: 8px;
+  height: auto;
+  transition: border-color 150ms ease-out;
+}
+.float-field label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: #9ca3af;
+  pointer-events: none;
+  transition: top 150ms ease-out, font-size 150ms ease-out,
+              color 150ms ease-out, transform 150ms ease-out;
+  white-space: nowrap;
+}
+/* Textarea label starts at top */
+.float-field.is-textarea label {
+  top: 16px;
+  transform: none;
+}
+.float-field input:focus ~ label,
+.float-field input:not(:placeholder-shown) ~ label,
+.float-field textarea:focus ~ label,
+.float-field textarea:not(:placeholder-shown) ~ label {
+  top: 7px;
+  transform: translateY(0);
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0.02em;
+}
+.float-field.is-textarea input:focus ~ label,
+.float-field.is-textarea textarea:focus ~ label,
+.float-field.is-textarea textarea:not(:placeholder-shown) ~ label {
+  top: 7px;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   INPUT FOCUS HIGHLIGHT
+═══════════════════════════════════════════════════ */
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   STAGGER CHILDREN
+═══════════════════════════════════════════════════ */
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 55ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 110ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 165ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 220ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 275ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 330ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 385ms; }

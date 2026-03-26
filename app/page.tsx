@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import LanguagePopup from './components/LanguagePopup';
 
 const sections = [
   { id: 'karobar', title: 'Karobar' },
@@ -142,6 +143,7 @@ function ProductSection({ title }: { title: string }) {
 export default function HomePage() {
   return (
     <div style={{ background: '#f7f7f8' }}>
+      <LanguagePopup />
       <AdBanner />
       {sections.map((section) => (
         <ProductSection key={section.id} title={section.title} />
