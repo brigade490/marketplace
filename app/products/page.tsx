@@ -330,21 +330,29 @@ export default function ProductsPage() {
                   <Link
                     key={product.id}
                     href={`/products/${product.id}`}
-                    className={`group block card-lift overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
+                    className={`group block card-lift ${viewMode === 'list' ? 'flex' : ''}`}
                     style={{
-                      background: 'var(--surface)',
-                      boxShadow: 'var(--shadow-raised)',
-                      borderRadius: 'var(--radius-md)',
+                      background: '#f2f2f5',
+                      boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+                      borderRadius: '24px',
                     }}
                   >
+                    {/* Inner clip wrapper keeps border-radius clipping off the shadow element */}
+                    <div
+                      className={`overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
+                      style={{
+                        borderRadius: '24px',
+                        flex: viewMode === 'list' ? 1 : undefined,
+                      }}
+                    >
                     <div
                       className="flex items-center justify-center shrink-0"
                       style={{
-                        background: 'var(--bg)',
+                        background: '#e4e4e8',
                         height: viewMode === 'list' ? '100%' : '200px',
                         width: viewMode === 'list' ? '120px' : '100%',
                         fontSize: '56px',
-                        borderRadius: viewMode === 'list' ? 'var(--radius-md) 0 0 var(--radius-md)' : 'var(--radius-md) var(--radius-md) 0 0',
+                        borderRadius: viewMode === 'list' ? '24px 0 0 24px' : '24px 24px 0 0',
                         minHeight: viewMode === 'list' ? '110px' : 'auto',
                       }}
                     >
@@ -385,6 +393,7 @@ export default function ProductsPage() {
                         View Details
                       </div>
                     </div>
+                    </div>{/* end inner clip wrapper */}
                   </Link>
                 ))}
               </div>

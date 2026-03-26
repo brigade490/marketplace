@@ -39,12 +39,14 @@ function ProductCard() {
         width: '360px',
         minHeight: '500px',
         height: '500px',
-        borderRadius: 'var(--radius-md)',
-        background: 'var(--surface)',
-        boxShadow: 'var(--shadow-raised)',
+        borderRadius: '24px',
+        background: '#f2f2f5',
+        boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
       }}
     >
-      <div className="relative" style={{ height: '360px', borderRadius: 'var(--radius-md) var(--radius-md) 0 0', overflow: 'hidden', background: 'var(--bg)' }}>
+      {/* Inner overflow clip so corners are rounded without killing the outer shadow */}
+      <div style={{ borderRadius: '24px', overflow: 'hidden', height: '100%' }}>
+      <div className="relative" style={{ height: '360px', borderRadius: '24px 24px 0 0', overflow: 'hidden', background: '#e4e4e8' }}>
         <div
           className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5"
           style={{ borderRadius: 'var(--radius-pill)', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)' }}
@@ -57,6 +59,7 @@ function ProductCard() {
         <p style={{ fontSize: '13px', fontWeight: 400, color: 'var(--text-primary)', lineHeight: 1.4, marginBottom: '6px' }}>Product Name</p>
         <p style={{ fontSize: '18px', fontWeight: 400, color: 'var(--text-primary)' }}>₹0.00</p>
       </div>
+      </div>{/* end inner clip wrapper */}
     </div>
   );
 }
@@ -85,7 +88,7 @@ function ProductSection({ title }: { title: string }) {
           ‹
         </button>
 
-        <div ref={scrollRef} className="no-scrollbar flex gap-4 overflow-x-auto" style={{ paddingLeft: '56px', paddingRight: '56px' }}>
+        <div ref={scrollRef} className="no-scrollbar flex gap-4 overflow-x-auto" style={{ paddingLeft: '56px', paddingRight: '56px', paddingTop: '24px', paddingBottom: '24px' }}>
           {Array.from({ length: 10 }).map((_, i) => <ProductCard key={i} />)}
         </div>
 

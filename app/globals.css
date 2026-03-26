@@ -482,10 +482,10 @@ input[type="checkbox"].compact {
 /* ─── Cards hover lift ───────────────────────────────── */
 
 .card-lift {
-  transition: var(--transition);
-  will-change: transform;
+  transition: box-shadow 0.22s cubic-bezier(0.4,0,0.2,1), transform 0.22s cubic-bezier(0.4,0,0.2,1);
 }
 .card-lift:hover {
+  will-change: transform;
   transform: translateY(-4px);
   box-shadow: 12px 12px 28px rgba(140,140,152,0.38), -12px -12px 28px rgba(255,255,255,1) !important;
 }
