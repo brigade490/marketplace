@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -15,6 +15,9 @@ export default function OnboardingPage() {
   const [buyerBusiness, setBuyerBusiness] = useState({ businessName: '', businessType: '' });
   const [buyerCategories, setBuyerCategories] = useState<string[]>([]);
   const [buyerLocation, setBuyerLocation] = useState({ city: '', state: '', pincode: '' });
+  const [buyerPrefs, setBuyerPrefs] = useState({ orderType: '', frequency: '', urgency: '' });
+  const [buyerPayment, setBuyerPayment] = useState({ upi: true, bankTransfer: true, emi: false, cod: false });
+  const [buyerNotifs, setBuyerNotifs] = useState({ orderUpdates: true, sellerResponses: true, priceAlerts: false, promotions: false });
 
   function goTo(next: Step) {
     setDir('fwd');
@@ -39,8 +42,11 @@ export default function OnboardingPage() {
     'b-business': 2,
     'b-categories': 3,
     'b-location': 4,
+    'b-prefs': 5,
+    'b-payment': 6,
+    'b-notifs': 7,
   };
-  const totalBuyerSteps = 4;
+  const totalBuyerSteps = 7;
   const currentProgress = progressMap[step];
 
   return (
@@ -121,6 +127,39 @@ export default function OnboardingPage() {
           values={buyerLocation}
           onChange={setBuyerLocation}
           onBack={() => goBack('b-categories')}
+          onNext={() => goTo('b-prefs')}
+        />
+      )}
+
+      {step === 'b-prefs' && (
+        <BuyerPrefsScreen
+          key="b-prefs"
+          animClass={animClass}
+          values={buyerPrefs}
+          onChange={setBuyerPrefs}
+          onBack={() => goBack('b-location')}
+          onNext={() => goTo('b-payment')}
+        />
+      )}
+
+      {step === 'b-payment' && (
+        <BuyerPaymentScreen
+          key="b-payment"
+          animClass={animClass}
+          values={buyerPayment}
+          onChange={setBuyerPayment}
+          onBack={() => goBack('b-prefs')}
+          onNext={() => goTo('b-notifs')}
+        />
+      )}
+
+      {step === 'b-notifs' && (
+        <BuyerNotifsScreen
+          key="b-notifs"
+          animClass={animClass}
+          values={buyerNotifs}
+          onChange={setBuyerNotifs}
+          onBack={() => goBack('b-payment')}
           onNext={() => router.push('/')}
         />
       )}
@@ -600,6 +639,216 @@ function BuyerLocationScreen({
 
       <div className="mt-8">
         <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Shared: Toggle ─────────────────────────────────────── */
+function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
+  return (
+    <div
+      role="switch"
+      aria-checked={on}
+      tabIndex={0}
+      onClick={onToggle}
+      onKeyDown={(e) => e.key === 'Enter' && onToggle()}
+      style={{
+        width: 46,
+        height: 26,
+        borderRadius: 999,
+        background: on ? '#000' : '#d1d5db',
+        position: 'relative',
+        cursor: 'pointer',
+        transition: 'background 200ms ease-out',
+        flexShrink: 0,
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: 3,
+          left: on ? 23 : 3,
+          width: 20,
+          height: 20,
+          borderRadius: '50%',
+          background: '#fff',
+          transition: 'left 200ms ease-out',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ─── Shared: ChipGroup ──────────────────────────────────── */
+function ChipGroup({ label, options, value, onChange }: {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div>
+      <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => {
+          const active = value === opt;
+          return (
+            <button
+              key={opt}
+              onClick={() => onChange(opt)}
+              className="px-4 py-2 text-sm font-semibold"
+              style={{
+                borderRadius: '999px',
+                border: active ? 'none' : '1.5px solid #e5e7eb',
+                background: active ? '#000' : '#fff',
+                color: active ? '#fff' : '#374151',
+                transition: 'all 150ms ease-out',
+                transform: active ? 'scale(1.04)' : 'scale(1)',
+              }}
+            >
+              {active && <span className="mr-1.5" style={{ fontSize: 11 }}>✓</span>}
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 5: Buying Preferences ──────────────────── */
+function BuyerPrefsScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: { orderType: string; frequency: string; urgency: string };
+  onChange: (v: { orderType: string; frequency: string; urgency: string }) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const valid = values.orderType !== '' && values.frequency !== '' && values.urgency !== '';
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Buying preferences</h1>
+      <p className="text-sm text-gray-500 mb-8">Help us match you with the right sellers.</p>
+
+      <div className="flex flex-col gap-7 mb-auto">
+        <ChipGroup
+          label="Order Type"
+          options={['Bulk', 'Small', 'Both']}
+          value={values.orderType}
+          onChange={(v) => onChange({ ...values, orderType: v })}
+        />
+        <ChipGroup
+          label="Purchase Frequency"
+          options={['One-time', 'Occasional', 'Regular']}
+          value={values.frequency}
+          onChange={(v) => onChange({ ...values, frequency: v })}
+        />
+        <ChipGroup
+          label="Urgency"
+          options={['Standard', 'Fast', 'Flexible']}
+          value={values.urgency}
+          onChange={(v) => onChange({ ...values, urgency: v })}
+        />
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 6: Payment Preferences ─────────────────── */
+type PaymentState = { upi: boolean; bankTransfer: boolean; emi: boolean; cod: boolean };
+
+function BuyerPaymentScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: PaymentState;
+  onChange: (v: PaymentState) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const rows: { key: keyof PaymentState; label: string; desc: string }[] = [
+    { key: 'upi',          label: 'UPI',           desc: 'Pay instantly via UPI apps' },
+    { key: 'bankTransfer', label: 'Bank Transfer',  desc: 'NEFT / RTGS / IMPS transfers' },
+    { key: 'emi',          label: 'EMI',            desc: 'Pay in monthly instalments' },
+    { key: 'cod',          label: 'COD',            desc: 'Cash on delivery' },
+  ];
+  const anySelected = Object.values(values).some(Boolean);
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Payment preferences</h1>
+      <p className="text-sm text-gray-500 mb-8">Choose your preferred payment methods.</p>
+
+      <div className="flex flex-col gap-3 mb-auto">
+        {rows.map(({ key, label, desc }) => (
+          <div
+            key={key}
+            className="flex items-center justify-between p-4 bg-white"
+            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+          >
+            <div>
+              <p className="text-sm font-bold text-black">{label}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+            </div>
+            <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!anySelected} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 7: Notification Settings ───────────────── */
+type NotifsState = { orderUpdates: boolean; sellerResponses: boolean; priceAlerts: boolean; promotions: boolean };
+
+function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: NotifsState;
+  onChange: (v: NotifsState) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const rows: { key: keyof NotifsState; label: string; desc: string }[] = [
+    { key: 'orderUpdates',    label: 'Order Updates',     desc: 'Status changes on your orders' },
+    { key: 'sellerResponses', label: 'Seller Responses',  desc: 'Replies to your enquiries' },
+    { key: 'priceAlerts',     label: 'Price Alerts',      desc: 'Price drops on saved items' },
+    { key: 'promotions',      label: 'Promotions',        desc: 'Deals and platform offers' },
+  ];
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Notifications</h1>
+      <p className="text-sm text-gray-500 mb-8">Choose what you want to hear about.</p>
+
+      <div className="flex flex-col gap-3 mb-auto">
+        {rows.map(({ key, label, desc }) => (
+          <div
+            key={key}
+            className="flex items-center justify-between p-4 bg-white"
+            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+          >
+            <div>
+              <p className="text-sm font-bold text-black">{label}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+            </div>
+            <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={false} onClick={onNext} />
       </div>
     </div>
   );
