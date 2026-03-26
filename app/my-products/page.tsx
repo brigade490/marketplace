@@ -123,7 +123,7 @@ export default function MyProductsPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h3 className="font-bold>{product.name}</h3>
+                          <h3 className="font-bold">{product.name}</h3>
                           <p className="text-xs text-gray-500 mt-0.5">{product.category}</p>
                           <p className="text-sm font-black  mt-1">
                             ₹{product.price.toLocaleString('en-IN')} / {product.price_unit}

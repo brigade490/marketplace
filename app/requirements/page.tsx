@@ -208,7 +208,7 @@ export default function RequirementsPage() {
         </div>
 
         <p className="text-sm text-gray-500 mb-5">
-          <span className="font-semibold>{filtered.length}</span> requirements found
+          <span className="font-semibold">{filtered.length}</span> requirements found
         </p>
 
         {filtered.length === 0 ? (
@@ -249,7 +249,7 @@ export default function RequirementsPage() {
                     </div>
                     <div className="flex flex-col items-end gap-3 shrink-0">
                       <div className="text-right">
-                        <div className="text-2xl font-black>{req.proposals}</div>
+                        <div className="text-2xl font-black">{req.proposals}</div>
                         <div className="text-xs text-gray-400">proposals</div>
                       </div>
                       <button

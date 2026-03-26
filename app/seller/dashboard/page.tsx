@@ -192,7 +192,7 @@ export default function SellerDashboardPage() {
               <span className="text-2xl">{s.emoji}</span>
               <div>
                 <div className="text-xs text-gray-500">{s.label}</div>
-                <div className="text-lg font-black>{s.value}</div>
+                <div className="text-lg font-black">{s.value}</div>
               </div>
             </div>
           ))}
@@ -342,7 +342,7 @@ export default function SellerDashboardPage() {
                 ].map((kpi) => (
                   <div key={kpi.label} className="bg-white p-5" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                     <div className="text-2xl mb-3">{kpi.emoji}</div>
-                    <div className="text-2xl font-black>{kpi.value}</div>
+                    <div className="text-2xl font-black">{kpi.value}</div>
                     <div className="text-xs text-gray-500 mt-1">{kpi.label}</div>
                     <div className="text-xs text-gray-400 mt-0.5">{kpi.sub}</div>
                   </div>

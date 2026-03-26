@@ -188,7 +188,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
   return (
     <div className="flex items-center justify-between py-3" style={{  }}>
       <div className="flex-1 pr-4">
-        <p className="text-sm font-semibold>{label}</p>
+        <p className="text-sm font-semibold">{label}</p>
         <p className="text-xs text-gray-500 mt-0.5">{description}</p>
       </div>
       <button

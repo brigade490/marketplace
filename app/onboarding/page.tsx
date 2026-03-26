@@ -947,7 +947,7 @@ function BuyerPaymentScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold>{label}</p>
+              <p className="text-sm font-bold">{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -993,7 +993,7 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold>{label}</p>
+              <p className="text-sm font-bold">{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -1470,7 +1470,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
             <div className="flex items-center gap-3">
               <span style={{ fontSize: 22 }}>{state ? '📄' : '📁'}</span>
               <div>
-                <p className="text-sm font-bold>{label}</p>
+                <p className="text-sm font-bold">{label}</p>
                 <p className="text-xs text-gray-400 mt-0.5">
                   {state ? state : 'Tap to upload'}
                 </p>
@@ -1586,7 +1586,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
                 className="flex items-center justify-between px-4 py-3 bg-white"
                 style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
               >
-                <span className="text-sm font-semibold>{label}</span>
+                <span className="text-sm font-semibold">{label}</span>
                 <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
               </div>
             ))}
@@ -1705,7 +1705,7 @@ function SellerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold>{label}</p>
+              <p className="text-sm font-bold">{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />

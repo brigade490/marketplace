@@ -97,7 +97,7 @@ export default function HelpPage() {
                   className="w-full text-left px-6 py-4 flex items-center justify-between gap-3"
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                 >
-                  <span className="text-sm font-semibold>{faq.q}</span>
+                  <span className="text-sm font-semibold">{faq.q}</span>
                   <span
                     className="flex-shrink-0 text-gray-400 text-lg transition-transform"
                     style={{ transform: openFaq === idx ? 'rotate(180deg)' : 'none' }}

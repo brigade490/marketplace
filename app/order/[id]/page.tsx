@@ -112,7 +112,7 @@ export default function OrderDetailPage() {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-xs text-gray-500 mb-1">Order ID</p>
-              <p className="font-mono text-sm font-semibold>{order.id.slice(0, 8).toUpperCase()}</p>
+              <p className="font-mono text-sm font-semibold">{order.id.slice(0, 8).toUpperCase()}</p>
               <p className="text-xs text-gray-400 mt-1">
                 Placed on {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
@@ -190,7 +190,7 @@ export default function OrderDetailPage() {
               }
             </div>
             <div>
-              <h3 className="font-bold>{order.products?.name}</h3>
+              <h3 className="font-bold">{order.products?.name}</h3>
               <p className="text-xs text-gray-500 mt-0.5">{order.products?.category}</p>
               <p className="text-sm text-gray-600 mt-1">
                 Qty: {order.quantity} × ₹{order.unit_price.toLocaleString('en-IN')}
@@ -209,7 +209,7 @@ export default function OrderDetailPage() {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Quantity</span>
-              <span className="font-semibold>{order.quantity}</span>
+              <span className="font-semibold">{order.quantity}</span>
             </div>
             <div className="flex justify-between text-sm pt-2" style={{ borderTop: '1px solid #f3f4f6' }}>
               <span className="font-black>Total</span>
@@ -233,7 +233,7 @@ export default function OrderDetailPage() {
         {order.sellers && (
           <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
             <h2 className="text-sm font-black  mb-3">Seller</h2>
-            <p className="text-sm font-semibold>{order.sellers.company_name}</p>
+            <p className="text-sm font-semibold">{order.sellers.company_name}</p>
             {order.sellers.users?.email && (
               <p className="text-xs text-gray-500 mt-0.5">{order.sellers.users.email}</p>
             )}

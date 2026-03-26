@@ -138,7 +138,7 @@ export default function AddressesPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-bold>{addr.name}</h3>
+                    <h3 className="font-bold">{addr.name}</h3>
                     {addr.is_default && (
                       <span className="px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#000', borderRadius: 'var(--radius-pill)' }}>Default</span>
                     )}

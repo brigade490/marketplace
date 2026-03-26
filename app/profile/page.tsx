@@ -139,15 +139,15 @@ export default function ProfilePage() {
           {isSeller && sellerInfo && (
             <div className="grid grid-cols-3 gap-4 mb-6 pt-4" style={{  }}>
               <div className="text-center">
-                <div className="text-xl font-black>{tierEmoji} {sellerInfo.tier}</div>
+                <div className="text-xl font-black">{tierEmoji} {sellerInfo.tier}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Seller Tier</div>
               </div>
               <div className="text-center">
-                <div className="text-xl font-black>{sellerInfo.avg_rating?.toFixed(1) || '—'}</div>
+                <div className="text-xl font-black">{sellerInfo.avg_rating?.toFixed(1) || '—'}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Avg Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-xl font-black>{sellerInfo.total_orders}</div>
+                <div className="text-xl font-black">{sellerInfo.total_orders}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Total Orders</div>
               </div>
             </div>
@@ -197,7 +197,7 @@ function InfoRow({ icon, label, value }: { icon: string; label: string; value: s
       <span className="text-lg w-6 flex-shrink-0 mt-0.5">{icon}</span>
       <div>
         <div className="text-xs text-gray-500">{label}</div>
-        <div className="text-sm font-semibold>{value}</div>
+        <div className="text-sm font-semibold">{value}</div>
       </div>
     </div>
   );

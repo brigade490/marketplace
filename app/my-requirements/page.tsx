@@ -94,7 +94,7 @@ export default function MyRequirementsPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold>{req.title}</h3>
+                      <h3 className="font-bold">{req.title}</h3>
                       {req.is_urgent && (
                         <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-50" style={{ borderRadius: 'var(--radius-pill)' }}>
                           URGENT

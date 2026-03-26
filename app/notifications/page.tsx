@@ -114,7 +114,7 @@ export default function NotificationsPage() {
                 <span className="text-2xl flex-shrink-0">{TYPE_ICONS[notif.type] || '🔔'}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-bold>{notif.title}</h3>
+                    <h3 className="text-sm font-bold">{notif.title}</h3>
                     {!notif.is_read && (
                       <button
                         onClick={e => { e.stopPropagation(); markRead(notif.id); }}

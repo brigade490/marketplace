@@ -192,7 +192,7 @@ function DocCard({
     <div className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
-          <h3 className="font-bold>{title}</h3>
+          <h3 className="font-bold">{title}</h3>
           <p className="text-xs text-gray-500 mt-0.5">{description}</p>
         </div>
         {statusCfg && (
