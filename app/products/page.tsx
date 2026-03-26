@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
-const allProducts = [
+// Demo fallback data shown until Supabase products are added
+const demoProducts = [
   { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", tier: "Gold", price: "₹4,200", numPrice: 4200, unit: "/ unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment", tags: ["heavy-duty", "automation"] },
   { id: "2", emoji: "💻", name: "Commercial LED Display Panels", seller: "BrightView Corp", tier: "Silver", price: "₹890", numPrice: 890, unit: "/ panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech", tags: ["LED", "display"] },
   { id: "3", emoji: "🔩", name: "Stainless Steel Fasteners Set", seller: "MetalPro Solutions", tier: "Gold", price: "₹145", numPrice: 145, unit: "/ kg", minOrder: "Min. 50 kg", rating: 4.8, reviews: 203, location: "Pune", category: "Industrial Equipment", tags: ["fasteners", "steel"] },
@@ -18,6 +20,19 @@ const allProducts = [
   { id: "12", emoji: "🌿", name: "Neem Oil Cold Pressed", seller: "NatureExtracts Ltd", tier: "Bronze", price: "₹8", numPrice: 8, unit: "/ liter", minOrder: "Min. 200 L", rating: 4.4, reviews: 44, location: "Mumbai", category: "Agriculture", tags: ["neem", "organic"] },
 ];
 
+const categoryEmoji: Record<string, string> = {
+  "Industrial Equipment": "📦",
+  "Electronics & Tech": "💻",
+  "Textiles & Apparel": "🧵",
+  "Agriculture": "🌾",
+  "Construction Materials": "🏗️",
+  "Pharmaceuticals": "💊",
+  "Auto Parts": "🚗",
+  "Food & Beverages": "🍱",
+};
+
+type Product = typeof demoProducts[0];
+
 const categories = ["All", "Industrial Equipment", "Electronics & Tech", "Textiles & Apparel", "Agriculture", "Construction Materials", "Pharmaceuticals", "Auto Parts", "Food & Beverages"];
 const locationOptions = ["All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", "Kolkata", "Ahmedabad", "Surat", "Jaipur", "Lucknow"];
 const sortOptions = ["Relevance", "Price: Low to High", "Price: High to Low", "Rating", "Most Reviews"];
@@ -30,6 +45,7 @@ const tierColors: Record<string, string> = {
 const tierEmoji: Record<string, string> = { Gold: "🥇", Silver: "🥈", Bronze: "🥉" };
 
 export default function ProductsPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>(demoProducts);
   const [category, setCategory] = useState("All");
   const [location, setLocation] = useState("All Locations");
   const [sort, setSort] = useState("Relevance");
@@ -37,6 +53,42 @@ export default function ProductsPage() {
   const [maxPrice, setMaxPrice] = useState("");
   const [minRating, setMinRating] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, name, category, price, price_unit, min_order_qty, min_order_unit, location, tags, avg_rating, review_count, sellers(company_name, tier)")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        setAllProducts(
+          data.map((p) => {
+            const seller = p.sellers as { company_name: string; tier: string } | null;
+            return {
+              id: p.id,
+              emoji: categoryEmoji[p.category] ?? "📦",
+              name: p.name,
+              seller: seller?.company_name ?? "Karobarrr Seller",
+              tier: seller?.tier ?? "Bronze",
+              price: `₹${Number(p.price).toLocaleString("en-IN")}`,
+              numPrice: Number(p.price),
+              unit: `/ ${p.price_unit}`,
+              minOrder: `Min. ${p.min_order_qty} ${p.min_order_unit}`,
+              rating: Number(p.avg_rating) || 4.5,
+              reviews: p.review_count || 0,
+              location: p.location ?? "India",
+              category: p.category,
+              tags: p.tags ?? [],
+            };
+          })
+        );
+      }
+    }
+    fetchProducts();
+  }, []);
 
   let filtered = allProducts.filter((p) => {
     const matchCat = category === "All" || p.category === category;
@@ -53,7 +105,7 @@ export default function ProductsPage() {
   else if (sort === "Most Reviews") filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
   return (
-    <div className="min-h-screen" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen" style={{ background: "#f7f7f8" }}>
       {/* Page title bar */}
       <div className="bg-white border-b border-gray-100 py-6 px-6">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between gap-4 flex-wrap">
@@ -62,7 +114,7 @@ export default function ProductsPage() {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="lg:hidden px-4 py-2 text-sm font-semibold"
-              style={{ background: '#000000', color: '#ffffff', borderRadius: '8px' }}
+              style={{ background: "#000000", color: "#ffffff", borderRadius: "8px" }}
             >
               🎛️ Filters
             </button>
@@ -72,7 +124,7 @@ export default function ProductsPage() {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 className="px-3 py-2 text-xs text-gray-700 outline-none bg-white"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
+                style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }}
               >
                 {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
@@ -83,12 +135,9 @@ export default function ProductsPage() {
 
       <div className="max-w-screen-xl mx-auto px-6 py-8">
         <div className="flex gap-6">
-          {/* Sidebar filters */}
+          {/* Sidebar */}
           <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-56 shrink-0`}>
-            <div
-              className="bg-white p-5 space-y-6 sticky top-20"
-              style={{ borderRadius: '12px', border: '1px solid #f0f0f0' }}
-            >
+            <div className="bg-white p-5 space-y-6 sticky top-20" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
               <div>
                 <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Category</h3>
                 <div className="space-y-0.5">
@@ -97,13 +146,9 @@ export default function ProductsPage() {
                       key={cat}
                       onClick={() => setCategory(cat)}
                       className="w-full text-left px-3 py-2 text-xs font-medium transition-colors"
-                      style={{
-                        borderRadius: '6px',
-                        background: category === cat ? '#000000' : 'transparent',
-                        color: category === cat ? '#ffffff' : '#6b7280',
-                      }}
-                      onMouseEnter={(e) => { if (category !== cat) e.currentTarget.style.background = '#f7f7f8'; }}
-                      onMouseLeave={(e) => { if (category !== cat) e.currentTarget.style.background = 'transparent'; }}
+                      style={{ borderRadius: "6px", background: category === cat ? "#000000" : "transparent", color: category === cat ? "#ffffff" : "#6b7280" }}
+                      onMouseEnter={(e) => { if (category !== cat) e.currentTarget.style.background = "#f7f7f8"; }}
+                      onMouseLeave={(e) => { if (category !== cat) e.currentTarget.style.background = "transparent"; }}
                     >
                       {cat}
                     </button>
@@ -117,7 +162,7 @@ export default function ProductsPage() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="w-full px-3 py-2 text-xs text-gray-700 bg-white outline-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
+                  style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }}
                 >
                   {locationOptions.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
                 </select>
@@ -126,22 +171,8 @@ export default function ProductsPage() {
               <div>
                 <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Price Range (₹)</h3>
                 <div className="flex gap-2">
-                  <input
-                    type="number"
-                    placeholder="Min"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-white outline-none"
-                    style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-white outline-none"
-                    style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
-                  />
+                  <input type="number" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="w-full px-3 py-2 text-xs bg-white outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }} />
+                  <input type="number" placeholder="Max" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="w-full px-3 py-2 text-xs bg-white outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }} />
                 </div>
               </div>
 
@@ -149,16 +180,7 @@ export default function ProductsPage() {
                 <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Min. Rating</h3>
                 <div className="flex gap-2 flex-wrap">
                   {[0, 4, 4.5, 4.8].map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => setMinRating(r)}
-                      className="px-3 py-1.5 text-xs font-medium transition-colors"
-                      style={{
-                        borderRadius: '6px',
-                        background: minRating === r ? '#000000' : '#f7f7f8',
-                        color: minRating === r ? '#ffffff' : '#6b7280',
-                      }}
-                    >
+                    <button key={r} onClick={() => setMinRating(r)} className="px-3 py-1.5 text-xs font-medium transition-colors" style={{ borderRadius: "6px", background: minRating === r ? "#000000" : "#f7f7f8", color: minRating === r ? "#ffffff" : "#6b7280" }}>
                       {r === 0 ? "All" : `⭐ ${r}+`}
                     </button>
                   ))}
@@ -167,17 +189,17 @@ export default function ProductsPage() {
 
               <button
                 onClick={() => { setCategory("All"); setLocation("All Locations"); setMinPrice(""); setMaxPrice(""); setMinRating(0); setSort("Relevance"); }}
-                className="w-full py-2 text-xs font-semibold text-gray-400 transition-colors"
-                style={{ background: 'transparent', border: '1.5px solid #e5e7eb', borderRadius: '8px', color: '#9ca3af' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#fca5a5'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#9ca3af'; e.currentTarget.style.borderColor = '#e5e7eb'; }}
+                className="w-full py-2 text-xs font-semibold"
+                style={{ background: "transparent", border: "1.5px solid #e5e7eb", borderRadius: "8px", color: "#9ca3af" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#ef4444"; e.currentTarget.style.borderColor = "#fca5a5"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "#9ca3af"; e.currentTarget.style.borderColor = "#e5e7eb"; }}
               >
                 Clear All Filters
               </button>
             </div>
           </aside>
 
-          {/* Main content */}
+          {/* Main */}
           <div className="flex-1 min-w-0">
             <p className="text-sm text-gray-500 mb-5">
               <span className="font-semibold text-black">{filtered.length}</span> products found
@@ -196,44 +218,29 @@ export default function ProductsPage() {
                     key={product.id}
                     href={`/products/${product.id}`}
                     className="group block bg-white overflow-hidden hover:shadow-xl transition-all duration-200"
-                    style={{ borderRadius: '14px', border: '1px solid #f0f0f0' }}
+                    style={{ borderRadius: "14px", border: "1px solid #f0f0f0" }}
                   >
-                    {/* Image area */}
-                    <div
-                      className="flex items-center justify-center"
-                      style={{ background: '#f7f7f8', height: '220px', fontSize: '72px' }}
-                    >
+                    <div className="flex items-center justify-center" style={{ background: "#f7f7f8", height: "220px", fontSize: "72px" }}>
                       {product.emoji}
                     </div>
-
-                    {/* Info area */}
-                    <div style={{ padding: '20px 20px 24px' }}>
+                    <div style={{ padding: "20px 20px 24px" }}>
                       <div className="flex items-center gap-1.5 mb-2">
                         <span className="text-xs text-gray-400">{product.seller}</span>
-                        <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium border ${tierColors[product.tier]}`} style={{ borderRadius: '20px' }}>
+                        <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium border ${tierColors[product.tier]}`} style={{ borderRadius: "20px" }}>
                           {tierEmoji[product.tier]} {product.tier}
                         </span>
                       </div>
-
-                      <h3 className="font-semibold text-black text-sm leading-snug mb-4">
-                        {product.name}
-                      </h3>
-
+                      <h3 className="font-semibold text-black text-sm leading-snug mb-4">{product.name}</h3>
                       <div className="mb-1">
                         <span className="text-2xl text-black" style={{ fontWeight: 400 }}>{product.price}</span>
                         <span className="text-xs text-gray-400 ml-1">{product.unit}</span>
                       </div>
                       <div className="text-xs text-gray-400 mb-5">{product.minOrder}</div>
-
                       <div className="flex items-center justify-between text-xs text-gray-500 mb-5">
                         <span>⭐ {product.rating} ({product.reviews})</span>
                         <span>📍 {product.location}</span>
                       </div>
-
-                      <div
-                        className="block text-center py-3 text-sm font-semibold text-white transition-colors group-hover:opacity-90"
-                        style={{ background: '#000000', borderRadius: '999px' }}
-                      >
+                      <div className="block text-center py-3 text-sm font-semibold text-white transition-colors group-hover:opacity-90" style={{ background: "#000000", borderRadius: "999px" }}>
                         View Details
                       </div>
                     </div>

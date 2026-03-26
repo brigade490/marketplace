@@ -8,8 +8,20 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error && data.user) {
+      // Upsert public.users profile — handles users created before trigger was set up
+      await supabase.from('users').upsert(
+        {
+          id: data.user.id,
+          email: data.user.email!,
+          full_name:
+            data.user.user_metadata?.full_name ??
+            data.user.email!.split('@')[0],
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'id' }
+      );
       return NextResponse.redirect(`${origin}${next}`);
     }
   }

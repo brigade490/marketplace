@@ -13,6 +13,19 @@ export default function AuthPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  async function upsertUserProfile(userId: string, userEmail: string) {
+    const supabase = createClient();
+    await supabase.from('users').upsert(
+      {
+        id: userId,
+        email: userEmail,
+        full_name: userEmail.split('@')[0],
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'id' }
+    );
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
@@ -22,10 +35,11 @@ export default function AuthPage() {
     const supabase = createClient();
 
     if (tab === 'login') {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
         setError(error.message);
-      } else {
+      } else if (data.user) {
+        await upsertUserProfile(data.user.id, data.user.email!);
         router.push('/');
         router.refresh();
       }
@@ -38,7 +52,7 @@ export default function AuthPage() {
       if (error) {
         setError(error.message);
       } else {
-        setSuccess('Check your email to confirm your account.');
+        setSuccess('Check your email to confirm your account, then come back to log in.');
       }
     }
 
@@ -111,11 +125,7 @@ export default function AuthPage() {
               placeholder="you@company.com"
               required
               className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none transition"
-              style={{
-                border: '1.5px solid #e5e7eb',
-                borderRadius: '10px',
-                background: '#ffffff',
-              }}
+              style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#ffffff' }}
               onFocus={(e) => (e.currentTarget.style.borderColor = '#000000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
             />
@@ -133,11 +143,7 @@ export default function AuthPage() {
               required
               minLength={6}
               className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none transition"
-              style={{
-                border: '1.5px solid #e5e7eb',
-                borderRadius: '10px',
-                background: '#ffffff',
-              }}
+              style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#ffffff' }}
               onFocus={(e) => (e.currentTarget.style.borderColor = '#000000')}
               onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
             />
@@ -174,11 +180,7 @@ export default function AuthPage() {
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
           >
-            {loading
-              ? 'Please wait...'
-              : tab === 'login'
-              ? 'Login'
-              : 'Create Account'}
+            {loading ? 'Please wait...' : tab === 'login' ? 'Login' : 'Create Account'}
           </button>
         </form>
 
