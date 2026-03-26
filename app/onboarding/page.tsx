@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business' | 's-categories' | 's-location' | 's-gst' | 's-verify';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business' | 's-categories' | 's-location' | 's-gst' | 's-verify' | 's-selling' | 's-bank';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -16,6 +16,8 @@ export default function OnboardingPage() {
   const [sellerCategories, setSellerCategories] = useState<string[]>([]);
   const [sellerLocation, setSellerLocation] = useState({ city: '', state: '', pincode: '' });
   const [sellerGst, setSellerGst] = useState('');
+  const [sellerSelling, setSellerSelling] = useState({ orderType: '', delivery: '', upi: true, bankTransfer: true, emi: false });
+  const [sellerBank, setSellerBank] = useState({ upiId: '', accountNumber: '', ifsc: '', holderName: '' });
 
   // Buyer form state
   const [buyerBasic, setBuyerBasic] = useState({ name: '', email: '' });
@@ -51,6 +53,8 @@ export default function OnboardingPage() {
     's-location': 4,
     's-gst': 5,
     's-verify': 6,
+    's-selling': 7,
+    's-bank': 8,
   };
   const totalSellerSteps = 10; // full seller flow length
 
@@ -259,7 +263,30 @@ export default function OnboardingPage() {
           key="s-verify"
           animClass={animClass}
           onBack={() => goBack('s-gst')}
+          onNext={() => goTo('s-selling')}
+        />
+      )}
+
+      {step === 's-selling' && (
+        <SellerSellingScreen
+          key="s-selling"
+          animClass={animClass}
+          values={sellerSelling}
+          onChange={setSellerSelling}
+          onBack={() => goBack('s-verify')}
+          onNext={() => goTo('s-bank')}
+        />
+      )}
+
+      {step === 's-bank' && (
+        <SellerBankScreen
+          key="s-bank"
+          animClass={animClass}
+          values={sellerBank}
+          onChange={setSellerBank}
+          onBack={() => goBack('s-selling')}
           onNext={() => router.push('/seller/dashboard')}
+          onSkip={() => router.push('/seller/dashboard')}
         />
       )}
     </div>
@@ -1449,6 +1476,172 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
 
       <div className="mt-8">
         <ContinueBtn disabled={false} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 7: Selling Setup ──────────────────────── */
+type SellerSellingState = { orderType: string; delivery: string; upi: boolean; bankTransfer: boolean; emi: boolean };
+
+function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: SellerSellingState;
+  onChange: (v: SellerSellingState) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const valid = values.orderType !== '' && values.delivery !== '';
+  const deliveryOptions = [
+    { label: 'Self Delivery', disabled: false },
+    { label: 'Courier', disabled: false },
+    { label: 'Platform Logistics', disabled: true },
+  ];
+  const paymentRows: { key: keyof Pick<SellerSellingState, 'upi' | 'bankTransfer' | 'emi'>; label: string }[] = [
+    { key: 'upi', label: 'UPI' },
+    { key: 'bankTransfer', label: 'Bank Transfer' },
+    { key: 'emi', label: 'EMI' },
+  ];
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Selling setup</h1>
+      <p className="text-sm text-gray-500 mb-8">Tell buyers how you operate.</p>
+
+      <div className="flex flex-col gap-7 mb-auto">
+        {/* Order type */}
+        <ChipGroup
+          label="Order Type"
+          options={['Bulk', 'Small', 'Both']}
+          value={values.orderType}
+          onChange={(v) => onChange({ ...values, orderType: v })}
+        />
+
+        {/* Delivery */}
+        <div>
+          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Delivery</p>
+          <div className="flex flex-wrap gap-2">
+            {deliveryOptions.map(({ label, disabled }) => {
+              const active = values.delivery === label;
+              return (
+                <button
+                  key={label}
+                  onClick={() => !disabled && onChange({ ...values, delivery: label })}
+                  className="px-4 py-2 text-sm font-semibold"
+                  style={{
+                    borderRadius: '999px',
+                    border: active ? 'none' : '1.5px solid #e5e7eb',
+                    background: disabled ? '#f3f4f6' : active ? '#000' : '#fff',
+                    color: disabled ? '#9ca3af' : active ? '#fff' : '#374151',
+                    cursor: disabled ? 'default' : 'pointer',
+                    transition: 'all 150ms ease-out',
+                    transform: active ? 'scale(1.04)' : 'scale(1)',
+                  }}
+                >
+                  {active && !disabled && <span className="mr-1.5" style={{ fontSize: 11 }}>✓</span>}
+                  {label}
+                  {disabled && <span className="ml-1.5 text-xs" style={{ opacity: 0.6 }}>(soon)</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Payment methods */}
+        <div>
+          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Payment Methods</p>
+          <div className="flex flex-col gap-2">
+            {paymentRows.map(({ key, label }) => (
+              <div
+                key={key}
+                className="flex items-center justify-between px-4 py-3 bg-white"
+                style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+              >
+                <span className="text-sm font-semibold text-black">{label}</span>
+                <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 8: Bank Details ────────────────────────── */
+type SellerBankState = { upiId: string; accountNumber: string; ifsc: string; holderName: string };
+
+function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip }: {
+  animClass: string;
+  values: SellerBankState;
+  onChange: (v: SellerBankState) => void;
+  onBack: () => void;
+  onNext: () => void;
+  onSkip: () => void;
+}) {
+  const valid = values.accountNumber.trim().length > 0 && values.ifsc.trim().length === 11 && values.holderName.trim().length > 0;
+
+  const fields: { key: keyof SellerBankState; label: string; mono?: boolean; maxLen?: number; upper?: boolean; numeric?: boolean }[] = [
+    { key: 'upiId',         label: 'UPI ID (optional)' },
+    { key: 'accountNumber', label: 'Bank Account Number', numeric: true },
+    { key: 'ifsc',          label: 'IFSC Code', mono: true, maxLen: 11, upper: true },
+    { key: 'holderName',    label: 'Account Holder Name' },
+  ];
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Bank details</h1>
+      <p className="text-sm text-gray-500 mb-8">Needed to receive payments for your orders.</p>
+
+      <div className="flex flex-col gap-4 mb-auto">
+        {fields.map(({ key, label, mono, maxLen, upper, numeric }) => (
+          <div key={key} className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+            <input
+              type="text"
+              placeholder=" "
+              maxLength={maxLen}
+              inputMode={numeric ? 'numeric' : undefined}
+              value={values[key]}
+              onChange={(e) => {
+                let val = e.target.value;
+                if (upper) val = val.toUpperCase();
+                if (numeric) val = val.replace(/\D/g, '');
+                onChange({ ...values, [key]: val });
+              }}
+              className="w-full px-4 text-black bg-white"
+              style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15, fontFamily: mono ? 'monospace' : undefined }}
+            />
+            <label>{label}</label>
+          </div>
+        ))}
+
+        {/* Note */}
+        <div
+          className="flex items-start gap-3 p-4"
+          style={{ borderRadius: '12px', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
+        >
+          <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>💳</span>
+          <p className="text-xs text-blue-800 leading-relaxed">
+            Required to receive payments. You can add or update bank details anytime from your seller dashboard.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+        <button
+          onClick={onSkip}
+          className="w-full py-3 text-sm font-semibold"
+          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+        >
+          Skip for now
+        </button>
       </div>
     </div>
   );
