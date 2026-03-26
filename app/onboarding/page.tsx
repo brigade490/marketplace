@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -45,8 +45,9 @@ export default function OnboardingPage() {
     'b-prefs': 5,
     'b-payment': 6,
     'b-notifs': 7,
+    'b-logo': 8,
   };
-  const totalBuyerSteps = 7;
+  const totalBuyerSteps = 8;
   const currentProgress = progressMap[step];
 
   return (
@@ -160,8 +161,21 @@ export default function OnboardingPage() {
           values={buyerNotifs}
           onChange={setBuyerNotifs}
           onBack={() => goBack('b-payment')}
-          onNext={() => router.push('/')}
+          onNext={() => goTo('b-logo')}
         />
+      )}
+
+      {step === 'b-logo' && (
+        <BuyerLogoScreen
+          key="b-logo"
+          animClass={animClass}
+          onBack={() => goBack('b-notifs')}
+          onNext={() => goTo('b-done')}
+        />
+      )}
+
+      {step === 'b-done' && (
+        <BuyerDoneScreen key="b-done" onFinish={() => router.push('/')} />
       )}
     </div>
   );
@@ -849,6 +863,120 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
 
       <div className="mt-8">
         <ContinueBtn disabled={false} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 8: Logo Upload (optional) ───────────────── */
+function BuyerLogoScreen({ animClass, onBack, onNext }: {
+  animClass: string;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const [preview, setPreview] = useState<string | null>(null);
+
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+  }
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Add your logo</h1>
+      <p className="text-sm text-gray-500 mb-8">Optional — you can always add it later.</p>
+
+      <div className="flex flex-col items-center gap-5 mb-auto">
+        {/* Upload area */}
+        <label
+          htmlFor="logo-upload"
+          className="flex flex-col items-center justify-center cursor-pointer"
+          style={{
+            width: 140,
+            height: 140,
+            borderRadius: '50%',
+            border: preview ? 'none' : '2px dashed #d1d5db',
+            background: preview ? 'transparent' : '#f9fafb',
+            overflow: 'hidden',
+            transition: 'border 150ms ease-out',
+          }}
+        >
+          {preview ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview} alt="Logo preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <span style={{ fontSize: 32 }}>📷</span>
+              <span className="text-xs text-gray-400 font-medium">Tap to upload</span>
+            </div>
+          )}
+        </label>
+        <input id="logo-upload" type="file" accept="image/*" className="hidden" onChange={handleFile} />
+
+        {preview && (
+          <button
+            onClick={() => setPreview(null)}
+            className="text-xs font-semibold"
+            style={{ background: 'transparent', color: '#6b7280', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: '999px' }}
+          >
+            Remove
+          </button>
+        )}
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3">
+        <ContinueBtn disabled={false} onClick={onNext} />
+        <button
+          onClick={onNext}
+          className="w-full py-3 text-sm font-semibold"
+          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+        >
+          Skip for now
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Done ─────────────────────────────────────────── */
+const CONFETTI_COLORS = ['#f5a623', '#000000', '#22c55e', '#3b82f6', '#ec4899', '#a855f7'];
+
+function BuyerDoneScreen({ onFinish }: { onFinish: () => void }) {
+  const pieces = Array.from({ length: 28 });
+
+  useEffect(() => {
+    const t = setTimeout(onFinish, 2800);
+    return () => clearTimeout(t);
+  }, [onFinish]);
+
+  return (
+    <div className="flex-1 flex flex-col items-center justify-center px-8 text-center relative overflow-hidden">
+      {/* Confetti */}
+      {pieces.map((_, i) => (
+        <div
+          key={i}
+          className="confetti-piece"
+          style={{
+            left: `${10 + Math.random() * 80}%`,
+            top: '60%',
+            background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+            animationDelay: `${Math.random() * 400}ms`,
+            animationDuration: `${700 + Math.random() * 500}ms`,
+            transform: `rotate(${Math.random() * 360}deg)`,
+          }}
+        />
+      ))}
+
+      <div className="ready-in flex flex-col items-center gap-4">
+        <div style={{ fontSize: 72 }}>🎉</div>
+        <h1 className="text-3xl font-black text-black leading-tight">You're ready!</h1>
+        <p className="text-base text-gray-500 max-w-xs leading-relaxed">
+          Your buyer account is set up. Start sourcing from verified Indian suppliers.
+        </p>
+        <div className="mt-4 w-6 h-6 spinner" />
       </div>
     </div>
   );
