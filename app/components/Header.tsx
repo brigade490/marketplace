@@ -57,7 +57,7 @@ export default function Header() {
       className="sticky top-0 z-50"
       style={{
         background: 'var(--surface)',
-        boxShadow: '0 4px 24px var(--shadow-dark)',
+        boxShadow: '0 4px 24px rgba(140,140,152,0.22)',
       }}
     >
       <div className="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-6">
@@ -74,11 +74,20 @@ export default function Header() {
         {/* Search bar */}
         <div className="flex-1 relative" ref={searchAreaRef}>
           <div
-            className="flex items-stretch h-11 overflow-hidden"
+            className="flex items-stretch h-12 overflow-hidden"
             style={{
-              background: 'var(--surface)',
-              boxShadow: 'var(--shadow-inset)',
+              background: 'var(--input-bg)',
               borderRadius: 'var(--radius-pill)',
+              boxShadow: 'none',
+              transition: 'box-shadow 0.24s ease',
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow = '6px 6px 16px rgba(140,140,152,0.32), -6px -6px 16px rgba(255,255,255,0.88)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow = showDropdown
+                ? '6px 6px 16px rgba(140,140,152,0.32), -6px -6px 16px rgba(255,255,255,0.88)'
+                : 'none';
             }}
           >
             {/* Location select */}
@@ -93,16 +102,17 @@ export default function Header() {
                   boxShadow: 'none',
                   borderRadius: 0,
                 }}
+                autoComplete="off"
               >
                 {locations.map((loc) => (
                   <option key={loc} value={loc}>{loc}</option>
                 ))}
               </select>
-              <span className="absolute right-1 pointer-events-none text-xs select-none" style={{ color: 'var(--text-inactive)' }}>▾</span>
+              <span className="absolute right-1 pointer-events-none text-xs select-none" style={{ color: 'var(--text-muted)' }}>▾</span>
             </div>
 
             {/* Divider */}
-            <div className="w-px my-2 shrink-0" style={{ background: 'var(--shadow-dark)', opacity: 0.3 }} />
+            <div className="w-px my-2.5 shrink-0" style={{ background: 'rgba(140,140,152,0.3)' }} />
 
             {/* Search input */}
             <input
@@ -113,10 +123,11 @@ export default function Header() {
               className="flex-1 px-3 text-sm"
               style={{
                 background: 'transparent',
-                color: 'var(--text-primary)',
+                color: 'var(--text-body)',
                 boxShadow: 'none',
                 borderRadius: 0,
               }}
+              autoComplete="off"
             />
 
             {/* Search button */}
@@ -144,7 +155,7 @@ export default function Header() {
                 borderRadius: 'var(--radius-md)',
               }}
             >
-              <p className="px-4 pb-2 text-xs font-black uppercase tracking-widest" style={{ color: 'var(--text-inactive)' }}>
+              <p className="px-4 pb-2 text-xs font-black uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                 Trending Searches
               </p>
               {trendingSearches.map((term) => (
@@ -153,16 +164,25 @@ export default function Header() {
                   className="w-full text-left px-4 py-2.5 text-sm font-medium"
                   style={{
                     background: 'transparent',
-                    color: 'var(--text-primary)',
+                    color: 'var(--text-body)',
                     boxShadow: 'none',
                     borderRadius: 0,
                     transition: 'var(--transition)',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-inactive)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-body)')}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setShowDropdown(false)}
                 >
+                  <svg
+                    width="13" height="13"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    className="inline mr-2 opacity-50"
+                    style={{ color: 'var(--text-muted)', verticalAlign: 'middle' }}
+                  >
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
                   {term}
                 </button>
               ))}
@@ -178,13 +198,21 @@ export default function Header() {
             aria-label="Cart"
             className="flex items-center justify-center"
             style={{
-              width: 38,
-              height: 38,
+              width: 40,
+              height: 40,
               borderRadius: '50%',
               background: 'var(--surface)',
               boxShadow: 'var(--shadow-raised)',
               color: 'var(--text-primary)',
               transition: 'var(--transition)',
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'var(--shadow-raised)';
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'var(--shadow-raised)';
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
             }}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -202,13 +230,14 @@ export default function Header() {
                 aria-label="User menu"
                 className="flex items-center justify-center font-bold text-sm"
                 style={{
-                  width: '36px',
-                  height: '36px',
+                  width: '38px',
+                  height: '38px',
                   borderRadius: '50%',
                   background: 'var(--active-bg)',
                   color: '#fff',
                   boxShadow: 'var(--shadow-active)',
                   flexShrink: 0,
+                  padding: 0,
                 }}
               >
                 {user.email?.[0].toUpperCase() ?? 'U'}
@@ -224,7 +253,7 @@ export default function Header() {
                     borderRadius: 'var(--radius-md)',
                   }}
                 >
-                  <p className="px-4 py-2 text-xs truncate mb-1" style={{ color: 'var(--text-inactive)' }}>
+                  <p className="px-4 py-2 text-xs truncate mb-1" style={{ color: 'var(--text-muted)' }}>
                     {user.email}
                   </p>
                   <button
@@ -232,13 +261,13 @@ export default function Header() {
                     className="w-full text-left px-4 py-2 text-sm font-medium"
                     style={{
                       background: 'transparent',
-                      color: 'var(--text-primary)',
+                      color: 'var(--text-body)',
                       boxShadow: 'none',
                       borderRadius: 0,
                       transition: 'var(--transition)',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-inactive)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-body)')}
                   >
                     Sign out
                   </button>

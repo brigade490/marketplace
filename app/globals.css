@@ -13,45 +13,65 @@
   --color-bexo-gray-light: #f3f4f6;
   --color-bexo-border: #e5e7eb;
   --color-bexo-border-dark: #374151;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: -apple-system, 'SF Pro Display', BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 }
 
 /* ═══════════════════════════════════════════════════
-   NEUMORPHIC DESIGN SYSTEM
+   NEUMORPHIC DESIGN SYSTEM v2
 ═══════════════════════════════════════════════════ */
 
 :root {
-  --bg:            #e8e8ed;
-  --surface:       #efefef;
-  --shadow-dark:   rgba(160,160,170,0.55);
-  --shadow-light:  rgba(255,255,255,0.95);
-  --active-bg:     linear-gradient(145deg, #2c2c33, #111114);
-  --text-primary:  #3a3a42;
-  --text-inactive: #9a9aa5;
-  --radius-sm:     13px;
-  --radius-md:     22px;
-  --radius-pill:   999px;
-  --shadow-raised: 6px 6px 16px var(--shadow-dark), -6px -6px 16px var(--shadow-light);
-  --shadow-inset:  inset 4px 4px 10px rgba(160,160,170,0.5), inset -4px -4px 10px rgba(255,255,255,0.9);
-  --shadow-active: 0 4px 20px rgba(0,0,0,0.38);
-  --transition:    all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  /* legacy compat */
+  /* Surfaces */
+  --bg:          #e4e4e8;
+  --surface:     #f2f2f5;
+  --input-bg:    #d8d8dc;
+
+  /* Active/dark */
+  --active-bg:   linear-gradient(150deg, #2e2e36, #0e0e12);
+  --btn-dark:    #13131a;
+
+  /* Typography */
+  --text-primary:  #222228;
+  --text-body:     #4a4a52;
+  --text-inactive: #888890;
+  --text-muted:    #aaaab2;
+
+  /* Shadows */
+  --shadow-raised: 8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1);
+  --shadow-soft:   4px 4px 10px rgba(140,140,152,0.36), -4px -4px 10px rgba(255,255,255,0.94);
+  --shadow-active: 0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18);
+  --shadow-inset:  inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.88);
+  --shadow-dark:   rgba(140,140,152,0.42);
+  --shadow-light:  rgba(255,255,255,1);
+
+  /* Radius */
+  --radius-xs:   8px;
+  --radius-sm:   14px;
+  --radius-md:   24px;
+  --radius-pill: 999px;
+
+  /* Transition */
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-btn: box-shadow 0.24s ease, transform 0.18s ease;
+
+  /* Legacy compat */
   --background: var(--bg);
   --foreground: var(--text-primary);
 }
 
-/* ─── Base ───────────────────────────────────────────────── */
+/* ─── Base reset ─────────────────────────────────────── */
 
 *, *::before, *::after {
   border: none !important;
   outline: none !important;
+  box-sizing: border-box;
 }
 
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -61,12 +81,12 @@ html { scroll-behavior: smooth; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-  background: var(--shadow-dark);
+  background: rgba(140,140,152,0.4);
   border-radius: 3px;
   box-shadow: none !important;
 }
 
-/* ─── Utility classes ────────────────────────────────────── */
+/* ─── Utility classes ────────────────────────────────── */
 
 .neu-raised {
   background: var(--surface);
@@ -75,15 +95,22 @@ html { scroll-behavior: smooth; }
   transition: var(--transition);
 }
 
+.neu-soft {
+  background: var(--input-bg);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
 .neu-inset {
-  background: var(--surface);
+  background: var(--input-bg);
   box-shadow: var(--shadow-inset);
   border-radius: var(--radius-pill);
   transition: var(--transition);
 }
 
 .neu-inset-sm {
-  background: var(--surface);
+  background: var(--input-bg);
   box-shadow: var(--shadow-inset);
   border-radius: var(--radius-sm);
   transition: var(--transition);
@@ -96,87 +123,115 @@ html { scroll-behavior: smooth; }
   border-radius: var(--radius-pill);
 }
 
-/* ─── Global button ──────────────────────────────────────── */
+/* Section labels */
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Global button ──────────────────────────────────── */
 
 button {
   background: var(--active-bg);
   color: #ffffff;
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-active);
-  transition: var(--transition);
+  box-shadow: none;
+  transition: var(--transition-btn);
   cursor: pointer;
-}
-button:active {
-  transform: scale(0.96);
-  box-shadow: var(--shadow-inset);
+  font-weight: 600;
 }
 button:hover {
-  opacity: 0.92;
+  box-shadow: 0 6px 28px rgba(10,10,18,0.45), 0 0 0 3px rgba(10,10,18,0.12);
+  transform: translateY(-1px);
+}
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(10,10,18,0.3);
 }
 
-/* Ghost / secondary buttons */
+/* Ghost / secondary */
 button.ghost,
 .btn-ghost {
   background: var(--surface);
   color: var(--text-inactive);
   box-shadow: var(--shadow-raised);
 }
+button.ghost:hover,
+.btn-ghost:hover {
+  box-shadow: var(--shadow-raised);
+  transform: none;
+}
 button.ghost:active,
 .btn-ghost:active {
-  box-shadow: var(--shadow-inset);
+  box-shadow: var(--shadow-soft);
+  transform: scale(0.97);
 }
 
-/* ─── Global inputs ──────────────────────────────────────── */
+/* ─── Global inputs ──────────────────────────────────── */
 
 input,
 textarea,
 select {
-  background: var(--surface);
+  background: var(--input-bg);
   color: var(--text-primary);
   box-shadow: var(--shadow-inset);
   border-radius: var(--radius-pill);
-  outline: none;
   transition: var(--transition);
 }
 input::placeholder,
 textarea::placeholder {
-  color: var(--text-inactive);
+  color: var(--text-muted);
 }
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: var(--shadow-inset), 0 0 0 2px rgba(44,44,51,0.15);
+  box-shadow: var(--shadow-inset), 0 0 0 2px rgba(44,44,51,0.12);
 }
-select {
-  cursor: pointer;
+select { cursor: pointer; }
+
+/* Autofill override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 100px var(--input-bg) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
 }
 
-/* ─── Cards / containers ─────────────────────────────────── */
+/* ─── Cards / containers ─────────────────────────────── */
 
-/* Anything that was bg-white becomes a neu-raised surface */
 .bg-white,
 [class*="bg-white"] {
   background: var(--surface) !important;
   box-shadow: var(--shadow-raised) !important;
 }
 
-/* ─── Nav / Header ───────────────────────────────────────── */
+/* ─── Nav / Header ───────────────────────────────────── */
 
 header {
   background: var(--surface) !important;
-  box-shadow: 0 4px 24px var(--shadow-dark) !important;
+  box-shadow: 0 4px 24px rgba(140,140,152,0.3) !important;
 }
 
-/* ─── Segmented controls / tabs ──────────────────────────── */
+/* ─── Segmented tab control ──────────────────────────── */
 
 .neu-tab-bar {
   background: var(--surface);
-  box-shadow: var(--shadow-inset);
+  box-shadow: var(--shadow-raised);
   border-radius: var(--radius-pill);
-  padding: 4px;
+  padding: 6px 8px;
   display: flex;
   gap: 2px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
 }
+.neu-tab-bar:active { cursor: grabbing; }
+.neu-tab-bar::-webkit-scrollbar { display: none; }
 .neu-tab {
   background: transparent;
   box-shadow: none;
@@ -185,8 +240,12 @@ header {
   padding: 8px 18px;
   font-size: 13px;
   font-weight: 600;
-  transition: var(--transition);
+  white-space: nowrap;
+  scroll-snap-align: start;
+  transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+  flex-shrink: 0;
 }
+.neu-tab:hover { transform: none; box-shadow: none; }
 .neu-tab:active { transform: none; }
 .neu-tab.active {
   background: var(--active-bg);
@@ -194,16 +253,74 @@ header {
   color: #fff;
 }
 
-/* ─── Checkboxes ─────────────────────────────────────────── */
+/* ─── Pagination ─────────────────────────────────────── */
+
+.neu-pagination {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-raised);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.neu-page-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.neu-page-btn.active {
+  background: var(--active-bg);
+  color: #fff;
+  box-shadow: var(--shadow-active);
+}
+.neu-page-btn.active:hover {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-active);
+}
+.neu-page-btn:not(.active) {
+  background: var(--input-bg);
+  color: #9999a2;
+  box-shadow: var(--shadow-soft);
+}
+.neu-page-btn:not(.active):hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-raised);
+}
+.neu-page-btn:active {
+  transform: scale(0.91) !important;
+}
+.neu-page-arrow {
+  width: 40px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+.neu-page-arrow:hover { transform: none; box-shadow: none; color: var(--text-inactive); }
+
+/* ─── Checkboxes ─────────────────────────────────────── */
 
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-sm) !important;
-  background: var(--surface);
-  box-shadow: var(--shadow-inset);
+  background: var(--input-bg);
+  box-shadow: var(--shadow-soft);
   cursor: pointer;
   position: relative;
   flex-shrink: 0;
@@ -213,50 +330,156 @@ input[type="checkbox"]:checked {
   background: var(--active-bg);
   box-shadow: var(--shadow-active);
 }
-input[type="checkbox"]:checked::after {
+input[type="checkbox"]::after {
   content: '';
   position: absolute;
-  left: 6px;
-  top: 3px;
-  width: 6px;
-  height: 11px;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-  transform: rotate(40deg);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%23bbbbc0' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+}
+input[type="checkbox"]:checked::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-/* ─── Toggles (div-based in onboarding) ──────────────────── */
+/* Compact checkbox (inline use) */
+input[type="checkbox"].compact {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px !important;
+}
 
-.neu-toggle-track {
+/* ─── Checkbox row container ─────────────────────────── */
+
+.neu-check-row {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 16px 22px;
+  box-shadow: var(--shadow-raised);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
   transition: var(--transition);
 }
 
-/* ─── Skeleton override ──────────────────────────────────── */
+/* ─── Toggle switch ──────────────────────────────────── */
 
-.skeleton {
-  background: linear-gradient(90deg, #dcdce1 25%, #d0d0d6 50%, #dcdce1 75%);
-  background-size: 600px 100%;
-  animation: shimmer 1.4s infinite linear;
-  border-radius: var(--radius-sm);
-  box-shadow: none !important;
+.neu-toggle-wrap {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 14px 22px;
+  box-shadow: var(--shadow-raised);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-/* ─── Spinner ────────────────────────────────────────────── */
+.neu-toggle-track {
+  position: relative;
+  width: 60px;
+  height: 33px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.neu-toggle-track.on {
+  background: var(--active-bg);
+  box-shadow: 0 3px 14px rgba(0,0,0,0.38);
+}
+.neu-toggle-track.off {
+  background: var(--input-bg);
+  box-shadow: var(--shadow-soft);
+}
 
-.spinner {
-  border: 2px solid rgba(160,160,170,0.3);
-  border-top-color: var(--text-primary);
+.neu-toggle-thumb {
+  position: absolute;
+  top: 4px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  box-shadow: none !important;
-  animation: spinnerRotate 700ms linear infinite;
+  transition: all 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.neu-toggle-thumb.on {
+  left: 31px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.neu-toggle-thumb.off {
+  left: 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
-/* ─── Scrollbar hide ─────────────────────────────────────── */
+/* ─── View toggle (list/grid) ────────────────────────── */
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.neu-view-toggle {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-raised);
+  display: inline-flex;
+  gap: 6px;
+}
+.neu-view-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.neu-view-btn.active {
+  background: var(--active-bg);
+  color: #fff;
+  box-shadow: var(--shadow-active);
+}
+.neu-view-btn.active:hover { transform: none; box-shadow: var(--shadow-active); }
+.neu-view-btn:not(.active) {
+  background: var(--input-bg);
+  color: #9999a2;
+  box-shadow: var(--shadow-soft);
+}
+.neu-view-btn:not(.active):hover { transform: translateY(-1px); }
+.neu-view-btn:active { transform: scale(0.91) !important; }
 
-/* ─── Card hover lift (neumorphic) ───────────────────────── */
+/* ─── Search container ───────────────────────────────── */
+
+.neu-search-wrap {
+  background: var(--input-bg);
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  height: 52px;
+  box-shadow: none;
+  transition: box-shadow 0.24s ease;
+}
+.neu-search-wrap:hover,
+.neu-search-wrap:focus-within {
+  box-shadow: 6px 6px 16px rgba(140,140,152,0.32), -6px -6px 16px rgba(255,255,255,0.88);
+}
+.neu-search-wrap input {
+  background: var(--input-bg) !important;
+  color: var(--text-body) !important;
+  -webkit-text-fill-color: var(--text-body) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  flex: 1;
+  font-size: 14px;
+}
+.neu-search-wrap input::placeholder { color: var(--text-muted); }
+
+/* ─── Cards hover lift ───────────────────────────────── */
 
 .card-lift {
   transition: var(--transition);
@@ -264,10 +487,10 @@ input[type="checkbox"]:checked::after {
 }
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 10px 10px 24px var(--shadow-dark), -10px -10px 24px var(--shadow-light) !important;
+  box-shadow: 12px 12px 28px rgba(140,140,152,0.38), -12px -12px 28px rgba(255,255,255,1) !important;
 }
 
-/* ─── Floating label inputs (neumorphic) ─────────────────── */
+/* ─── Floating label inputs ──────────────────────────── */
 
 .float-field {
   position: relative;
@@ -285,7 +508,7 @@ input[type="checkbox"]:checked::after {
   top: 50%;
   transform: translateY(-50%);
   font-size: 13px;
-  color: var(--text-inactive);
+  color: var(--text-muted);
   pointer-events: none;
   transition: var(--transition);
   white-space: nowrap;
@@ -306,11 +529,36 @@ input[type="checkbox"]:checked::after {
   letter-spacing: 0.02em;
 }
 
-/* ─── Progress bar ───────────────────────────────────────── */
+/* ─── Progress bar ───────────────────────────────────── */
 
 .progress-bar {
   transition: width 280ms ease-out;
 }
+
+/* ─── Skeleton ───────────────────────────────────────── */
+
+.skeleton {
+  background: linear-gradient(90deg, #d6d6da 25%, #cacacf 50%, #d6d6da 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius-sm);
+  box-shadow: none !important;
+}
+
+/* ─── Spinner ────────────────────────────────────────── */
+
+.spinner {
+  border: 2px solid rgba(140,140,152,0.3);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  box-shadow: none !important;
+  animation: spinnerRotate 700ms linear infinite;
+}
+
+/* ─── Scrollbar hide ─────────────────────────────────── */
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ═══════════════════════════════════════════════════
    KEYFRAMES

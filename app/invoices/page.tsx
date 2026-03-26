@@ -121,7 +121,7 @@ Thank you for trading on Karobarrr!
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-black">Invoices</h1>
+          <h1 className="text-2xl font-black>Invoices</h1>
           <span className="text-sm text-gray-500">{filtered.length} invoices</span>
         </div>
 
@@ -133,8 +133,8 @@ Thank you for trading on Karobarrr!
               type="date"
               value={dateFrom}
               onChange={e => setDateFrom(e.target.value)}
-              className="px-3 py-2 text-sm text-black outline-none"
-              style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
+              className="px-3 py-2 text-sm  outline-none"
+              style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-xs)' }}
             />
           </div>
           <div>
@@ -143,8 +143,8 @@ Thank you for trading on Karobarrr!
               type="date"
               value={dateTo}
               onChange={e => setDateTo(e.target.value)}
-              className="px-3 py-2 text-sm text-black outline-none"
-              style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px' }}
+              className="px-3 py-2 text-sm  outline-none"
+              style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-xs)' }}
             />
           </div>
           {(dateFrom || dateTo) && (
@@ -152,7 +152,7 @@ Thank you for trading on Karobarrr!
               <button
                 onClick={() => { setDateFrom(''); setDateTo(''); }}
                 className="px-4 py-2 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px', background: 'var(--surface)', color: 'var(--text-inactive)' }}
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-xs)', background: 'var(--surface)', color: 'var(--text-inactive)' }}
               >
                 Clear
               </button>
@@ -163,7 +163,7 @@ Thank you for trading on Karobarrr!
         {filtered.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🧾</div>
-            <h3 className="font-black text-black mb-2">No invoices found</h3>
+            <h3 className="font-black  mb-2">No invoices found</h3>
             <p className="text-gray-400 text-sm">Invoices are generated automatically from your orders.</p>
           </div>
         ) : (
@@ -178,14 +178,14 @@ Thank you for trading on Karobarrr!
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h3 className="font-bold text-black text-sm">Invoice #{invoice.order_number}</h3>
+                      <h3 className="font-bold  text-sm">Invoice #{invoice.order_number}</h3>
                       <p className="text-xs text-gray-500 mt-0.5">{invoice.products_name}</p>
                       <p className="text-xs text-gray-400 mt-0.5">
                         {new Date(invoice.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-black text-black">₹{invoice.total_amount.toLocaleString('en-IN')}</p>
+                      <p className="font-black>₹{invoice.total_amount.toLocaleString('en-IN')}</p>
                       <span
                         className="text-xs font-semibold"
                         style={{
@@ -200,7 +200,7 @@ Thank you for trading on Karobarrr!
                 <button
                   onClick={() => downloadInvoice(invoice)}
                   className="flex-shrink-0 px-4 py-2 text-xs font-bold text-white"
-                  style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+                  style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
                 >
                   Download
                 </button>

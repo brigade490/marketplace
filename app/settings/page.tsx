@@ -88,7 +88,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-xl mx-auto">
-        <h1 className="text-2xl font-black text-black mb-6">Settings</h1>
+        <h1 className="text-2xl font-black  mb-6">Settings</h1>
 
         {/* Notifications */}
         <Section title="Notifications">
@@ -115,22 +115,22 @@ export default function SettingsPage() {
         {/* Preferences */}
         <Section title="Account Preferences">
           <div className="py-3">
-            <label className="block text-sm font-semibold text-black mb-2">Language</label>
+            <label className="block text-sm font-semibold  mb-2">Language</label>
             <select
               value={settings.language}
               onChange={e => select('language', e.target.value)}
-              className="w-full px-4 py-3 text-sm text-black outline-none"
+              className="w-full px-4 py-3 text-sm  outline-none"
               style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
             >
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
           </div>
           <div className="py-3" style={{  }}>
-            <label className="block text-sm font-semibold text-black mb-2">Currency</label>
+            <label className="block text-sm font-semibold  mb-2">Currency</label>
             <select
               value={settings.currency}
               onChange={e => select('currency', e.target.value)}
-              className="w-full px-4 py-3 text-sm text-black outline-none"
+              className="w-full px-4 py-3 text-sm  outline-none"
               style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
             >
               {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
@@ -164,7 +164,7 @@ export default function SettingsPage() {
           onClick={handleSave}
           disabled={saving}
           className="w-full py-3.5 text-sm font-bold text-white"
-          style={{ background: '#000000', borderRadius: 'var(--radius-sm)', opacity: saving ? 0.6 : 1 }}
+          style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-sm)', opacity: saving ? 0.6 : 1 }}
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
@@ -175,8 +175,8 @@ export default function SettingsPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white mb-4" style={{ borderRadius: '14px', padding: '20px 24px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-      <h2 className="text-sm font-black text-black mb-1 uppercase tracking-wider text-xs text-gray-400">{title}</h2>
+    <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-sm)', padding: '20px 24px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+      <h2 className="text-sm font-black  mb-1 uppercase tracking-wider text-xs text-gray-400">{title}</h2>
       <div className="mt-3">{children}</div>
     </div>
   );
@@ -188,7 +188,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
   return (
     <div className="flex items-center justify-between py-3" style={{  }}>
       <div className="flex-1 pr-4">
-        <p className="text-sm font-semibold text-black">{label}</p>
+        <p className="text-sm font-semibold>{label}</p>
         <p className="text-xs text-gray-500 mt-0.5">{description}</p>
       </div>
       <button
@@ -196,7 +196,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
         onClick={onToggle}
         style={{
           width: '44px', height: '24px', borderRadius: 'var(--radius-pill)', flexShrink: 0,
-          background: checked ? '#000000' : '#e5e7eb',
+          background: checked ? 'var(--active-bg)' : '#e5e7eb',
           position: 'relative', transition: 'background 0.2s',
         }}
       >

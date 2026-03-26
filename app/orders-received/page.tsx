@@ -84,7 +84,7 @@ export default function OrdersReceivedPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-black">Orders Received</h1>
+          <h1 className="text-2xl font-black>Orders Received</h1>
           <span className="text-sm text-gray-500">{orders.length} total</span>
         </div>
 
@@ -97,10 +97,10 @@ export default function OrdersReceivedPage() {
               className="px-4 py-1.5 text-sm font-semibold transition-colors"
               style={{
                 borderRadius: 'var(--radius-pill)',
-                background: statusFilter === s ? '#000000' : 'var(--surface)',
+                background: statusFilter === s ? 'var(--active-bg)' : 'var(--surface)',
                 color: statusFilter === s ? 'var(--surface)' : 'var(--text-inactive)',
-                border: '1.5px solid',
-                borderColor: statusFilter === s ? '#000000' : 'var(--surface)',
+                boxShadow: 'var(--shadow-raised)',
+                borderColor: statusFilter === s ? 'var(--active-bg)' : 'var(--surface)',
               }}
             >
               {s}
@@ -111,7 +111,7 @@ export default function OrdersReceivedPage() {
         {filtered.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📋</div>
-            <h3 className="font-black text-black mb-2">No orders yet</h3>
+            <h3 className="font-black  mb-2">No orders yet</h3>
             <p className="text-gray-400 text-sm">Orders from buyers will appear here.</p>
           </div>
         ) : (
@@ -137,7 +137,7 @@ export default function OrdersReceivedPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h3 className="font-bold text-black text-sm">{order.products?.name || 'Product'}</h3>
+                          <h3 className="font-bold  text-sm">{order.products?.name || 'Product'}</h3>
                           <p className="text-xs text-gray-500 mt-0.5">
                             Buyer: {buyerName} · Qty: {order.quantity}
                           </p>
@@ -147,7 +147,7 @@ export default function OrdersReceivedPage() {
                           {order.notes && <p className="text-xs text-gray-500 mt-1 italic">Note: {order.notes}</p>}
                         </div>
                         <div className="text-right">
-                          <div className="font-black text-black text-base">₹{order.total_amount.toLocaleString('en-IN')}</div>
+                          <div className="font-black  text-base">₹{order.total_amount.toLocaleString('en-IN')}</div>
                           <span
                             className="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold"
                             style={{ borderRadius: 'var(--radius-pill)', background: sc.bg, color: sc.color }}

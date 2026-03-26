@@ -153,7 +153,7 @@ export default function AddProductPage() {
   return (
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-black text-black mb-6">{editId ? 'Edit Product' : 'Add New Product'}</h1>
+        <h1 className="text-2xl font-black  mb-6">{editId ? 'Edit Product' : 'Add New Product'}</h1>
 
         <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '36px', boxShadow: 'var(--shadow-raised)' }}>
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -166,8 +166,8 @@ export default function AddProductPage() {
                 value={form.category}
                 onChange={e => set('category', e.target.value)}
                 required
-                className="w-full px-4 py-3 text-sm text-black outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
+                className="w-full px-4 py-3 text-sm  outline-none"
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -194,8 +194,8 @@ export default function AddProductPage() {
                 onChange={e => set('description', e.target.value)}
                 placeholder="Describe your product, specifications, and key features..."
                 rows={4}
-                className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none resize-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
+                className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none resize-none"
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -218,7 +218,7 @@ export default function AddProductPage() {
               <div className="flex flex-wrap gap-3 mb-3">
                 {images.map((url, idx) => (
                   <div key={idx} className="relative" style={{ width: '80px', height: '80px' }}>
-                    <img src={url} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} />
+                    <img src={url} alt="" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-xs)' }} />
                     <button
                       type="button"
                       onClick={() => removeImage(idx)}
@@ -235,7 +235,7 @@ export default function AddProductPage() {
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
                     className="flex flex-col items-center justify-center text-gray-400 text-xs gap-1"
-                    style={{ width: '80px', height: '80px', border: '2px dashed #e5e7eb', borderRadius: '8px', background: '#fafafa' }}
+                    style={{ width: '80px', height: '80px', border: '2px dashed #e5e7eb', borderRadius: 'var(--radius-xs)', background: '#fafafa' }}
                   >
                     {uploading ? '...' : (<><span className="text-2xl">+</span><span>Upload</span></>)}
                   </button>
@@ -256,7 +256,7 @@ export default function AddProductPage() {
                   className="relative"
                   style={{
                     width: '44px', height: '24px', borderRadius: 'var(--radius-pill)',
-                    background: form.is_active ? '#000000' : 'var(--surface)',
+                    background: form.is_active ? 'var(--active-bg)' : 'var(--surface)',
                     transition: 'background 0.2s',
                   }}
                 >
@@ -274,14 +274,14 @@ export default function AddProductPage() {
               </button>
             </div>
 
-            {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: '8px' }}>{error}</p>}
+            {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: 'var(--radius-xs)' }}>{error}</p>}
 
             <div className="flex gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => router.push('/my-products')}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -289,7 +289,7 @@ export default function AddProductPage() {
                 type="submit"
                 disabled={saving || uploading}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}
+                style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}
               >
                 {saving ? 'Saving...' : editId ? 'Update Product' : 'Add Product'}
               </button>
@@ -318,8 +318,8 @@ function Field({
         required={required}
         min={type === 'number' ? '0' : undefined}
         step={type === 'number' ? 'any' : undefined}
-        className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
+        className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
+        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
         onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />

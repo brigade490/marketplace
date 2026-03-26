@@ -77,7 +77,7 @@ export default function MyOrdersPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-black">My Orders</h1>
+          <h1 className="text-2xl font-black>My Orders</h1>
           <span className="text-sm text-gray-500">{orders.length} total</span>
         </div>
 
@@ -90,10 +90,10 @@ export default function MyOrdersPage() {
               className="px-4 py-1.5 text-sm font-semibold transition-colors"
               style={{
                 borderRadius: 'var(--radius-pill)',
-                background: statusFilter === s ? '#000000' : 'var(--surface)',
+                background: statusFilter === s ? 'var(--active-bg)' : 'var(--surface)',
                 color: statusFilter === s ? 'var(--surface)' : 'var(--text-inactive)',
-                border: '1.5px solid',
-                borderColor: statusFilter === s ? '#000000' : 'var(--surface)',
+                boxShadow: 'var(--shadow-raised)',
+                borderColor: statusFilter === s ? 'var(--active-bg)' : 'var(--surface)',
               }}
             >
               {s}
@@ -104,14 +104,14 @@ export default function MyOrdersPage() {
         {filtered.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📦</div>
-            <h3 className="font-black text-black mb-1">No orders found</h3>
+            <h3 className="font-black  mb-1">No orders found</h3>
             <p className="text-gray-400 text-sm mb-6">
               {statusFilter !== 'All' ? `No ${statusFilter} orders.` : "You haven't placed any orders yet."}
             </p>
             <Link
               href="/products"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
             >
               Browse Products
             </Link>
@@ -142,7 +142,7 @@ export default function MyOrdersPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h3 className="font-bold text-black text-sm truncate">{order.products?.name || 'Product'}</h3>
+                          <h3 className="font-bold  text-sm truncate">{order.products?.name || 'Product'}</h3>
                           <p className="text-xs text-gray-500 mt-0.5">
                             Seller: {order.sellers?.company_name || '—'} · Qty: {order.quantity}
                           </p>
@@ -151,7 +151,7 @@ export default function MyOrdersPage() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <div className="font-black text-black text-base">
+                          <div className="font-black  text-base">
                             ₹{order.total_amount.toLocaleString('en-IN')}
                           </div>
                           <span
@@ -167,7 +167,7 @@ export default function MyOrdersPage() {
                   <div className="px-5 pb-4">
                     <Link
                       href={`/order/${order.id}`}
-                      className="text-sm font-semibold text-black underline"
+                      className="text-sm font-semibold  underline"
                     >
                       View Order Details →
                     </Link>

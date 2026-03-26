@@ -27,7 +27,7 @@ export default function CartPage() {
         <a
           href="/products"
           className="px-8 py-3 text-sm font-semibold"
-          style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-active)', display: 'inline-block' }}
+          style={{ background: 'var(--active-bg)', color: 'var(--surface)', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-active)', display: 'inline-block' }}
         >
           Browse Products
         </a>

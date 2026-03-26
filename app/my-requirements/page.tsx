@@ -64,11 +64,11 @@ export default function MyRequirementsPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-black">My Requirements</h1>
+          <h1 className="text-2xl font-black>My Requirements</h1>
           <Link
             href="/post-requirement"
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+            style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
           >
             + Post Requirement
           </Link>
@@ -77,12 +77,12 @@ export default function MyRequirementsPage() {
         {requirements.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📝</div>
-            <h3 className="font-black text-black mb-2">No requirements posted</h3>
+            <h3 className="font-black  mb-2">No requirements posted</h3>
             <p className="text-gray-400 text-sm mb-6">Post what you're looking to buy and let sellers come to you.</p>
             <Link
               href="/post-requirement"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
             >
               Post Requirement
             </Link>
@@ -94,7 +94,7 @@ export default function MyRequirementsPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-black">{req.title}</h3>
+                      <h3 className="font-bold>{req.title}</h3>
                       {req.is_urgent && (
                         <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-50" style={{ borderRadius: 'var(--radius-pill)' }}>
                           URGENT

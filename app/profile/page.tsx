@@ -90,7 +90,7 @@ export default function ProfilePage() {
                 className="flex items-center justify-center font-black text-2xl"
                 style={{
                   width: '80px', height: '80px', borderRadius: '50%',
-                  background: 'var(--active-bg)', color: '#fff', flexShrink: 0, overflow: 'hidden',
+                  background: 'var(--active-bg)', color: 'var(--surface)', flexShrink: 0, overflow: 'hidden',
                 }}
               >
                 {profile.avatar_url
@@ -99,7 +99,7 @@ export default function ProfilePage() {
                 }
               </div>
               <div>
-                <h1 className="text-2xl font-black text-black">
+                <h1 className="text-2xl font-black>
                   {profile.full_name || 'Your Name'}
                 </h1>
                 {(sellerInfo?.company_name || buyerInfo?.company_name || profile.business_name) && (
@@ -112,7 +112,7 @@ export default function ProfilePage() {
                     className="px-2.5 py-0.5 text-xs font-semibold"
                     style={{
                       borderRadius: 'var(--radius-pill)',
-                      background: isSeller ? '#000000' : '#f3f4f6',
+                      background: isSeller ? 'var(--active-bg)' : 'var(--bg)',
                       color: isSeller ? '#fbbf24' : '#6b7280',
                     }}
                   >
@@ -129,7 +129,7 @@ export default function ProfilePage() {
             <Link
               href="/edit-profile"
               className="px-4 py-2 text-sm font-semibold transition-colors"
-              style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', color: 'var(--surface)', borderRadius: 'var(--radius-pill)' }}
             >
               Edit Profile
             </Link>
@@ -139,15 +139,15 @@ export default function ProfilePage() {
           {isSeller && sellerInfo && (
             <div className="grid grid-cols-3 gap-4 mb-6 pt-4" style={{  }}>
               <div className="text-center">
-                <div className="text-xl font-black text-black">{tierEmoji} {sellerInfo.tier}</div>
+                <div className="text-xl font-black>{tierEmoji} {sellerInfo.tier}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Seller Tier</div>
               </div>
               <div className="text-center">
-                <div className="text-xl font-black text-black">{sellerInfo.avg_rating?.toFixed(1) || '—'}</div>
+                <div className="text-xl font-black>{sellerInfo.avg_rating?.toFixed(1) || '—'}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Avg Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-xl font-black text-black">{sellerInfo.total_orders}</div>
+                <div className="text-xl font-black>{sellerInfo.total_orders}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Total Orders</div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function ProfilePage() {
 
         {/* Details card */}
         <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
-          <h2 className="text-base font-black text-black mb-5">Contact & Details</h2>
+          <h2 className="text-base font-black  mb-5">Contact & Details</h2>
           <div className="space-y-4">
             <InfoRow icon="📧" label="Email" value={profile.email} />
             <InfoRow icon="📱" label="Mobile" value={profile.phone || 'Not added'} />
@@ -177,10 +177,10 @@ export default function ProfilePage() {
 
           <div className="mt-6 pt-5" style={{  }}>
             <div className="flex gap-3 flex-wrap">
-              <Link href="/verification" className="text-sm font-semibold text-black underline">
+              <Link href="/verification" className="text-sm font-semibold  underline">
                 Verification Status →
               </Link>
-              <Link href="/addresses" className="text-sm font-semibold text-black underline">
+              <Link href="/addresses" className="text-sm font-semibold  underline">
                 Manage Addresses →
               </Link>
             </div>
@@ -197,7 +197,7 @@ function InfoRow({ icon, label, value }: { icon: string; label: string; value: s
       <span className="text-lg w-6 flex-shrink-0 mt-0.5">{icon}</span>
       <div>
         <div className="text-xs text-gray-500">{label}</div>
-        <div className="text-sm font-semibold text-black">{value}</div>
+        <div className="text-sm font-semibold>{value}</div>
       </div>
     </div>
   );

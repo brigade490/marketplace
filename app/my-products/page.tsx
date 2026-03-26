@@ -77,13 +77,13 @@ export default function MyProductsPage() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-black text-black">My Products</h1>
+            <h1 className="text-2xl font-black>My Products</h1>
             <p className="text-sm text-gray-500 mt-0.5">{products.length} products listed</p>
           </div>
           <Link
             href="/add-product"
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+            style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
           >
             + Add Product
           </Link>
@@ -92,12 +92,12 @@ export default function MyProductsPage() {
         {products.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🏪</div>
-            <h3 className="font-black text-black mb-2">No products yet</h3>
+            <h3 className="font-black  mb-2">No products yet</h3>
             <p className="text-gray-400 text-sm mb-6">Start by adding your first product listing.</p>
             <Link
               href="/add-product"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
             >
               Add Product
             </Link>
@@ -123,9 +123,9 @@ export default function MyProductsPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h3 className="font-bold text-black">{product.name}</h3>
+                          <h3 className="font-bold>{product.name}</h3>
                           <p className="text-xs text-gray-500 mt-0.5">{product.category}</p>
-                          <p className="text-sm font-black text-black mt-1">
+                          <p className="text-sm font-black  mt-1">
                             ₹{product.price.toLocaleString('en-IN')} / {product.price_unit}
                           </p>
                           <p className="text-xs text-gray-500 mt-0.5">
@@ -153,13 +153,13 @@ export default function MyProductsPage() {
                       <div className="flex items-center gap-3 mt-3">
                         <Link
                           href={`/products/${product.id}`}
-                          className="text-xs font-semibold text-gray-600 hover:text-black"
+                          className="text-xs font-semibold text-gray-600 hover:"
                         >
                           View
                         </Link>
                         <Link
                           href={`/add-product?edit=${product.id}`}
-                          className="text-xs font-semibold text-black"
+                          className="text-xs font-semibold
                         >
                           Edit
                         </Link>
@@ -188,13 +188,13 @@ export default function MyProductsPage() {
         >
           <div className="bg-white p-8 text-center" style={{ borderRadius: 'var(--radius-md)', maxWidth: '360px', width: '100%' }}>
             <div className="text-3xl mb-3">🗑️</div>
-            <h3 className="text-lg font-black text-black mb-2">Delete Product?</h3>
+            <h3 className="text-lg font-black  mb-2">Delete Product?</h3>
             <p className="text-sm text-gray-500 mb-6">This action cannot be undone.</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmDeleteId(null)}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>

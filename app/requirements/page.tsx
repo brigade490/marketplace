@@ -156,30 +156,30 @@ export default function RequirementsPage() {
   });
 
   return (
-    <div className="min-h-screen" style={{ background: "#f7f7f8" }}>
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {/* Header */}
       <div className="bg-white border-b border-gray-100 py-8 px-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-black mb-1">Requirements Board</h1>
+            <h1 className="text-2xl font-black  mb-1">Requirements Board</h1>
             <p className="text-sm text-gray-500">Buyers post what they need — sellers submit proposals.</p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white px-4 py-2.5 border border-gray-200" style={{ borderRadius: "8px" }}>
+            <div className="flex items-center gap-2 bg-white px-4 py-2.5 border border-gray-200" style={{ borderRadius: "var(--radius-xs)" }}>
               <span className="text-gray-400 text-sm">🔍</span>
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search requirements..."
-                className="text-sm text-black placeholder-gray-400 outline-none bg-transparent w-48"
+                className="text-sm  placeholder-gray-400 outline-none bg-transparent w-48"
               />
               {search && <button onClick={() => setSearch("")} className="text-gray-400 text-xs" style={{ background: "transparent", color: "#9ca3af" }}>✕</button>}
             </div>
             <button
               onClick={() => setShowPostModal(true)}
               className="shrink-0 px-5 py-2.5 text-sm font-bold"
-              style={{ background: "#000000", color: "#ffffff", borderRadius: "999px" }}
+              style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)" }}
             >
               + Post Requirement
             </button>
@@ -196,9 +196,9 @@ export default function RequirementsPage() {
               onClick={() => setCategory(cat)}
               className="px-3 py-1.5 text-xs font-semibold transition-colors"
               style={{
-                borderRadius: "999px",
-                background: category === cat ? "#000000" : "#ffffff",
-                color: category === cat ? "#ffffff" : "#6b7280",
+                borderRadius: "var(--radius-pill)",
+                background: category === cat ? "var(--active-bg)" : "var(--surface)",
+                color: category === cat ? "var(--surface)" : "#6b7280",
                 border: category === cat ? "none" : "1px solid #e5e7eb",
               }}
             >
@@ -208,7 +208,7 @@ export default function RequirementsPage() {
         </div>
 
         <p className="text-sm text-gray-500 mb-5">
-          <span className="font-semibold text-black">{filtered.length}</span> requirements found
+          <span className="font-semibold>{filtered.length}</span> requirements found
         </p>
 
         {filtered.length === 0 ? (
@@ -223,10 +223,10 @@ export default function RequirementsPage() {
               <div
                 key={req.id}
                 className="bg-white overflow-hidden hover:shadow-md transition-shadow"
-                style={{ borderRadius: "14px", border: req.urgent ? "1.5px solid #fbbf24" : "1px solid #f0f0f0" }}
+                style={{ borderRadius: "var(--radius-sm)", border: req.urgent ? "1.5px solid #fbbf24" : "1px solid #f0f0f0" }}
               >
                 {req.urgent && (
-                  <div className="px-5 py-1.5 text-xs font-bold text-black flex items-center gap-1" style={{ background: "#fbbf24" }}>
+                  <div className="px-5 py-1.5 text-xs font-bold  flex items-center gap-1" style={{ background: "#fbbf24" }}>
                     ⚡ Urgent — deadline approaching
                   </div>
                 )}
@@ -239,7 +239,7 @@ export default function RequirementsPage() {
                         <span className="text-xs text-gray-400">📍 {req.location}</span>
                         <span className="text-xs text-gray-400">· {req.posted}</span>
                       </div>
-                      <h3 className="text-base font-black text-black mb-2">{req.title}</h3>
+                      <h3 className="text-base font-black  mb-2">{req.title}</h3>
                       <p className="text-sm text-gray-500 leading-relaxed mb-3 line-clamp-2">{req.description}</p>
                       <div className="flex flex-wrap gap-4 text-xs">
                         <span className="text-green-700 font-semibold">💰 Budget: {req.budget}</span>
@@ -249,13 +249,13 @@ export default function RequirementsPage() {
                     </div>
                     <div className="flex flex-col items-end gap-3 shrink-0">
                       <div className="text-right">
-                        <div className="text-2xl font-black text-black">{req.proposals}</div>
+                        <div className="text-2xl font-black>{req.proposals}</div>
                         <div className="text-xs text-gray-400">proposals</div>
                       </div>
                       <button
                         onClick={() => router.push("/auth/buyer")}
                         className="px-5 py-2.5 text-xs font-bold"
-                        style={{ background: "#000000", color: "#ffffff", borderRadius: "999px" }}
+                        style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)" }}
                       >
                         Submit Proposal →
                       </button>
@@ -275,59 +275,59 @@ export default function RequirementsPage() {
             {submitted ? (
               <div className="text-center py-8">
                 <div className="text-5xl mb-3">✅</div>
-                <h3 className="font-black text-black text-lg">Requirement Posted!</h3>
+                <h3 className="font-black  text-lg">Requirement Posted!</h3>
                 <p className="text-sm text-gray-500 mt-1">Sellers will start responding shortly.</p>
               </div>
             ) : (
               <>
-                <h3 className="font-black text-black mb-1">Post a Requirement</h3>
+                <h3 className="font-black  mb-1">Post a Requirement</h3>
                 <p className="text-xs text-gray-500 mb-5">Tell sellers exactly what you need. You must be logged in to post.</p>
 
                 {postError && (
-                  <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "8px" }}>{postError}</p>
+                  <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "var(--radius-xs)" }}>{postError}</p>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Title</label>
-                    <input type="text" name="title" required value={form.title} onChange={handleChange} placeholder="e.g. Need 500 units industrial conveyor belts" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                    <input type="text" name="title" required value={form.title} onChange={handleChange} placeholder="e.g. Need 500 units industrial conveyor belts" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Description</label>
-                    <textarea name="description" required value={form.description} onChange={handleChange} rows={3} placeholder="Specifications, certifications, delivery terms..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                    <textarea name="description" required value={form.description} onChange={handleChange} rows={3} placeholder="Specifications, certifications, delivery terms..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Category</label>
-                      <select name="category" required value={form.category} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }}>
+                      <select name="category" required value={form.category} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                         <option value="">Select...</option>
                         {categories.filter(c => c !== "All").map((c) => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Quantity</label>
-                      <input type="text" name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 500 units" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                      <input type="text" name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 500 units" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Budget</label>
-                      <input type="text" name="budget" required value={form.budget} onChange={handleChange} placeholder="₹50,000" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                      <input type="text" name="budget" required value={form.budget} onChange={handleChange} placeholder="₹50,000" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Deadline</label>
-                      <input type="date" name="deadline" value={form.deadline} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                      <input type="date" name="deadline" value={form.deadline} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Your City</label>
-                    <input type="text" name="location" value={form.location} onChange={handleChange} placeholder="Mumbai, Delhi, Bangalore..." className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                    <input type="text" name="location" value={form.location} onChange={handleChange} placeholder="Mumbai, Delhi, Bangalore..." className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                   </div>
                   <div className="flex gap-2 pt-1">
-                    <button type="button" onClick={() => setShowPostModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ border: "1.5px solid #e5e7eb", borderRadius: "999px", background: "#ffffff" }}>
+                    <button type="button" onClick={() => setShowPostModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>
                       Cancel
                     </button>
-                    <button type="submit" disabled={posting} className="flex-1 py-3 text-sm font-bold" style={{ background: "#000000", color: "#ffffff", borderRadius: "999px", opacity: posting ? 0.6 : 1 }}>
+                    <button type="submit" disabled={posting} className="flex-1 py-3 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)", opacity: posting ? 0.6 : 1 }}>
                       {posting ? "Posting..." : "Post Requirement →"}
                     </button>
                   </div>

@@ -73,7 +73,7 @@ export default function NotificationsPage() {
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-black text-black">Notifications</h1>
+            <h1 className="text-2xl font-black>Notifications</h1>
             {unreadCount > 0 && (
               <p className="text-sm text-gray-500 mt-0.5">{unreadCount} unread</p>
             )}
@@ -81,7 +81,7 @@ export default function NotificationsPage() {
           {unreadCount > 0 && (
             <button
               onClick={markAllRead}
-              className="text-sm font-semibold text-black underline"
+              className="text-sm font-semibold  underline"
             >
               Mark all as read
             </button>
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
         {notifications.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🔔</div>
-            <h3 className="font-black text-black mb-2">No notifications</h3>
+            <h3 className="font-black  mb-2">No notifications</h3>
             <p className="text-gray-400 text-sm">You're all caught up! Notifications will appear here.</p>
           </div>
         ) : (
@@ -114,11 +114,11 @@ export default function NotificationsPage() {
                 <span className="text-2xl flex-shrink-0">{TYPE_ICONS[notif.type] || '🔔'}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-bold text-black">{notif.title}</h3>
+                    <h3 className="text-sm font-bold>{notif.title}</h3>
                     {!notif.is_read && (
                       <button
                         onClick={e => { e.stopPropagation(); markRead(notif.id); }}
-                        className="text-xs text-gray-400 flex-shrink-0 hover:text-black"
+                        className="text-xs text-gray-400 flex-shrink-0 hover:"
                       >
                         Mark read
                       </button>

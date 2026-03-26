@@ -282,10 +282,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
 
               <div className="space-y-2">
-                <button onClick={handleOrder} className="w-full py-3.5 rounded-xl font-bold text-sm transition-colors" style={{ background: "#000000", color: "#ffffff" }}>
+                <button onClick={handleOrder} className="w-full py-3.5 rounded-xl font-bold text-sm transition-colors" style={{ background: "var(--active-bg)", color: "var(--surface)" }}>
                   🛒 Place Order
                 </button>
-                <button onClick={handleContact} className="w-full py-3.5 rounded-xl font-bold text-sm border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors" style={{ background: "#ffffff" }}>
+                <button onClick={handleContact} className="w-full py-3.5 rounded-xl font-bold text-sm border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors" style={{ background: "var(--surface)" }}>
                   💬 Contact Seller
                 </button>
               </div>
@@ -345,8 +345,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </select>
               <textarea placeholder="Describe the issue..." rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm resize-none focus:outline-none focus:border-black" />
               <div className="flex gap-2">
-                <button type="button" onClick={() => setShowFlagModal(false)} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50" style={{ background: "#ffffff" }}>Cancel</button>
-                <button type="submit" className="flex-1 py-2.5 rounded-xl text-sm font-semibold" style={{ background: "#ef4444", color: "#ffffff" }}>Submit Report</button>
+                <button type="button" onClick={() => setShowFlagModal(false)} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50" style={{ background: "var(--surface)" }}>Cancel</button>
+                <button type="submit" className="flex-1 py-2.5 rounded-xl text-sm font-semibold" style={{ background: "#ef4444", color: "var(--surface)" }}>Submit Report</button>
               </div>
             </form>
           </div>

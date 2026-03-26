@@ -77,18 +77,18 @@ export default function OnboardingPage() {
 
   return (
     <div
-      className="fixed inset-0 flex flex-col bg-white"
-      style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+      className="fixed inset-0 flex flex-col"
+      style={{ background: 'var(--bg)', fontFamily: "-apple-system, 'SF Pro Display', BlinkMacSystemFont, 'Helvetica Neue', sans-serif" }}
     >
       {/* Progress bar */}
       {currentBuyerProgress !== undefined && (
-        <div className="w-full h-1 bg-gray-100 shrink-0">
-          <div className="h-full bg-black progress-bar" style={{ width: `${(currentBuyerProgress / totalBuyerSteps) * 100}%` }} />
+        <div className="w-full h-1.5 shrink-0" style={{ background: 'var(--input-bg)' }}>
+          <div className="h-full progress-bar" style={{ width: `${(currentBuyerProgress / totalBuyerSteps) * 100}%`, background: 'var(--active-bg)' }} />
         </div>
       )}
       {currentSellerProgress !== undefined && (
-        <div className="w-full h-1 bg-gray-100 shrink-0">
-          <div className="h-full bg-black progress-bar" style={{ width: `${(currentSellerProgress / totalSellerSteps) * 100}%` }} />
+        <div className="w-full h-1.5 shrink-0" style={{ background: 'var(--input-bg)' }}>
+          <div className="h-full progress-bar" style={{ width: `${(currentSellerProgress / totalSellerSteps) * 100}%`, background: 'var(--active-bg)' }} />
         </div>
       )}
 
@@ -341,10 +341,11 @@ function ContinueBtn({ disabled, onClick }: { disabled: boolean; onClick: () => 
       disabled={disabled}
       className="w-full py-4 text-base font-bold"
       style={{
-        background: disabled ? '#e5e7eb' : '#000',
-        color: disabled ? '#9ca3af' : '#fff',
+        background: disabled ? 'var(--input-bg)' : 'var(--active-bg)',
+        color: disabled ? 'var(--text-muted)' : '#fff',
         borderRadius: 'var(--radius-pill)',
-        transition: 'background 200ms ease-out, color 200ms ease-out',
+        boxShadow: disabled ? 'var(--shadow-soft)' : 'var(--shadow-active)',
+        transition: 'background 200ms ease-out, color 200ms ease-out, box-shadow 200ms ease-out',
         cursor: disabled ? 'default' : 'pointer',
       }}
     >
@@ -361,14 +362,14 @@ function SplashScreen() {
       style={{ animation: 'fadeIn 600ms ease-out both' }}
     >
       <div
-        className="text-4xl font-black text-black tracking-tight mb-3"
-        style={{ animation: 'fadeSlideUp 500ms 200ms ease-out both' }}
+        className="text-4xl font-black tracking-tight mb-3"
+        style={{ color: 'var(--text-primary)', animation: 'fadeSlideUp 500ms 200ms ease-out both' }}
       >
         Karobarrr
       </div>
       <p
-        className="text-sm text-gray-400 font-medium"
-        style={{ animation: 'fadeSlideUp 500ms 400ms ease-out both' }}
+        className="text-sm font-medium"
+        style={{ color: 'var(--text-muted)', animation: 'fadeSlideUp 500ms 400ms ease-out both' }}
       >
         B2B Marketplace for India
       </p>
@@ -389,15 +390,15 @@ function WelcomeScreen({
   return (
     <div className={`flex-1 flex flex-col items-center justify-center px-8 text-center ${animClass}`}>
       <div
-        className="mb-8 flex items-center justify-center bg-gray-50"
-        style={{ width: 160, height: 160, borderRadius: '50%' }}
+        className="mb-8 flex items-center justify-center"
+        style={{ width: 160, height: 160, borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)' }}
       >
         <span style={{ fontSize: 64 }}>🤝</span>
       </div>
-      <h1 className="text-3xl font-black text-black mb-3 leading-tight">
+      <h1 className="text-3xl font-black mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
         Welcome to<br />Karobarrr
       </h1>
-      <p className="text-base text-gray-500 mb-12 leading-relaxed max-w-xs">
+      <p className="text-base mb-12 leading-relaxed max-w-xs" style={{ color: 'var(--text-body)' }}>
         India's largest B2B marketplace. Buy and sell in bulk — directly with verified businesses.
       </p>
       <div className="w-full max-w-sm flex flex-col gap-3">
@@ -435,7 +436,7 @@ function AccountTypeScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">How will you use<br />Karobarrr?</h1>
+      <h1 className="text-2xl font-black  mb-2">How will you use<br />Karobarrr?</h1>
       <p className="text-sm text-gray-500 mb-8">Choose your account type to get started.</p>
 
       <div className="flex flex-col gap-4 mb-10">
@@ -464,7 +465,7 @@ function AccountTypeScreen({
               {emoji}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-base font-black text-black mb-0.5">{title}</div>
+              <div className="text-base font-black  mb-0.5">{title}</div>
               <div className="text-sm text-gray-500 leading-snug">{desc}</div>
             </div>
             <div
@@ -510,7 +511,7 @@ function BuyerBasicScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Your basic details</h1>
+      <h1 className="text-2xl font-black  mb-2">Your basic details</h1>
       <p className="text-sm text-gray-500 mb-8">Tell us a bit about yourself.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -524,7 +525,7 @@ function BuyerBasicScreen({
             placeholder=" "
             value={values.name}
             onChange={(e) => onChange({ ...values, name: e.target.value })}
-            className="w-full px-4 text-sm text-black bg-white"
+            className="w-full px-4 text-sm  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Full Name</label>
@@ -540,7 +541,7 @@ function BuyerBasicScreen({
             placeholder=" "
             value={values.email}
             onChange={(e) => onChange({ ...values, email: e.target.value })}
-            className="w-full px-4 text-sm text-black bg-white"
+            className="w-full px-4 text-sm  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Email Address</label>
@@ -575,7 +576,7 @@ function BuyerBusinessScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Your business info</h1>
+      <h1 className="text-2xl font-black  mb-2">Your business info</h1>
       <p className="text-sm text-gray-500 mb-8">Help us personalise your experience.</p>
 
       <div className="flex flex-col gap-6 mb-auto">
@@ -589,7 +590,7 @@ function BuyerBusinessScreen({
             placeholder=" "
             value={values.businessName}
             onChange={(e) => onChange({ ...values, businessName: e.target.value })}
-            className="w-full px-4 text-sm text-black bg-white"
+            className="w-full px-4 text-sm  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Business Name</label>
@@ -597,7 +598,7 @@ function BuyerBusinessScreen({
 
         {/* Business Type chips */}
         <div>
-          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Business Type</p>
+          <p className="text-xs font-bold  uppercase tracking-widest mb-3">Business Type</p>
           <div className="flex flex-wrap gap-2">
             {BUSINESS_TYPES.map((type) => {
               const active = values.businessType === type;
@@ -654,7 +655,7 @@ function BuyerCategoriesScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">What do you buy?</h1>
+      <h1 className="text-2xl font-black  mb-2">What do you buy?</h1>
       <p className="text-sm text-gray-500 mb-8">Select all categories that apply.</p>
 
       <div className="flex flex-wrap gap-2 mb-auto">
@@ -719,7 +720,7 @@ function BuyerLocationScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Your location</h1>
+      <h1 className="text-2xl font-black  mb-2">Your location</h1>
       <p className="text-sm text-gray-500 mb-8">We'll show you nearby suppliers and deals.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -751,7 +752,7 @@ function BuyerLocationScreen({
             placeholder=" "
             value={values.city}
             onChange={(e) => onChange({ ...values, city: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>City</label>
@@ -766,7 +767,7 @@ function BuyerLocationScreen({
             placeholder=" "
             value={values.state}
             onChange={(e) => onChange({ ...values, state: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>State</label>
@@ -783,7 +784,7 @@ function BuyerLocationScreen({
             maxLength={6}
             value={values.pincode}
             onChange={(e) => onChange({ ...values, pincode: e.target.value.replace(/\D/g, '') })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Pincode</label>
@@ -843,7 +844,7 @@ function ChipGroup({ label, options, value, onChange }: {
 }) {
   return (
     <div>
-      <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">{label}</p>
+      <p className="text-xs font-bold  uppercase tracking-widest mb-3">{label}</p>
       <div className="flex flex-wrap gap-2">
         {options.map((opt) => {
           const active = value === opt;
@@ -883,7 +884,7 @@ function BuyerPrefsScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Buying preferences</h1>
+      <h1 className="text-2xl font-black  mb-2">Buying preferences</h1>
       <p className="text-sm text-gray-500 mb-8">Help us match you with the right sellers.</p>
 
       <div className="flex flex-col gap-7 mb-auto">
@@ -935,7 +936,7 @@ function BuyerPaymentScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Payment preferences</h1>
+      <h1 className="text-2xl font-black  mb-2">Payment preferences</h1>
       <p className="text-sm text-gray-500 mb-8">Choose your preferred payment methods.</p>
 
       <div className="flex flex-col gap-3 mb-auto">
@@ -946,7 +947,7 @@ function BuyerPaymentScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold text-black">{label}</p>
+              <p className="text-sm font-bold>{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -981,7 +982,7 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Notifications</h1>
+      <h1 className="text-2xl font-black  mb-2">Notifications</h1>
       <p className="text-sm text-gray-500 mb-8">Choose what you want to hear about.</p>
 
       <div className="flex flex-col gap-3 mb-auto">
@@ -992,7 +993,7 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold text-black">{label}</p>
+              <p className="text-sm font-bold>{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -1025,7 +1026,7 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Add your logo</h1>
+      <h1 className="text-2xl font-black  mb-2">Add your logo</h1>
       <p className="text-sm text-gray-500 mb-8">Optional — you can always add it later.</p>
 
       <div className="flex flex-col items-center gap-5 mb-auto">
@@ -1059,7 +1060,7 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
           <button
             onClick={() => setPreview(null)}
             className="text-xs font-semibold"
-            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}
           >
             Remove
           </button>
@@ -1111,7 +1112,7 @@ function BuyerDoneScreen({ onFinish }: { onFinish: () => void }) {
 
       <div className="ready-in flex flex-col items-center gap-4">
         <div style={{ fontSize: 72 }}>🎉</div>
-        <h1 className="text-3xl font-black text-black leading-tight">You're ready!</h1>
+        <h1 className="text-3xl font-black  leading-tight">You're ready!</h1>
         <p className="text-base text-gray-500 max-w-xs leading-relaxed">
           Your buyer account is set up. Start sourcing from verified Indian suppliers.
         </p>
@@ -1134,7 +1135,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Your basic details</h1>
+      <h1 className="text-2xl font-black  mb-2">Your basic details</h1>
       <p className="text-sm text-gray-500 mb-8">Tell us a bit about yourself.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -1144,7 +1145,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
             placeholder=" "
             value={values.name}
             onChange={(e) => onChange({ ...values, name: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Full Name</label>
@@ -1156,7 +1157,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
             placeholder=" "
             value={values.email}
             onChange={(e) => onChange({ ...values, email: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Email Address</label>
@@ -1185,7 +1186,7 @@ function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Your business info</h1>
+      <h1 className="text-2xl font-black  mb-2">Your business info</h1>
       <p className="text-sm text-gray-500 mb-8">Help buyers find and trust your business.</p>
 
       <div className="flex flex-col gap-6 mb-auto">
@@ -1195,14 +1196,14 @@ function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
             placeholder=" "
             value={values.businessName}
             onChange={(e) => onChange({ ...values, businessName: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Business Name</label>
         </div>
 
         <div>
-          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Business Type</p>
+          <p className="text-xs font-bold  uppercase tracking-widest mb-3">Business Type</p>
           <div className="flex flex-wrap gap-2">
             {SELLER_BUSINESS_TYPES.map((type) => {
               const active = values.businessType === type;
@@ -1251,7 +1252,7 @@ function SellerCategoriesScreen({ animClass, selected, onChange, onBack, onNext 
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">What do you sell?</h1>
+      <h1 className="text-2xl font-black  mb-2">What do you sell?</h1>
       <p className="text-sm text-gray-500 mb-8">Select all categories that apply.</p>
 
       <div className="flex flex-wrap gap-2 mb-auto">
@@ -1307,7 +1308,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Business location</h1>
+      <h1 className="text-2xl font-black  mb-2">Business location</h1>
       <p className="text-sm text-gray-500 mb-8">Buyers will use this to find local suppliers.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -1335,7 +1336,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
             placeholder=" "
             value={values.city}
             onChange={(e) => onChange({ ...values, city: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>City</label>
@@ -1347,7 +1348,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
             placeholder=" "
             value={values.state}
             onChange={(e) => onChange({ ...values, state: e.target.value })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>State</label>
@@ -1361,7 +1362,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
             maxLength={6}
             value={values.pincode}
             onChange={(e) => onChange({ ...values, pincode: e.target.value.replace(/\D/g, '') })}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
           />
           <label>Pincode</label>
@@ -1390,7 +1391,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">GST details</h1>
+      <h1 className="text-2xl font-black  mb-2">GST details</h1>
       <p className="text-sm text-gray-500 mb-8">Add your GSTIN to unlock all seller features.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -1401,7 +1402,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
             maxLength={15}
             value={value}
             onChange={(e) => onChange(e.target.value.toUpperCase())}
-            className="w-full px-4 text-black bg-white"
+            className="w-full px-4  bg-white"
             style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15, fontFamily: 'monospace' }}
           />
           <label>GSTIN</label>
@@ -1451,7 +1452,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Business verification</h1>
+      <h1 className="text-2xl font-black  mb-2">Business verification</h1>
       <p className="text-sm text-gray-500 mb-8">Both documents are optional — upload when ready.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -1469,7 +1470,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
             <div className="flex items-center gap-3">
               <span style={{ fontSize: 22 }}>{state ? '📄' : '📁'}</span>
               <div>
-                <p className="text-sm font-bold text-black">{label}</p>
+                <p className="text-sm font-bold>{label}</p>
                 <p className="text-xs text-gray-400 mt-0.5">
                   {state ? state : 'Tap to upload'}
                 </p>
@@ -1533,7 +1534,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Selling setup</h1>
+      <h1 className="text-2xl font-black  mb-2">Selling setup</h1>
       <p className="text-sm text-gray-500 mb-8">Tell buyers how you operate.</p>
 
       <div className="flex flex-col gap-7 mb-auto">
@@ -1547,7 +1548,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
 
         {/* Delivery */}
         <div>
-          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Delivery</p>
+          <p className="text-xs font-bold  uppercase tracking-widest mb-3">Delivery</p>
           <div className="flex flex-wrap gap-2">
             {deliveryOptions.map(({ label, disabled }) => {
               const active = values.delivery === label;
@@ -1577,7 +1578,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
 
         {/* Payment methods */}
         <div>
-          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Payment Methods</p>
+          <p className="text-xs font-bold  uppercase tracking-widest mb-3">Payment Methods</p>
           <div className="flex flex-col gap-2">
             {paymentRows.map(({ key, label }) => (
               <div
@@ -1585,7 +1586,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
                 className="flex items-center justify-between px-4 py-3 bg-white"
                 style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
               >
-                <span className="text-sm font-semibold text-black">{label}</span>
+                <span className="text-sm font-semibold>{label}</span>
                 <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
               </div>
             ))}
@@ -1623,7 +1624,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 overflow-y-auto ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Bank details</h1>
+      <h1 className="text-2xl font-black  mb-2">Bank details</h1>
       <p className="text-sm text-gray-500 mb-8">Needed to receive payments for your orders.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
@@ -1641,7 +1642,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
                 if (numeric) val = val.replace(/\D/g, '');
                 onChange({ ...values, [key]: val });
               }}
-              className="w-full px-4 text-black bg-white"
+              className="w-full px-4  bg-white"
               style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15, fontFamily: mono ? 'monospace' : undefined }}
             />
             <label>{label}</label>
@@ -1693,7 +1694,7 @@ function SellerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Notifications</h1>
+      <h1 className="text-2xl font-black  mb-2">Notifications</h1>
       <p className="text-sm text-gray-500 mb-8">Choose what you want to hear about.</p>
 
       <div className="flex flex-col gap-3 mb-auto">
@@ -1704,7 +1705,7 @@ function SellerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
             style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
-              <p className="text-sm font-bold text-black">{label}</p>
+              <p className="text-sm font-bold>{label}</p>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
             </div>
             <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -1736,7 +1737,7 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
   return (
     <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black text-black mb-2">Add your logo</h1>
+      <h1 className="text-2xl font-black  mb-2">Add your logo</h1>
       <p className="text-sm text-gray-500 mb-8">Optional — builds trust with buyers. Add later anytime.</p>
 
       <div className="flex flex-col items-center gap-5 mb-auto">
@@ -1769,7 +1770,7 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
           <button
             onClick={() => setPreview(null)}
             className="text-xs font-semibold"
-            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}
           >
             Remove
           </button>
@@ -1818,7 +1819,7 @@ function SellerDoneScreen({ onFinish }: { onFinish: () => void }) {
 
       <div className="ready-in flex flex-col items-center gap-4">
         <div style={{ fontSize: 72 }}>🎉</div>
-        <h1 className="text-3xl font-black text-black leading-tight">You're ready!</h1>
+        <h1 className="text-3xl font-black  leading-tight">You're ready!</h1>
         <p className="text-base text-gray-500 max-w-xs leading-relaxed">
           Your seller account is set up. Start listing products and reaching buyers across India.
         </p>

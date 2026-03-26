@@ -102,9 +102,9 @@ export default function OrderDetailPage() {
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/my-orders" className="hover:text-black">My Orders</Link>
+          <Link href="/my-orders" className="hover:">My Orders</Link>
           <span>›</span>
-          <span className="text-black font-semibold">Order Details</span>
+          <span className=" font-semibold">Order Details</span>
         </div>
 
         {/* Status + Order ID */}
@@ -112,7 +112,7 @@ export default function OrderDetailPage() {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-xs text-gray-500 mb-1">Order ID</p>
-              <p className="font-mono text-sm font-semibold text-black">{order.id.slice(0, 8).toUpperCase()}</p>
+              <p className="font-mono text-sm font-semibold>{order.id.slice(0, 8).toUpperCase()}</p>
               <p className="text-xs text-gray-400 mt-1">
                 Placed on {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
@@ -141,7 +141,7 @@ export default function OrderDetailPage() {
                   className="absolute h-1 top-4 left-0"
                   style={{
                     width: `${(currentStepIndex / (STATUS_STEPS.length - 1)) * 100}%`,
-                    background: '#000000',
+                    background: 'var(--active-bg)',
                     zIndex: 1,
                     transition: 'width 0.5s',
                   }}
@@ -155,14 +155,14 @@ export default function OrderDetailPage() {
                         className="flex items-center justify-center text-xs font-bold"
                         style={{
                           width: '32px', height: '32px', borderRadius: '50%',
-                          background: done ? '#000000' : 'var(--surface)',
+                          background: done ? 'var(--active-bg)' : 'var(--surface)',
                           color: done ? 'var(--surface)' : 'var(--text-inactive)',
                           border: done ? '2px solid #000000' : '2px solid #e5e7eb',
                         }}
                       >
                         {done ? '✓' : idx + 1}
                       </div>
-                      <p className="text-xs font-semibold mt-2" style={{ color: done ? '#000000' : 'var(--text-inactive)' }}>{step}</p>
+                      <p className="text-xs font-semibold mt-2" style={{ color: done ? 'var(--active-bg)' : 'var(--text-inactive)' }}>{step}</p>
                       {ts && (
                         <p className="text-xs text-gray-400 mt-0.5">
                           {new Date(ts).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
@@ -178,7 +178,7 @@ export default function OrderDetailPage() {
 
         {/* Product info */}
         <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
-          <h2 className="text-sm font-black text-black mb-4">Product</h2>
+          <h2 className="text-sm font-black  mb-4">Product</h2>
           <div className="flex gap-4">
             <div
               className="flex-shrink-0 flex items-center justify-center"
@@ -190,7 +190,7 @@ export default function OrderDetailPage() {
               }
             </div>
             <div>
-              <h3 className="font-bold text-black">{order.products?.name}</h3>
+              <h3 className="font-bold>{order.products?.name}</h3>
               <p className="text-xs text-gray-500 mt-0.5">{order.products?.category}</p>
               <p className="text-sm text-gray-600 mt-1">
                 Qty: {order.quantity} × ₹{order.unit_price.toLocaleString('en-IN')}
@@ -201,19 +201,19 @@ export default function OrderDetailPage() {
 
         {/* Price breakdown */}
         <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
-          <h2 className="text-sm font-black text-black mb-4">Price Breakdown</h2>
+          <h2 className="text-sm font-black  mb-4">Price Breakdown</h2>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Unit Price</span>
-              <span className="font-semibold text-black">₹{order.unit_price.toLocaleString('en-IN')}</span>
+              <span className="font-semibold>₹{order.unit_price.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Quantity</span>
-              <span className="font-semibold text-black">{order.quantity}</span>
+              <span className="font-semibold>{order.quantity}</span>
             </div>
             <div className="flex justify-between text-sm pt-2" style={{ borderTop: '1px solid #f3f4f6' }}>
-              <span className="font-black text-black">Total</span>
-              <span className="font-black text-black text-lg">₹{order.total_amount.toLocaleString('en-IN')}</span>
+              <span className="font-black>Total</span>
+              <span className="font-black  text-lg">₹{order.total_amount.toLocaleString('en-IN')}</span>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ export default function OrderDetailPage() {
         {/* Delivery address */}
         {addr && (
           <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
-            <h2 className="text-sm font-black text-black mb-3">Delivery Address</h2>
+            <h2 className="text-sm font-black  mb-3">Delivery Address</h2>
             <p className="text-sm text-gray-700 leading-relaxed">
               {[addr.name, addr.street, addr.city, addr.state, addr.pincode].filter(Boolean).join(', ')}
             </p>
@@ -232,15 +232,15 @@ export default function OrderDetailPage() {
         {/* Seller info + contact */}
         {order.sellers && (
           <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
-            <h2 className="text-sm font-black text-black mb-3">Seller</h2>
-            <p className="text-sm font-semibold text-black">{order.sellers.company_name}</p>
+            <h2 className="text-sm font-black  mb-3">Seller</h2>
+            <p className="text-sm font-semibold>{order.sellers.company_name}</p>
             {order.sellers.users?.email && (
               <p className="text-xs text-gray-500 mt-0.5">{order.sellers.users.email}</p>
             )}
             <Link
               href={`/messages`}
               className="inline-block mt-3 px-4 py-2 text-sm font-semibold"
-              style={{ border: '1.5px solid #000', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
+              style={{ boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
             >
               Contact Seller
             </Link>
@@ -250,7 +250,7 @@ export default function OrderDetailPage() {
         {/* Notes */}
         {order.notes && (
           <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
-            <h2 className="text-sm font-black text-black mb-2">Notes</h2>
+            <h2 className="text-sm font-black  mb-2">Notes</h2>
             <p className="text-sm text-gray-600">{order.notes}</p>
           </div>
         )}
@@ -259,7 +259,7 @@ export default function OrderDetailPage() {
         <Link
           href={`/invoices`}
           className="block text-center w-full py-3.5 text-sm font-bold text-white"
-          style={{ background: '#000000', borderRadius: 'var(--radius-sm)' }}
+          style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-sm)' }}
         >
           🧾 Download Invoice
         </Link>

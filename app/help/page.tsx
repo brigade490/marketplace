@@ -82,13 +82,13 @@ export default function HelpPage() {
   return (
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-black text-black mb-2">Help & Support</h1>
+        <h1 className="text-2xl font-black  mb-2">Help & Support</h1>
         <p className="text-gray-500 text-sm mb-8">Find answers to common questions or reach out to our support team.</p>
 
         {/* FAQ */}
         <div className="bg-white mb-8" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)', overflow: 'hidden' }}>
           <div className="px-6 pt-6 pb-2">
-            <h2 className="text-lg font-black text-black">Frequently Asked Questions</h2>
+            <h2 className="text-lg font-black>Frequently Asked Questions</h2>
           </div>
           <div>
             {FAQS.map((faq, idx) => (
@@ -97,7 +97,7 @@ export default function HelpPage() {
                   className="w-full text-left px-6 py-4 flex items-center justify-between gap-3"
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                 >
-                  <span className="text-sm font-semibold text-black">{faq.q}</span>
+                  <span className="text-sm font-semibold>{faq.q}</span>
                   <span
                     className="flex-shrink-0 text-gray-400 text-lg transition-transform"
                     style={{ transform: openFaq === idx ? 'rotate(180deg)' : 'none' }}
@@ -117,20 +117,20 @@ export default function HelpPage() {
 
         {/* Contact section */}
         <div className="bg-white mb-6" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
-          <h2 className="text-lg font-black text-black mb-1">Contact Support</h2>
+          <h2 className="text-lg font-black  mb-1">Contact Support</h2>
           <p className="text-sm text-gray-500 mb-4">Can't find your answer? Reach out to us directly.</p>
           <div className="flex flex-wrap gap-4">
             <a
               href="mailto:support@karobarrr.com"
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold"
-              style={{ border: '1.5px solid #000', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
+              style={{ boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
             >
               📧 Email Support
             </a>
             <a
               href="#"
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white"
-              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
             >
               💬 Live Chat
             </a>
@@ -139,17 +139,17 @@ export default function HelpPage() {
 
         {/* Raise ticket */}
         <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
-          <h2 className="text-lg font-black text-black mb-1">Raise a Ticket</h2>
+          <h2 className="text-lg font-black  mb-1">Raise a Ticket</h2>
           <p className="text-sm text-gray-500 mb-5">Submit a support ticket and we'll get back to you within 24 hours.</p>
 
           {submitted ? (
             <div className="text-center py-8">
               <div className="text-4xl mb-3">✅</div>
-              <h3 className="font-black text-black mb-1">Ticket Submitted!</h3>
+              <h3 className="font-black  mb-1">Ticket Submitted!</h3>
               <p className="text-sm text-gray-500">We'll respond to your query within 24 hours.</p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="mt-4 text-sm font-semibold text-black underline"
+                className="mt-4 text-sm font-semibold  underline"
               >
                 Submit another ticket
               </button>
@@ -164,8 +164,8 @@ export default function HelpPage() {
                   onChange={e => setSubject(e.target.value)}
                   placeholder="Brief description of your issue"
                   required
-                  className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
+                  className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
+                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                   onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />
@@ -178,17 +178,17 @@ export default function HelpPage() {
                   placeholder="Describe your issue in detail..."
                   rows={4}
                   required
-                  className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none resize-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
+                  className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none resize-none"
+                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                   onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />
               </div>
 
-              {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: '8px' }}>{error}</p>}
+              {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: 'var(--radius-xs)' }}>{error}</p>}
 
               {!isLoggedIn && (
-                <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2" style={{ borderRadius: '8px' }}>
+                <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2" style={{ borderRadius: 'var(--radius-xs)' }}>
                   You need to be logged in to submit a ticket. <a href="/auth/buyer" className="font-semibold underline">Login here</a>.
                 </p>
               )}
@@ -197,7 +197,7 @@ export default function HelpPage() {
                 type="submit"
                 disabled={submitting || !isLoggedIn}
                 className="w-full py-3.5 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: (submitting || !isLoggedIn) ? 0.6 : 1 }}
+                style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)', opacity: (submitting || !isLoggedIn) ? 0.6 : 1 }}
               >
                 {submitting ? 'Submitting...' : 'Submit Ticket'}
               </button>

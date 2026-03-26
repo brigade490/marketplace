@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-// Demo fallback data shown until Supabase products are added
 const demoProducts = [
   { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", tier: "Gold", price: "₹4,200", numPrice: 4200, unit: "/ unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment", tags: ["heavy-duty", "automation"] },
   { id: "2", emoji: "💻", name: "Commercial LED Display Panels", seller: "BrightView Corp", tier: "Silver", price: "₹890", numPrice: 890, unit: "/ panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech", tags: ["LED", "display"] },
@@ -37,10 +36,10 @@ const categories = ["All", "Industrial Equipment", "Electronics & Tech", "Textil
 const locationOptions = ["All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", "Kolkata", "Ahmedabad", "Surat", "Jaipur", "Lucknow"];
 const sortOptions = ["Relevance", "Price: Low to High", "Price: High to Low", "Rating", "Most Reviews"];
 
-const tierColors: Record<string, string> = {
-  Gold: "bg-yellow-100 text-yellow-800 border-yellow-300",
-  Silver: "bg-gray-100 text-gray-700 border-gray-300",
-  Bronze: "bg-orange-100 text-orange-700 border-orange-300",
+const tierStyle: Record<string, { bg: string; color: string }> = {
+  Gold:   { bg: 'rgba(245,166,35,0.12)', color: '#b07a0a' },
+  Silver: { bg: 'rgba(140,140,152,0.12)', color: '#666670' },
+  Bronze: { bg: 'rgba(180,100,60,0.12)',  color: '#a05030' },
 };
 const tierEmoji: Record<string, string> = { Gold: "🥇", Silver: "🥈", Bronze: "🥉" };
 
@@ -53,6 +52,9 @@ export default function ProductsPage() {
   const [maxPrice, setMaxPrice] = useState("");
   const [minRating, setMinRating] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const tabBarRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef({ dragging: false, startX: 0, scrollLeft: 0 });
 
   useEffect(() => {
     async function fetchProducts() {
@@ -90,6 +92,32 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  // Drag-to-scroll for tab bar
+  useEffect(() => {
+    const el = tabBarRef.current;
+    if (!el) return;
+    const d = dragRef.current;
+    const onDown = (e: MouseEvent) => { d.dragging = true; d.startX = e.pageX - el.offsetLeft; d.scrollLeft = el.scrollLeft; el.style.cursor = 'grabbing'; };
+    const onUp = () => { d.dragging = false; el.style.cursor = 'grab'; };
+    const onMove = (e: MouseEvent) => { if (!d.dragging) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = d.scrollLeft - (x - d.startX); };
+    const onTouch = (e: TouchEvent) => { d.startX = e.touches[0].pageX - el.offsetLeft; d.scrollLeft = el.scrollLeft; };
+    const onTouchMove = (e: TouchEvent) => { const x = e.touches[0].pageX - el.offsetLeft; el.scrollLeft = d.scrollLeft - (x - d.startX); };
+    el.addEventListener('mousedown', onDown);
+    el.addEventListener('mouseleave', onUp);
+    el.addEventListener('mouseup', onUp);
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('touchstart', onTouch, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    return () => {
+      el.removeEventListener('mousedown', onDown);
+      el.removeEventListener('mouseleave', onUp);
+      el.removeEventListener('mouseup', onUp);
+      el.removeEventListener('mousemove', onMove);
+      el.removeEventListener('touchstart', onTouch);
+      el.removeEventListener('touchmove', onTouchMove);
+    };
+  }, []);
+
   let filtered = allProducts.filter((p) => {
     const matchCat = category === "All" || p.category === category;
     const matchLoc = location === "All Locations" || p.location === location;
@@ -105,26 +133,63 @@ export default function ProductsPage() {
   else if (sort === "Most Reviews") filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
   return (
-    <div className="min-h-screen" style={{ background: "#f7f7f8" }}>
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+
       {/* Page title bar */}
-      <div className="bg-white border-b border-gray-100 py-6 px-6">
-        <div className="max-w-screen-xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="text-2xl font-black text-black">Browse Products</h1>
-          <div className="flex items-center gap-3">
-            <button
+      <div style={{ background: 'var(--surface)', boxShadow: '0 2px 12px rgba(140,140,152,0.18)', padding: '20px 0' }}>
+        <div className="max-w-screen-xl mx-auto px-6 flex items-center justify-between gap-4 flex-wrap">
+          <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Browse Products</h1>
+
+          <div className="flex items-center gap-4">
+            {/* Mobile filter toggle */}
+            <div
+              className="lg:hidden px-5 py-2.5 text-sm font-semibold cursor-pointer"
+              style={{
+                background: 'var(--active-bg)',
+                color: '#fff',
+                borderRadius: 'var(--radius-pill)',
+                boxShadow: 'none',
+                transition: 'box-shadow 0.24s ease, transform 0.18s ease',
+              }}
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden px-4 py-2 text-sm font-semibold"
-              style={{ background: "#000000", color: "#ffffff", borderRadius: "8px" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 6px 28px rgba(10,10,18,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-1px)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; (e.currentTarget as HTMLDivElement).style.transform = 'none'; }}
             >
               🎛️ Filters
-            </button>
+            </div>
+
+            {/* View toggle */}
+            <div className="neu-view-toggle hidden sm:flex">
+              <div
+                className={`neu-view-btn${viewMode === 'grid' ? ' active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                title="Grid view"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                </svg>
+              </div>
+              <div
+                className={`neu-view-btn${viewMode === 'list' ? ' active' : ''}`}
+                onClick={() => setViewMode('list')}
+                title="List view"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Sort */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">Sort:</span>
+              <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Sort:</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="px-3 py-2 text-xs text-gray-700 outline-none bg-white"
-                style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }}
+                className="px-3 py-2 text-xs"
+                style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', color: 'var(--text-body)', boxShadow: 'var(--shadow-inset)' }}
               >
                 {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
@@ -133,66 +198,111 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 py-8">
-        <div className="flex gap-6">
-          {/* Sidebar */}
-          <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-56 shrink-0`}>
-            <div className="bg-white p-5 space-y-6 sticky top-20" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
-              <div>
-                <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Category</h3>
-                <div className="space-y-0.5">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setCategory(cat)}
-                      className="w-full text-left px-3 py-2 text-xs font-medium transition-colors"
-                      style={{ borderRadius: "6px", background: category === cat ? "#000000" : "transparent", color: category === cat ? "#ffffff" : "#6b7280" }}
-                      onMouseEnter={(e) => { if (category !== cat) e.currentTarget.style.background = "#f7f7f8"; }}
-                      onMouseLeave={(e) => { if (category !== cat) e.currentTarget.style.background = "transparent"; }}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
+      {/* Category tab bar */}
+      <div className="max-w-screen-xl mx-auto px-6 pt-6">
+        <div
+          ref={tabBarRef}
+          className="neu-tab-bar"
+          style={{ padding: '6px 8px' }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`neu-tab${category === cat ? ' active' : ''}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
 
+      <div className="max-w-screen-xl mx-auto px-6 py-6">
+        <div className="flex gap-6">
+
+          {/* Sidebar */}
+          <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-60 shrink-0`}>
+            <div
+              className="sticky top-20 space-y-6"
+              style={{
+                background: 'var(--surface)',
+                boxShadow: 'var(--shadow-raised)',
+                borderRadius: 'var(--radius-md)',
+                padding: '24px 20px',
+              }}
+            >
+              {/* City */}
               <div>
-                <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">City</h3>
+                <p className="section-label mb-3">City</p>
                 <select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-3 py-2 text-xs text-gray-700 bg-white outline-none"
-                  style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }}
+                  className="w-full px-3 py-2.5 text-sm"
+                  style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', color: 'var(--text-body)', boxShadow: 'var(--shadow-inset)' }}
                 >
                   {locationOptions.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
                 </select>
               </div>
 
+              {/* Price Range */}
               <div>
-                <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Price Range (₹)</h3>
+                <p className="section-label mb-3">Price Range (₹)</p>
                 <div className="flex gap-2">
-                  <input type="number" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="w-full px-3 py-2 text-xs bg-white outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }} />
-                  <input type="number" placeholder="Max" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="w-full px-3 py-2 text-xs bg-white outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }} />
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    className="w-full px-3 py-2.5 text-sm"
+                    style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-body)' }}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    className="w-full px-3 py-2.5 text-sm"
+                    style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-body)' }}
+                  />
                 </div>
               </div>
 
+              {/* Rating */}
               <div>
-                <h3 className="text-xs font-black text-black mb-3 uppercase tracking-wide">Min. Rating</h3>
+                <p className="section-label mb-3">Min. Rating</p>
                 <div className="flex gap-2 flex-wrap">
                   {[0, 4, 4.5, 4.8].map((r) => (
-                    <button key={r} onClick={() => setMinRating(r)} className="px-3 py-1.5 text-xs font-medium transition-colors" style={{ borderRadius: "6px", background: minRating === r ? "#000000" : "#f7f7f8", color: minRating === r ? "#ffffff" : "#6b7280" }}>
+                    <button
+                      key={r}
+                      onClick={() => setMinRating(r)}
+                      className="px-3 py-1.5 text-xs font-semibold"
+                      style={{
+                        borderRadius: 'var(--radius-sm)',
+                        background: minRating === r ? 'var(--active-bg)' : 'var(--input-bg)',
+                        color: minRating === r ? '#fff' : 'var(--text-inactive)',
+                        boxShadow: minRating === r ? 'var(--shadow-active)' : 'var(--shadow-soft)',
+                        transition: 'var(--transition)',
+                      }}
+                    >
                       {r === 0 ? "All" : `⭐ ${r}+`}
                     </button>
                   ))}
                 </div>
               </div>
 
+              {/* Clear */}
               <button
                 onClick={() => { setCategory("All"); setLocation("All Locations"); setMinPrice(""); setMaxPrice(""); setMinRating(0); setSort("Relevance"); }}
-                className="w-full py-2 text-xs font-semibold"
-                style={{ background: "transparent", border: "1.5px solid #e5e7eb", borderRadius: "8px", color: "#9ca3af" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#ef4444"; e.currentTarget.style.borderColor = "#fca5a5"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#9ca3af"; e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                className="w-full py-2.5 text-xs font-semibold"
+                style={{
+                  background: 'transparent',
+                  color: 'var(--text-muted)',
+                  boxShadow: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#e05050')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
               >
                 Clear All Filters
               </button>
@@ -201,46 +311,77 @@ export default function ProductsPage() {
 
           {/* Main */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-gray-500 mb-5">
-              <span className="font-semibold text-black">{filtered.length}</span> products found
+            <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
+              <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{filtered.length}</span> products found
             </p>
 
             {filtered.length === 0 ? (
-              <div className="text-center py-20">
+              <div
+                className="text-center py-20"
+                style={{ background: 'var(--surface)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}
+              >
                 <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-lg font-bold text-gray-700">No products found</h3>
-                <p className="text-sm text-gray-400 mt-1">Try adjusting your filters.</p>
+                <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--text-body)' }}>No products found</h3>
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Try adjusting your filters.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" : "flex flex-col gap-4"}>
                 {filtered.map((product) => (
                   <Link
                     key={product.id}
                     href={`/products/${product.id}`}
-                    className="group block bg-white overflow-hidden hover:shadow-xl transition-all duration-200"
-                    style={{ borderRadius: "14px", border: "1px solid #f0f0f0" }}
+                    className={`group block card-lift overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
+                    style={{
+                      background: 'var(--surface)',
+                      boxShadow: 'var(--shadow-raised)',
+                      borderRadius: 'var(--radius-md)',
+                    }}
                   >
-                    <div className="flex items-center justify-center" style={{ background: "#f7f7f8", height: "220px", fontSize: "72px" }}>
+                    <div
+                      className="flex items-center justify-center shrink-0"
+                      style={{
+                        background: 'var(--bg)',
+                        height: viewMode === 'list' ? '100%' : '200px',
+                        width: viewMode === 'list' ? '120px' : '100%',
+                        fontSize: '56px',
+                        borderRadius: viewMode === 'list' ? 'var(--radius-md) 0 0 var(--radius-md)' : 'var(--radius-md) var(--radius-md) 0 0',
+                        minHeight: viewMode === 'list' ? '110px' : 'auto',
+                      }}
+                    >
                       {product.emoji}
                     </div>
-                    <div style={{ padding: "20px 20px 24px" }}>
+                    <div style={{ padding: '18px 18px 20px', flex: 1 }}>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <span className="text-xs text-gray-400">{product.seller}</span>
-                        <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium border ${tierColors[product.tier]}`} style={{ borderRadius: "20px" }}>
+                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{product.seller}</span>
+                        <span
+                          className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-medium"
+                          style={{ borderRadius: 'var(--radius-pill)', background: tierStyle[product.tier]?.bg, color: tierStyle[product.tier]?.color }}
+                        >
                           {tierEmoji[product.tier]} {product.tier}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-black text-sm leading-snug mb-4">{product.name}</h3>
-                      <div className="mb-1">
-                        <span className="text-2xl text-black" style={{ fontWeight: 400 }}>{product.price}</span>
-                        <span className="text-xs text-gray-400 ml-1">{product.unit}</span>
+                      <h3 className="font-semibold text-sm leading-snug mb-3" style={{ color: 'var(--text-primary)' }}>{product.name}</h3>
+                      <div className="mb-0.5">
+                        <span className="text-xl" style={{ fontWeight: 400, color: 'var(--text-primary)' }}>{product.price}</span>
+                        <span className="text-xs ml-1" style={{ color: 'var(--text-muted)' }}>{product.unit}</span>
                       </div>
-                      <div className="text-xs text-gray-400 mb-5">{product.minOrder}</div>
-                      <div className="flex items-center justify-between text-xs text-gray-500 mb-5">
+                      <div className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>{product.minOrder}</div>
+                      <div className="flex items-center justify-between text-xs mb-4" style={{ color: 'var(--text-inactive)' }}>
                         <span>⭐ {product.rating} ({product.reviews})</span>
                         <span>📍 {product.location}</span>
                       </div>
-                      <div className="block text-center py-3 text-sm font-semibold text-white transition-colors group-hover:opacity-90" style={{ background: "#000000", borderRadius: "999px" }}>
+                      <div
+                        className="block text-center py-2.5 text-sm font-semibold"
+                        style={{
+                          background: 'var(--active-bg)',
+                          color: '#fff',
+                          borderRadius: 'var(--radius-pill)',
+                          boxShadow: 'none',
+                          transition: 'box-shadow 0.24s ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.boxShadow = '0 6px 20px rgba(10,10,18,0.38)'}
+                        onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'}
+                      >
                         View Details
                       </div>
                     </div>

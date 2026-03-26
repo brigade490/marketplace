@@ -107,13 +107,13 @@ export default function VerificationPage() {
   return (
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-black text-black mb-6">Verification Status</h1>
+        <h1 className="text-2xl font-black  mb-6">Verification Status</h1>
 
         {/* Overall status banner */}
         <div
           className="mb-6 p-5 flex items-center gap-4"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-sm)',
             background: overallStatus === 'approved' ? '#dcfce7' : overallStatus === 'rejected' ? '#fee2e2' : overallStatus === 'pending' ? '#fef9c3' : 'var(--bg)',
           }}
         >
@@ -121,7 +121,7 @@ export default function VerificationPage() {
             {overallStatus === 'approved' ? '✅' : overallStatus === 'rejected' ? '❌' : overallStatus === 'pending' ? '⏳' : '📋'}
           </span>
           <div>
-            <h2 className="font-black text-black text-lg">
+            <h2 className="font-black  text-lg">
               {overallStatus === 'approved' ? 'Business Verified' :
                overallStatus === 'rejected' ? 'Verification Rejected' :
                overallStatus === 'pending' ? 'Under Review' :
@@ -163,7 +163,7 @@ export default function VerificationPage() {
         </div>
 
         <div className="mt-6 p-4 bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-          <h3 className="font-bold text-black text-sm mb-2">Why get verified?</h3>
+          <h3 className="font-bold  text-sm mb-2">Why get verified?</h3>
           <ul className="space-y-1.5 text-sm text-gray-600">
             <li>✓ Verified badge on your profile and products</li>
             <li>✓ Higher trust from buyers — increased conversions</li>
@@ -192,7 +192,7 @@ function DocCard({
     <div className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
-          <h3 className="font-bold text-black">{title}</h3>
+          <h3 className="font-bold>{title}</h3>
           <p className="text-xs text-gray-500 mt-0.5">{description}</p>
         </div>
         {statusCfg && (
@@ -211,7 +211,7 @@ function DocCard({
             href={doc.file_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-black underline"
+            className="text-sm font-semibold  underline"
           >
             View uploaded document →
           </a>
@@ -227,7 +227,7 @@ function DocCard({
         disabled={isUploading}
         className="px-4 py-2 text-sm font-semibold transition-colors"
         style={{
-          border: '1.5px solid #000',
+          boxShadow: 'var(--shadow-raised)',
           borderRadius: 'var(--radius-pill)',
           background: 'var(--surface)',
           color: '#000',

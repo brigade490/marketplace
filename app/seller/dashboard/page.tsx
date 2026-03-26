@@ -142,7 +142,7 @@ export default function SellerDashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#f7f7f8" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg)" }}>
         <div className="text-gray-400 text-sm">Loading dashboard...</div>
       </div>
     );
@@ -152,9 +152,9 @@ export default function SellerDashboardPage() {
   const filteredProducts = products.filter(p => !productSearch || p.name.toLowerCase().includes(productSearch.toLowerCase()));
 
   return (
-    <div className="min-h-screen" style={{ background: "#f7f7f8" }}>
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {/* Header */}
-      <div className="bg-black text-white py-6 px-6">
+      <div className="py-6 px-6" style={{ background: "var(--active-bg)", color: "#fff" }}>
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -170,7 +170,7 @@ export default function SellerDashboardPage() {
           </div>
           <div className="flex items-center gap-3">
             {!seller && (
-              <button onClick={() => setShowSetupModal(true)} className="px-4 py-2 text-sm font-semibold" style={{ background: "#ffffff", color: "#000000", borderRadius: "999px" }}>
+              <button onClick={() => setShowSetupModal(true)} className="px-4 py-2 text-sm font-semibold" style={{ background: "var(--surface)", color: "var(--text-primary)", borderRadius: "var(--radius-pill)" }}>
                 Set Up Seller Profile
               </button>
             )}
@@ -180,7 +180,7 @@ export default function SellerDashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4">
+      <div className="px-6 py-4" style={{ background: "var(--surface)", boxShadow: "var(--shadow-raised)" }}>
         <div className="max-w-screen-xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { emoji: "💰", label: "Revenue (Delivered)", value: `₹${totalRevenue.toLocaleString("en-IN")}` },
@@ -188,11 +188,11 @@ export default function SellerDashboardPage() {
             { emoji: "📦", label: "Active Listings", value: products.filter(p => p.is_active).length },
             { emoji: "⭐", label: "Avg. Rating", value: seller?.avg_rating ? `${seller.avg_rating}/5` : "N/A" },
           ].map((s) => (
-            <div key={s.label} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
+            <div key={s.label} className="flex items-center gap-3 p-3" style={{ background: "var(--input-bg)", borderRadius: "var(--radius-sm)", boxShadow: "var(--shadow-soft)" }}>
               <span className="text-2xl">{s.emoji}</span>
               <div>
                 <div className="text-xs text-gray-500">{s.label}</div>
-                <div className="text-lg font-black text-black">{s.value}</div>
+                <div className="text-lg font-black>{s.value}</div>
               </div>
             </div>
           ))}
@@ -201,12 +201,12 @@ export default function SellerDashboardPage() {
 
       {/* Tabs */}
       <div className="max-w-screen-xl mx-auto px-6">
-        <div className="flex gap-1 border-b border-gray-200 mt-6">
+        <div className="neu-tab-bar mt-6">
           {([["products", "📦 Products"], ["orders", "🚚 Orders"], ["analytics", "📊 Analytics"]] as const).map(([key, label]) => (
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${tab === key ? "border-black text-black" : "border-transparent text-gray-500 hover:text-gray-700"}`}
+              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${tab === key ? "border-black : "border-transparent text-gray-500 hover:text-gray-700"}`}
               style={{ background: "transparent" }}
             >
               {label}
@@ -219,19 +219,19 @@ export default function SellerDashboardPage() {
           {tab === "products" && (
             <div>
               <div className="flex items-center justify-between gap-3 mb-4">
-                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none bg-white w-64" style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }} />
-                <button onClick={() => { setSaveError(""); setShowAddModal(true); }} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold" style={{ background: "#000000", color: "#ffffff", borderRadius: "8px" }}>
+                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none bg-white w-64" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }} />
+                <button onClick={() => { setSaveError(""); setShowAddModal(true); }} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-xs)" }}>
                   + Add Product
                 </button>
               </div>
 
               {filteredProducts.length === 0 ? (
-                <div className="text-center py-16 bg-white" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
+                <div className="text-center py-16 bg-white" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                   <div className="text-4xl mb-3">📦</div>
                   <p className="text-gray-500 text-sm">No products yet. Add your first product to get started.</p>
                 </div>
               ) : (
-                <div className="bg-white overflow-hidden" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
+                <div className="bg-white overflow-hidden" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-gray-100 bg-gray-50">
@@ -246,7 +246,7 @@ export default function SellerDashboardPage() {
                       {filteredProducts.map((p) => (
                         <tr key={p.id} className="hover:bg-gray-50 transition-colors">
                           <td className="px-4 py-3">
-                            <div className="font-medium text-black text-sm">{p.name}</div>
+                            <div className="font-medium  text-sm">{p.name}</div>
                             {p.is_flagged && <span className="text-xs text-red-500 font-medium">🚩 Flagged</span>}
                           </td>
                           <td className="px-4 py-3 text-gray-700">₹{Number(p.price).toLocaleString("en-IN")} / {p.price_unit}</td>
@@ -276,11 +276,11 @@ export default function SellerDashboardPage() {
           {tab === "orders" && (
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-black text-black">Order Management</h2>
+                <h2 className="text-lg font-black>Order Management</h2>
                 <p className="text-sm text-gray-500">{orders.length} orders total</p>
               </div>
               {orders.length === 0 ? (
-                <div className="text-center py-16 bg-white" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
+                <div className="text-center py-16 bg-white" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                   <div className="text-4xl mb-3">🚚</div>
                   <p className="text-gray-500 text-sm">No orders yet.</p>
                 </div>
@@ -291,13 +291,13 @@ export default function SellerDashboardPage() {
                     const buyerEmail = buyer?.users?.email ?? "Unknown";
                     const productName = (order.products as { name: string } | null)?.name ?? "Product";
                     return (
-                      <div key={order.id} className="bg-white p-5" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
+                      <div key={order.id} className="bg-white p-5" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-center gap-4">
                             <span className="text-2xl">🛒</span>
                             <div>
                               <div className="flex items-center gap-2 mb-0.5">
-                                <span className="font-black text-black text-sm">{order.id.slice(0, 8).toUpperCase()}</span>
+                                <span className="font-black  text-sm">{order.id.slice(0, 8).toUpperCase()}</span>
                                 <OrderStatusBadge status={order.status} />
                               </div>
                               <div className="text-sm text-gray-600 font-medium">{productName}</div>
@@ -308,13 +308,13 @@ export default function SellerDashboardPage() {
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="text-right">
-                              <div className="text-lg font-black text-black">₹{Number(order.total_amount).toLocaleString("en-IN")}</div>
+                              <div className="text-lg font-black>₹{Number(order.total_amount).toLocaleString("en-IN")}</div>
                             </div>
                             <select
                               value={order.status}
                               onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
                               className="px-3 py-2 text-xs font-medium text-gray-700 outline-none bg-white"
-                              style={{ border: "1.5px solid #e5e7eb", borderRadius: "8px" }}
+                              style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }}
                             >
                               {["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"].map(s => <option key={s}>{s}</option>)}
                             </select>
@@ -340,9 +340,9 @@ export default function SellerDashboardPage() {
                   { emoji: "🚩", label: "Flagged Listings", value: products.filter(p => p.is_flagged).length, sub: "Need attention" },
                   { emoji: "✅", label: "Delivered", value: orders.filter(o => o.status === "Delivered").length, sub: "Successfully completed" },
                 ].map((kpi) => (
-                  <div key={kpi.label} className="bg-white p-5" style={{ borderRadius: "12px", border: "1px solid #f0f0f0" }}>
+                  <div key={kpi.label} className="bg-white p-5" style={{ borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-raised)" }}>
                     <div className="text-2xl mb-3">{kpi.emoji}</div>
-                    <div className="text-2xl font-black text-black">{kpi.value}</div>
+                    <div className="text-2xl font-black>{kpi.value}</div>
                     <div className="text-xs text-gray-500 mt-1">{kpi.label}</div>
                     <div className="text-xs text-gray-400 mt-0.5">{kpi.sub}</div>
                   </div>
@@ -357,17 +357,17 @@ export default function SellerDashboardPage() {
       {showSetupModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white p-6 w-full max-w-md shadow-2xl" style={{ borderRadius: "16px" }}>
-            <h3 className="font-black text-black mb-1">Set Up Your Seller Profile</h3>
+            <h3 className="font-black  mb-1">Set Up Your Seller Profile</h3>
             <p className="text-xs text-gray-500 mb-5">Tell buyers about your business.</p>
-            {saveError && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "8px" }}>{saveError}</p>}
+            {saveError && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "var(--radius-xs)" }}>{saveError}</p>}
             <form onSubmit={handleCreateSellerProfile} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Company Name</label>
-                <input type="text" required value={setupForm.company_name} onChange={(e) => setSetupForm(p => ({ ...p, company_name: e.target.value }))} placeholder="Your company name" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                <input type="text" required value={setupForm.company_name} onChange={(e) => setSetupForm(p => ({ ...p, company_name: e.target.value }))} placeholder="Your company name" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Business Type</label>
-                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }}>
+                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                   <option value="manufacturer">Manufacturer</option>
                   <option value="distributor">Distributor</option>
                   <option value="wholesaler">Wholesaler</option>
@@ -375,8 +375,8 @@ export default function SellerDashboardPage() {
                 </select>
               </div>
               <div className="flex gap-2 pt-1">
-                <button type="button" onClick={() => setShowSetupModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ border: "1.5px solid #e5e7eb", borderRadius: "999px", background: "#ffffff" }}>Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold" style={{ background: "#000000", color: "#ffffff", borderRadius: "999px", opacity: saving ? 0.6 : 1 }}>
+                <button type="button" onClick={() => setShowSetupModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>Cancel</button>
+                <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)", opacity: saving ? 0.6 : 1 }}>
                   {saving ? "Creating..." : "Create Profile"}
                 </button>
               </div>
@@ -389,21 +389,21 @@ export default function SellerDashboardPage() {
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white p-6 w-full max-w-lg shadow-2xl" style={{ borderRadius: "16px" }}>
-            <h3 className="font-black text-black mb-4">Add New Product</h3>
-            {saveError && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "8px" }}>{saveError}</p>}
+            <h3 className="font-black  mb-4">Add New Product</h3>
+            {saveError && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 mb-4" style={{ borderRadius: "var(--radius-xs)" }}>{saveError}</p>}
             <form onSubmit={handleAddProduct} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Product Name</label>
-                <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Industrial Conveyor Belt" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Industrial Conveyor Belt" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Price (₹)</label>
-                  <input type="number" required value={newProduct.price} onChange={(e) => setNewProduct(p => ({ ...p, price: e.target.value }))} placeholder="0.00" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                  <input type="number" required value={newProduct.price} onChange={(e) => setNewProduct(p => ({ ...p, price: e.target.value }))} placeholder="0.00" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Unit</label>
-                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }}>
+                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                     {["unit", "kg", "meter", "liter", "piece", "set", "bag", "panel", "batch"].map(u => <option key={u} value={u}>{u}</option>)}
                   </select>
                 </div>
@@ -411,23 +411,23 @@ export default function SellerDashboardPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Category</label>
-                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }}>
+                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                     <option value="">Select...</option>
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Stock Available</label>
-                  <input type="number" value={newProduct.stock} onChange={(e) => setNewProduct(p => ({ ...p, stock: e.target.value }))} placeholder="0" className="w-full px-4 py-3 text-sm outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                  <input type="number" value={newProduct.stock} onChange={(e) => setNewProduct(p => ({ ...p, stock: e.target.value }))} placeholder="0" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Description</label>
-                <textarea value={newProduct.description} onChange={(e) => setNewProduct(p => ({ ...p, description: e.target.value }))} rows={3} placeholder="Describe your product..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ border: "1.5px solid #e5e7eb", borderRadius: "10px" }} />
+                <textarea value={newProduct.description} onChange={(e) => setNewProduct(p => ({ ...p, description: e.target.value }))} rows={3} placeholder="Describe your product..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
               </div>
               <div className="flex gap-2 pt-1">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ border: "1.5px solid #e5e7eb", borderRadius: "999px", background: "#ffffff" }}>Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold" style={{ background: "#000000", color: "#ffffff", borderRadius: "999px", opacity: saving ? 0.6 : 1 }}>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>Cancel</button>
+                <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)", opacity: saving ? 0.6 : 1 }}>
                   {saving ? "Adding..." : "Add Product"}
                 </button>
               </div>

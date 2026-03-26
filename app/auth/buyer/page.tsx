@@ -78,7 +78,7 @@ export default function AuthPage() {
               placeholder="you@company.com"
               required
               className="w-full px-4 py-3 text-sm"
-              style={{ borderRadius: 'var(--radius-sm)', background: 'var(--surface)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-primary)' }}
+              style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-primary)' }}
             />
           </div>
           <div>
@@ -91,7 +91,7 @@ export default function AuthPage() {
               required
               minLength={6}
               className="w-full px-4 py-3 text-sm"
-              style={{ borderRadius: 'var(--radius-sm)', background: 'var(--surface)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-primary)' }}
+              style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-primary)' }}
             />
           </div>
 

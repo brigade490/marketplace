@@ -71,19 +71,19 @@ export default function WishlistPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-black">Saved / Wishlist</h1>
+          <h1 className="text-2xl font-black>Saved / Wishlist</h1>
           <span className="text-sm text-gray-500">{items.length} saved</span>
         </div>
 
         {items.length === 0 ? (
           <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">❤️</div>
-            <h3 className="font-black text-black mb-2">Your wishlist is empty</h3>
+            <h3 className="font-black  mb-2">Your wishlist is empty</h3>
             <p className="text-gray-400 text-sm mb-6">Save products you're interested in to view them later.</p>
             <Link
               href="/products"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+              style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
             >
               Browse Products
             </Link>
@@ -111,11 +111,11 @@ export default function WishlistPage() {
 
                   <div className="p-4">
                     <Link href={`/products/${product.id}`}>
-                      <h3 className="font-bold text-black text-sm hover:underline line-clamp-2">{product.name}</h3>
+                      <h3 className="font-bold  text-sm hover:underline line-clamp-2">{product.name}</h3>
                     </Link>
                     <p className="text-xs text-gray-500 mt-0.5">{product.sellers?.company_name || ''}</p>
                     <div className="flex items-center justify-between mt-2">
-                      <p className="font-black text-black text-base">
+                      <p className="font-black  text-base">
                         ₹{product.price.toLocaleString('en-IN')}<span className="text-xs font-normal text-gray-500">/{product.price_unit}</span>
                       </p>
                       {product.avg_rating > 0 && (
@@ -127,7 +127,7 @@ export default function WishlistPage() {
                       <Link
                         href={`/products/${product.id}`}
                         className="flex-1 py-2 text-xs font-bold text-white text-center"
-                        style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
+                        style={{ background: 'var(--active-bg)', borderRadius: 'var(--radius-pill)' }}
                       >
                         View Product
                       </Link>
@@ -135,7 +135,7 @@ export default function WishlistPage() {
                         onClick={() => handleRemove(item.id)}
                         disabled={removing === item.id}
                         className="px-3 py-2 text-xs font-semibold"
-                        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: '#dc2626', opacity: removing === item.id ? 0.6 : 1 }}
+                        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: '#dc2626', opacity: removing === item.id ? 0.6 : 1 }}
                       >
                         {removing === item.id ? '...' : '✕'}
                       </button>
