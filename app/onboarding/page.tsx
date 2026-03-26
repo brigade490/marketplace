@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -13,6 +13,8 @@ export default function OnboardingPage() {
   // Buyer form state
   const [buyerBasic, setBuyerBasic] = useState({ name: '', email: '' });
   const [buyerBusiness, setBuyerBusiness] = useState({ businessName: '', businessType: '' });
+  const [buyerCategories, setBuyerCategories] = useState<string[]>([]);
+  const [buyerLocation, setBuyerLocation] = useState({ city: '', state: '', pincode: '' });
 
   function goTo(next: Step) {
     setDir('fwd');
@@ -32,12 +34,13 @@ export default function OnboardingPage() {
 
   const animClass = dir === 'fwd' ? 'step-forward' : 'step-back';
 
-  // Progress bar — step index out of total buyer steps (2 so far after account-type)
   const progressMap: Partial<Record<Step, number>> = {
     'b-basic': 1,
     'b-business': 2,
+    'b-categories': 3,
+    'b-location': 4,
   };
-  const totalBuyerSteps = 2;
+  const totalBuyerSteps = 4;
   const currentProgress = progressMap[step];
 
   return (
@@ -96,6 +99,28 @@ export default function OnboardingPage() {
           values={buyerBusiness}
           onChange={(v) => setBuyerBusiness(v)}
           onBack={() => goBack('b-basic')}
+          onNext={() => goTo('b-categories')}
+        />
+      )}
+
+      {step === 'b-categories' && (
+        <BuyerCategoriesScreen
+          key="b-categories"
+          animClass={animClass}
+          selected={buyerCategories}
+          onChange={setBuyerCategories}
+          onBack={() => goBack('b-business')}
+          onNext={() => goTo('b-location')}
+        />
+      )}
+
+      {step === 'b-location' && (
+        <BuyerLocationScreen
+          key="b-location"
+          animClass={animClass}
+          values={buyerLocation}
+          onChange={setBuyerLocation}
+          onBack={() => goBack('b-categories')}
           onNext={() => router.push('/')}
         />
       )}
@@ -404,6 +429,172 @@ function BuyerBusinessScreen({
               );
             })}
           </div>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 3: Categories ───────────────────────────── */
+const CATEGORIES = ['Packaging', 'Electronics', 'Industrial', 'Office Supplies', 'Raw Materials', 'Construction', 'Others'];
+
+function BuyerCategoriesScreen({
+  animClass,
+  selected,
+  onChange,
+  onBack,
+  onNext,
+}: {
+  animClass: string;
+  selected: string[];
+  onChange: (v: string[]) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  function toggle(cat: string) {
+    onChange(selected.includes(cat) ? selected.filter((c) => c !== cat) : [...selected, cat]);
+  }
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">What do you buy?</h1>
+      <p className="text-sm text-gray-500 mb-8">Select all categories that apply.</p>
+
+      <div className="flex flex-wrap gap-2 mb-auto">
+        {CATEGORIES.map((cat) => {
+          const active = selected.includes(cat);
+          return (
+            <button
+              key={cat}
+              onClick={() => toggle(cat)}
+              className="px-4 py-2.5 text-sm font-semibold"
+              style={{
+                borderRadius: '999px',
+                border: active ? 'none' : '1.5px solid #e5e7eb',
+                background: active ? '#000' : '#fff',
+                color: active ? '#fff' : '#374151',
+                transition: 'all 150ms ease-out',
+                transform: active ? 'scale(1.04)' : 'scale(1)',
+              }}
+            >
+              {active && <span className="mr-1.5" style={{ fontSize: 11 }}>✓</span>}
+              {cat}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={selected.length === 0} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Buyer Step 4: Location ─────────────────────────────── */
+type LocationState = { city: string; state: string; pincode: string };
+type DetectStatus = 'idle' | 'detecting' | 'done' | 'error';
+
+function BuyerLocationScreen({
+  animClass,
+  values,
+  onChange,
+  onBack,
+  onNext,
+}: {
+  animClass: string;
+  values: LocationState;
+  onChange: (v: LocationState) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const [detectStatus, setDetectStatus] = useState<DetectStatus>('idle');
+  const valid = values.city.trim().length > 0 && values.state.trim().length > 0 && values.pincode.trim().length === 6;
+
+  function handleDetect() {
+    setDetectStatus('detecting');
+    setTimeout(() => {
+      setDetectStatus('done');
+      onChange({ city: 'Mumbai', state: 'Maharashtra', pincode: '400001' });
+    }, 1800);
+  }
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Your location</h1>
+      <p className="text-sm text-gray-500 mb-8">We'll show you nearby suppliers and deals.</p>
+
+      <div className="flex flex-col gap-4 mb-auto">
+        {/* Auto-detect button */}
+        <button
+          onClick={handleDetect}
+          disabled={detectStatus === 'detecting'}
+          className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-bold"
+          style={{
+            borderRadius: '12px',
+            border: '1.5px solid #e5e7eb',
+            background: detectStatus === 'done' ? '#f0fdf4' : '#fff',
+            color: detectStatus === 'done' ? '#16a34a' : '#111827',
+            transition: 'all 200ms ease-out',
+          }}
+        >
+          {detectStatus === 'detecting' && <span className="spinner" style={{ width: 16, height: 16 }} />}
+          {detectStatus === 'done' && <span className="check-in" style={{ fontSize: 16 }}>✓</span>}
+          {detectStatus === 'idle' && <span style={{ fontSize: 16 }}>📍</span>}
+          {detectStatus === 'detecting' ? 'Detecting location…' : detectStatus === 'done' ? 'Location detected' : 'Detect My Location'}
+        </button>
+
+        <div
+          className="float-field"
+          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+        >
+          <input
+            type="text"
+            placeholder=" "
+            value={values.city}
+            onChange={(e) => onChange({ ...values, city: e.target.value })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>City</label>
+        </div>
+
+        <div
+          className="float-field"
+          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+        >
+          <input
+            type="text"
+            placeholder=" "
+            value={values.state}
+            onChange={(e) => onChange({ ...values, state: e.target.value })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>State</label>
+        </div>
+
+        <div
+          className="float-field"
+          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+        >
+          <input
+            type="text"
+            placeholder=" "
+            inputMode="numeric"
+            maxLength={6}
+            value={values.pincode}
+            onChange={(e) => onChange({ ...values, pincode: e.target.value.replace(/\D/g, '') })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>Pincode</label>
         </div>
       </div>
 
