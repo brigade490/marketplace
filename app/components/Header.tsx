@@ -76,7 +76,7 @@ export default function Header() {
           <div
             className="flex items-stretch h-12 overflow-hidden"
             style={{
-              background: 'var(--input-bg)',
+              background: '#d8d8dc',
               borderRadius: 'var(--radius-pill)',
               boxShadow: 'none',
               transition: 'box-shadow 0.24s ease',
@@ -97,8 +97,9 @@ export default function Header() {
                 onChange={(e) => setLocation(e.target.value)}
                 className="h-full pl-4 pr-7 text-sm font-medium appearance-none cursor-pointer"
                 style={{
-                  background: 'transparent',
-                  color: 'var(--text-primary)',
+                  background: '#d8d8dc',
+                  color: '#4a4a52',
+                  WebkitTextFillColor: '#4a4a52',
                   boxShadow: 'none',
                   borderRadius: 0,
                 }}
@@ -122,8 +123,9 @@ export default function Header() {
               onFocus={() => setShowDropdown(true)}
               className="flex-1 px-3 text-sm"
               style={{
-                background: 'transparent',
-                color: 'var(--text-body)',
+                background: '#d8d8dc',
+                color: '#4a4a52',
+                WebkitTextFillColor: '#4a4a52',
                 boxShadow: 'none',
                 borderRadius: 0,
               }}

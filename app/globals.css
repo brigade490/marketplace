@@ -192,12 +192,15 @@ select:focus {
 }
 select { cursor: pointer; }
 
-/* Autofill override */
+/* Autofill override — force browser to use our background, never dark */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 100px var(--input-bg) inset !important;
-  -webkit-text-fill-color: var(--text-primary) !important;
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 100px #d8d8dc inset !important;
+  -webkit-text-fill-color: #4a4a52 !important;
+  background-color: #d8d8dc !important;
+  color: #4a4a52 !important;
 }
 
 /* ─── Cards / containers ─────────────────────────────── */
@@ -482,12 +485,10 @@ input[type="checkbox"].compact {
 /* ─── Cards hover lift ───────────────────────────────── */
 
 .card-lift {
-  transition: box-shadow 0.22s cubic-bezier(0.4,0,0.2,1), transform 0.22s cubic-bezier(0.4,0,0.2,1);
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
 }
 .card-lift:hover {
-  will-change: transform;
   transform: translateY(-4px);
-  box-shadow: 12px 12px 28px rgba(140,140,152,0.38), -12px -12px 28px rgba(255,255,255,1) !important;
 }
 
 /* ─── Floating label inputs ──────────────────────────── */

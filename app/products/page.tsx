@@ -43,6 +43,24 @@ const tierStyle: Record<string, { bg: string; color: string }> = {
 };
 const tierEmoji: Record<string, string> = { Gold: "🥇", Silver: "🥈", Bronze: "🥉" };
 
+/* Flat grey filter input style — raised shadow on hover */
+const filterInputStyle: React.CSSProperties = {
+  background: '#d8d8dc',
+  color: '#4a4a52',
+  borderRadius: '12px',
+  boxShadow: 'none',
+  transition: 'box-shadow 0.22s ease',
+  width: '100%',
+  padding: '10px 12px',
+  fontSize: '13px',
+};
+function addHover(el: HTMLElement) {
+  el.style.boxShadow = '6px 6px 16px rgba(140,140,152,0.32), -6px -6px 16px rgba(255,255,255,0.88)';
+}
+function removeHover(el: HTMLElement) {
+  el.style.boxShadow = 'none';
+}
+
 export default function ProductsPage() {
   const [allProducts, setAllProducts] = useState<Product[]>(demoProducts);
   const [category, setCategory] = useState("All");
@@ -52,7 +70,6 @@ export default function ProductsPage() {
   const [maxPrice, setMaxPrice] = useState("");
   const [minRating, setMinRating] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const tabBarRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ dragging: false, startX: 0, scrollLeft: 0 });
 
@@ -64,7 +81,6 @@ export default function ProductsPage() {
         .select("id, name, category, price, price_unit, min_order_qty, min_order_unit, location, tags, avg_rating, review_count, sellers(company_name, tier)")
         .eq("is_active", true)
         .order("created_at", { ascending: false });
-
       if (!error && data && data.length > 0) {
         setAllProducts(
           data.map((p) => {
@@ -92,16 +108,16 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  // Drag-to-scroll for tab bar
+  // Drag-to-scroll for category tab bar
   useEffect(() => {
     const el = tabBarRef.current;
     if (!el) return;
     const d = dragRef.current;
     const onDown = (e: MouseEvent) => { d.dragging = true; d.startX = e.pageX - el.offsetLeft; d.scrollLeft = el.scrollLeft; el.style.cursor = 'grabbing'; };
-    const onUp = () => { d.dragging = false; el.style.cursor = 'grab'; };
-    const onMove = (e: MouseEvent) => { if (!d.dragging) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = d.scrollLeft - (x - d.startX); };
-    const onTouch = (e: TouchEvent) => { d.startX = e.touches[0].pageX - el.offsetLeft; d.scrollLeft = el.scrollLeft; };
-    const onTouchMove = (e: TouchEvent) => { const x = e.touches[0].pageX - el.offsetLeft; el.scrollLeft = d.scrollLeft - (x - d.startX); };
+    const onUp   = () => { d.dragging = false; el.style.cursor = 'grab'; };
+    const onMove = (e: MouseEvent) => { if (!d.dragging) return; e.preventDefault(); el.scrollLeft = d.scrollLeft - (e.pageX - el.offsetLeft - d.startX); };
+    const onTouch     = (e: TouchEvent) => { d.startX = e.touches[0].pageX - el.offsetLeft; d.scrollLeft = el.scrollLeft; };
+    const onTouchMove = (e: TouchEvent) => { el.scrollLeft = d.scrollLeft - (e.touches[0].pageX - el.offsetLeft - d.startX); };
     el.addEventListener('mousedown', onDown);
     el.addEventListener('mouseleave', onUp);
     el.addEventListener('mouseup', onUp);
@@ -119,126 +135,108 @@ export default function ProductsPage() {
   }, []);
 
   let filtered = allProducts.filter((p) => {
-    const matchCat = category === "All" || p.category === category;
-    const matchLoc = location === "All Locations" || p.location === location;
-    const matchMin = !minPrice || p.numPrice >= Number(minPrice);
-    const matchMax = !maxPrice || p.numPrice <= Number(maxPrice);
+    const matchCat    = category === "All" || p.category === category;
+    const matchLoc    = location === "All Locations" || p.location === location;
+    const matchMin    = !minPrice || p.numPrice >= Number(minPrice);
+    const matchMax    = !maxPrice || p.numPrice <= Number(maxPrice);
     const matchRating = p.rating >= minRating;
     return matchCat && matchLoc && matchMin && matchMax && matchRating;
   });
 
-  if (sort === "Price: Low to High") filtered = [...filtered].sort((a, b) => a.numPrice - b.numPrice);
+  if (sort === "Price: Low to High")  filtered = [...filtered].sort((a, b) => a.numPrice - b.numPrice);
   else if (sort === "Price: High to Low") filtered = [...filtered].sort((a, b) => b.numPrice - a.numPrice);
-  else if (sort === "Rating") filtered = [...filtered].sort((a, b) => b.rating - a.rating);
-  else if (sort === "Most Reviews") filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
+  else if (sort === "Rating")         filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+  else if (sort === "Most Reviews")   filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen" style={{ background: '#e4e4e8' }}>
 
-      {/* Page title bar */}
-      <div style={{ background: 'var(--surface)', boxShadow: '0 2px 12px rgba(140,140,152,0.18)', padding: '20px 0' }}>
-        <div className="max-w-screen-xl mx-auto px-6 flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Browse Products</h1>
-
-          <div className="flex items-center gap-4">
-            {/* Mobile filter toggle */}
-            <div
-              className="lg:hidden px-5 py-2.5 text-sm font-semibold cursor-pointer"
-              style={{
-                background: 'var(--active-bg)',
-                color: '#fff',
-                borderRadius: 'var(--radius-pill)',
-                boxShadow: 'none',
-                transition: 'box-shadow 0.24s ease, transform 0.18s ease',
-              }}
-              onClick={() => setShowFilters(!showFilters)}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 6px 28px rgba(10,10,18,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; (e.currentTarget as HTMLDivElement).style.transform = 'none'; }}
-            >
-              🎛️ Filters
-            </div>
-
-            {/* View toggle */}
-            <div className="neu-view-toggle hidden sm:flex">
-              <div
-                className={`neu-view-btn${viewMode === 'grid' ? ' active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid view"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                  <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                </svg>
-              </div>
-              <div
-                className={`neu-view-btn${viewMode === 'list' ? ' active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="List view"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/>
-                  <line x1="3" y1="18" x2="21" y2="18"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Sort */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Sort:</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                className="px-3 py-2 text-xs"
-                style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', color: 'var(--text-body)', boxShadow: 'var(--shadow-inset)' }}
-              >
-                {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
+      {/* ── Category tab bar ─────────────────────────────── */}
+      <div className="max-w-screen-xl mx-auto px-6 pt-6 pb-2">
+        {/* Outer wrapper with vertical padding so the raised shadow isn't clipped */}
+        <div style={{ padding: '16px 0' }}>
+          <div
+            ref={tabBarRef}
+            style={{
+              background: '#f2f2f5',
+              borderRadius: '999px',
+              padding: '6px 8px',
+              boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+              display: 'flex',
+              gap: '4px',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              cursor: 'grab',
+            } as React.CSSProperties}
+          >
+            {categories.map((cat) => {
+              const active = category === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  style={{
+                    background: active ? 'linear-gradient(150deg,#2e2e36,#0e0e12)' : 'transparent',
+                    color: active ? '#fff' : '#888890',
+                    borderRadius: '999px',
+                    padding: '8px 18px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
+                    boxShadow: active ? '0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18)' : 'none',
+                    transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Category tab bar */}
-      <div className="max-w-screen-xl mx-auto px-6 pt-6">
-        <div
-          ref={tabBarRef}
-          className="neu-tab-bar"
-          style={{ padding: '6px 8px' }}
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              className={`neu-tab${category === cat ? ' active' : ''}`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="max-w-screen-xl mx-auto px-6 py-6">
+      {/* ── Main layout ──────────────────────────────────── */}
+      <div className="max-w-screen-xl mx-auto px-6 pb-10">
         <div className="flex gap-6">
 
-          {/* Sidebar */}
+          {/* ── Sidebar ───────────────────────────────────── */}
           <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-60 shrink-0`}>
             <div
-              className="sticky top-20 space-y-6"
+              className="sticky top-20 space-y-5"
               style={{
-                background: 'var(--surface)',
-                boxShadow: 'var(--shadow-raised)',
-                borderRadius: 'var(--radius-md)',
-                padding: '24px 20px',
+                background: '#f2f2f5',
+                boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+                borderRadius: '24px',
+                padding: '22px 18px',
               }}
             >
+              {/* Sort */}
+              <div>
+                <p className="section-label mb-2">Sort by</p>
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value)}
+                  style={filterInputStyle}
+                  onMouseEnter={(e) => addHover(e.currentTarget)}
+                  onMouseLeave={(e) => removeHover(e.currentTarget)}
+                >
+                  {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+
               {/* City */}
               <div>
-                <p className="section-label mb-3">City</p>
+                <p className="section-label mb-2">City</p>
                 <select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-3 py-2.5 text-sm"
-                  style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', color: 'var(--text-body)', boxShadow: 'var(--shadow-inset)' }}
+                  style={filterInputStyle}
+                  onMouseEnter={(e) => addHover(e.currentTarget)}
+                  onMouseLeave={(e) => removeHover(e.currentTarget)}
                 >
                   {locationOptions.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
                 </select>
@@ -246,159 +244,206 @@ export default function ProductsPage() {
 
               {/* Price Range */}
               <div>
-                <p className="section-label mb-3">Price Range (₹)</p>
+                <p className="section-label mb-2">Price Range (₹)</p>
                 <div className="flex gap-2">
                   <input
                     type="number"
                     placeholder="Min"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
-                    className="w-full px-3 py-2.5 text-sm"
-                    style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-body)' }}
+                    style={{ ...filterInputStyle, width: '50%' }}
+                    onMouseEnter={(e) => addHover(e.currentTarget)}
+                    onMouseLeave={(e) => removeHover(e.currentTarget)}
                   />
                   <input
                     type="number"
                     placeholder="Max"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
-                    className="w-full px-3 py-2.5 text-sm"
-                    style={{ borderRadius: 'var(--radius-sm)', background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', color: 'var(--text-body)' }}
+                    style={{ ...filterInputStyle, width: '50%' }}
+                    onMouseEnter={(e) => addHover(e.currentTarget)}
+                    onMouseLeave={(e) => removeHover(e.currentTarget)}
                   />
                 </div>
               </div>
 
               {/* Rating */}
               <div>
-                <p className="section-label mb-3">Min. Rating</p>
-                <div className="flex gap-2 flex-wrap">
-                  {[0, 4, 4.5, 4.8].map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => setMinRating(r)}
-                      className="px-3 py-1.5 text-xs font-semibold"
-                      style={{
-                        borderRadius: 'var(--radius-sm)',
-                        background: minRating === r ? 'var(--active-bg)' : 'var(--input-bg)',
-                        color: minRating === r ? '#fff' : 'var(--text-inactive)',
-                        boxShadow: minRating === r ? 'var(--shadow-active)' : 'var(--shadow-soft)',
-                        transition: 'var(--transition)',
-                      }}
-                    >
-                      {r === 0 ? "All" : `⭐ ${r}+`}
-                    </button>
-                  ))}
+                <p className="section-label mb-2">Min. Rating</p>
+                <div className="flex gap-1.5 flex-wrap">
+                  {[0, 4, 4.5, 4.8].map((r) => {
+                    const active = minRating === r;
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => setMinRating(r)}
+                        style={{
+                          background: active ? 'linear-gradient(150deg,#2e2e36,#0e0e12)' : '#d8d8dc',
+                          color: active ? '#fff' : '#888890',
+                          borderRadius: '12px',
+                          padding: '6px 12px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          boxShadow: active ? '0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18)' : 'none',
+                          transition: 'all 0.22s',
+                          cursor: 'pointer',
+                        }}
+                        onMouseEnter={(e) => { if (!active) addHover(e.currentTarget); }}
+                        onMouseLeave={(e) => { if (!active) removeHover(e.currentTarget); }}
+                      >
+                        {r === 0 ? "All" : `⭐ ${r}+`}
+                      </button>
+                    );
+                  })}
                 </div>
+              </div>
+
+              {/* Mobile filter toggle */}
+              <div className="lg:hidden pt-1">
+                <button
+                  onClick={() => setShowFilters(false)}
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    background: '#d8d8dc',
+                    color: '#888890',
+                    borderRadius: '12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    transition: 'box-shadow 0.22s',
+                  }}
+                  onMouseEnter={(e) => addHover(e.currentTarget)}
+                  onMouseLeave={(e) => removeHover(e.currentTarget)}
+                >
+                  Close Filters
+                </button>
               </div>
 
               {/* Clear */}
               <button
                 onClick={() => { setCategory("All"); setLocation("All Locations"); setMinPrice(""); setMaxPrice(""); setMinRating(0); setSort("Relevance"); }}
-                className="w-full py-2.5 text-xs font-semibold"
                 style={{
+                  width: '100%',
+                  padding: '8px',
                   background: 'transparent',
-                  color: 'var(--text-muted)',
+                  color: '#aaaab2',
+                  borderRadius: '12px',
+                  fontSize: '12px',
+                  fontWeight: 600,
                   boxShadow: 'none',
-                  borderRadius: 'var(--radius-sm)',
+                  cursor: 'pointer',
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = '#e05050')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#aaaab2')}
               >
                 Clear All Filters
               </button>
             </div>
           </aside>
 
-          {/* Main */}
+          {/* ── Product grid ──────────────────────────────── */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
-              <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{filtered.length}</span> products found
-            </p>
+
+            {/* Top bar: count + mobile filter button */}
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-sm" style={{ color: '#aaaab2' }}>
+                <span className="font-bold" style={{ color: '#222228' }}>{filtered.length}</span> products found
+              </p>
+              <button
+                className="lg:hidden px-4 py-2 text-xs font-semibold"
+                onClick={() => setShowFilters(!showFilters)}
+                style={{
+                  background: 'linear-gradient(150deg,#2e2e36,#0e0e12)',
+                  color: '#fff',
+                  borderRadius: '999px',
+                  boxShadow: 'none',
+                  cursor: 'pointer',
+                  transition: 'box-shadow 0.24s ease',
+                }}
+              >
+                🎛️ Filters
+              </button>
+            </div>
 
             {filtered.length === 0 ? (
               <div
                 className="text-center py-20"
-                style={{ background: 'var(--surface)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}
+                style={{ background: '#f2f2f5', borderRadius: '24px', boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)' }}
               >
                 <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--text-body)' }}>No products found</h3>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Try adjusting your filters.</p>
+                <h3 className="text-lg font-bold mb-1" style={{ color: '#4a4a52' }}>No products found</h3>
+                <p className="text-sm" style={{ color: '#aaaab2' }}>Try adjusting your filters.</p>
               </div>
             ) : (
-              <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" : "flex flex-col gap-4"}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                 {filtered.map((product) => (
                   <Link
                     key={product.id}
                     href={`/products/${product.id}`}
-                    className={`group block card-lift ${viewMode === 'list' ? 'flex' : ''}`}
+                    className="group block"
                     style={{
                       background: '#f2f2f5',
                       boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
                       borderRadius: '24px',
+                      transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1)',
                     }}
+                    onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-4px)'}
+                    onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'}
                   >
-                    {/* Inner clip wrapper keeps border-radius clipping off the shadow element */}
-                    <div
-                      className={`overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
-                      style={{
-                        borderRadius: '24px',
-                        flex: viewMode === 'list' ? 1 : undefined,
-                      }}
-                    >
-                    <div
-                      className="flex items-center justify-center shrink-0"
-                      style={{
-                        background: '#e4e4e8',
-                        height: viewMode === 'list' ? '100%' : '200px',
-                        width: viewMode === 'list' ? '120px' : '100%',
-                        fontSize: '56px',
-                        borderRadius: viewMode === 'list' ? '24px 0 0 24px' : '24px 24px 0 0',
-                        minHeight: viewMode === 'list' ? '110px' : 'auto',
-                      }}
-                    >
-                      {product.emoji}
-                    </div>
-                    <div style={{ padding: '18px 18px 20px', flex: 1 }}>
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{product.seller}</span>
-                        <span
-                          className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-medium"
-                          style={{ borderRadius: 'var(--radius-pill)', background: tierStyle[product.tier]?.bg, color: tierStyle[product.tier]?.color }}
-                        >
-                          {tierEmoji[product.tier]} {product.tier}
-                        </span>
-                      </div>
-                      <h3 className="font-semibold text-sm leading-snug mb-3" style={{ color: 'var(--text-primary)' }}>{product.name}</h3>
-                      <div className="mb-0.5">
-                        <span className="text-xl" style={{ fontWeight: 400, color: 'var(--text-primary)' }}>{product.price}</span>
-                        <span className="text-xs ml-1" style={{ color: 'var(--text-muted)' }}>{product.unit}</span>
-                      </div>
-                      <div className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>{product.minOrder}</div>
-                      <div className="flex items-center justify-between text-xs mb-4" style={{ color: 'var(--text-inactive)' }}>
-                        <span>⭐ {product.rating} ({product.reviews})</span>
-                        <span>📍 {product.location}</span>
-                      </div>
+                    {/* Inner clip wrapper — keeps rounded corners without touching the outer shadow */}
+                    <div style={{ borderRadius: '24px', overflow: 'hidden' }}>
+
+                      {/* Image area */}
                       <div
-                        className="block text-center py-2.5 text-sm font-semibold"
-                        style={{
-                          background: 'var(--active-bg)',
-                          color: '#fff',
-                          borderRadius: 'var(--radius-pill)',
-                          boxShadow: 'none',
-                          transition: 'box-shadow 0.24s ease',
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.boxShadow = '0 6px 20px rgba(10,10,18,0.38)'}
-                        onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'}
+                        className="flex items-center justify-center"
+                        style={{ background: '#e4e4e8', height: '200px', fontSize: '60px', borderRadius: '24px 24px 0 0' }}
                       >
-                        View Details
+                        {product.emoji}
                       </div>
+
+                      {/* Content */}
+                      <div style={{ padding: '18px 20px 22px', background: '#f2f2f5' }}>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <span className="text-xs" style={{ color: '#aaaab2' }}>{product.seller}</span>
+                          <span
+                            className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-medium"
+                            style={{ borderRadius: '999px', background: tierStyle[product.tier]?.bg, color: tierStyle[product.tier]?.color }}
+                          >
+                            {tierEmoji[product.tier]} {product.tier}
+                          </span>
+                        </div>
+                        <h3 className="font-semibold text-sm leading-snug mb-3" style={{ color: '#222228' }}>{product.name}</h3>
+                        <div className="mb-0.5">
+                          <span className="text-xl" style={{ fontWeight: 400, color: '#222228' }}>{product.price}</span>
+                          <span className="text-xs ml-1" style={{ color: '#aaaab2' }}>{product.unit}</span>
+                        </div>
+                        <div className="text-xs mb-4" style={{ color: '#aaaab2' }}>{product.minOrder}</div>
+                        <div className="flex items-center justify-between text-xs mb-4" style={{ color: '#888890' }}>
+                          <span>⭐ {product.rating} ({product.reviews})</span>
+                          <span>📍 {product.location}</span>
+                        </div>
+                        <div
+                          className="text-center py-2.5 text-sm font-semibold"
+                          style={{
+                            background: 'linear-gradient(150deg,#2e2e36,#0e0e12)',
+                            color: '#fff',
+                            borderRadius: '999px',
+                          }}
+                        >
+                          View Details
+                        </div>
+                      </div>
+
                     </div>
-                    </div>{/* end inner clip wrapper */}
                   </Link>
                 ))}
               </div>
             )}
           </div>
+
         </div>
       </div>
     </div>
