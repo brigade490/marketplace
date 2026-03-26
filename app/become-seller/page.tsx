@@ -79,7 +79,7 @@ export default function BecomeSellerPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading...</div>
       </div>
     );
@@ -87,8 +87,8 @@ export default function BecomeSellerPage() {
 
   if (step === 2) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#f7f7f8' }}>
-        <div className="bg-white text-center" style={{ borderRadius: '20px', padding: '52px 40px', maxWidth: '440px', width: '100%', boxShadow: '0 4px 24px rgba(0,0,0,0.09)' }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
+        <div className="bg-white text-center" style={{ borderRadius: '20px', padding: '52px 40px', maxWidth: '440px', width: '100%', boxShadow: 'var(--shadow-raised)' }}>
           <div className="text-5xl mb-4">🎉</div>
           <h2 className="text-2xl font-black text-black mb-2">Welcome, Seller!</h2>
           <p className="text-gray-500 text-sm mb-8">Your seller account is ready. Start listing your products and grow your business on Karobarrr.</p>
@@ -96,14 +96,14 @@ export default function BecomeSellerPage() {
             <button
               onClick={() => router.push('/add-product')}
               className="w-full py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: '999px' }}
+              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
             >
               Add Your First Product
             </button>
             <button
               onClick={() => router.push('/my-products')}
               className="w-full py-3 text-sm font-semibold"
-              style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+              style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
             >
               Go to My Products
             </button>
@@ -114,7 +114,7 @@ export default function BecomeSellerPage() {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-12 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">🚀</div>
@@ -122,7 +122,7 @@ export default function BecomeSellerPage() {
           <p className="text-gray-500 text-sm">Set up your seller profile and start reaching thousands of B2B buyers.</p>
         </div>
 
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '36px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '36px', boxShadow: 'var(--shadow-raised)' }}>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1.5">Company / Business Name *</label>
@@ -133,9 +133,9 @@ export default function BecomeSellerPage() {
                 placeholder="ABC Manufacturers Pvt. Ltd."
                 required
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -145,7 +145,7 @@ export default function BecomeSellerPage() {
                 value={form.business_type}
                 onChange={e => set('business_type', e.target.value)}
                 className="w-full px-4 py-3 text-sm text-black outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
               >
                 {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
               </select>
@@ -159,9 +159,9 @@ export default function BecomeSellerPage() {
                 onChange={e => set('country', e.target.value)}
                 placeholder="India"
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -173,9 +173,9 @@ export default function BecomeSellerPage() {
                 onChange={e => set('website', e.target.value)}
                 placeholder="https://yourcompany.com"
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -187,9 +187,9 @@ export default function BecomeSellerPage() {
                 onChange={e => set('tax_id', e.target.value)}
                 placeholder="22AAAAA0000A1Z5"
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -200,7 +200,7 @@ export default function BecomeSellerPage() {
                 type="button"
                 onClick={() => router.back()}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -208,7 +208,7 @@ export default function BecomeSellerPage() {
                 type="submit"
                 disabled={submitting}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: '999px', opacity: submitting ? 0.6 : 1 }}
+                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: submitting ? 0.6 : 1 }}
               >
                 {submitting ? 'Setting up...' : 'Become a Seller'}
               </button>

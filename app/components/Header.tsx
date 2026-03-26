@@ -28,24 +28,17 @@ export default function Header() {
 
   useEffect(() => {
     const supabase = createClient();
-
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
-
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (searchAreaRef.current && !searchAreaRef.current.contains(e.target as Node)) {
-        setShowDropdown(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
-        setShowUserMenu(false);
-      }
+      if (searchAreaRef.current && !searchAreaRef.current.contains(e.target as Node)) setShowDropdown(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setShowUserMenu(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -60,34 +53,56 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-black">
+    <header
+      className="sticky top-0 z-50"
+      style={{
+        background: 'var(--surface)',
+        boxShadow: '0 4px 24px var(--shadow-dark)',
+      }}
+    >
       <div className="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-6">
 
-        {/* Left: Logo */}
-        <Link href="/" className="shrink-0 text-2xl font-black text-white tracking-tight">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="shrink-0 text-2xl font-black tracking-tight"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Karobarrr
         </Link>
 
-        {/* Center: Location selector + Search bar */}
+        {/* Search bar */}
         <div className="flex-1 relative" ref={searchAreaRef}>
-          <div className="flex items-stretch bg-white h-11 overflow-hidden" style={{ borderRadius: '8px' }}>
-
-            {/* Location selector */}
+          <div
+            className="flex items-stretch h-11 overflow-hidden"
+            style={{
+              background: 'var(--surface)',
+              boxShadow: 'var(--shadow-inset)',
+              borderRadius: 'var(--radius-pill)',
+            }}
+          >
+            {/* Location select */}
             <div className="relative flex items-center shrink-0">
               <select
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="h-full pl-3 pr-7 text-sm font-medium text-black bg-transparent outline-none appearance-none cursor-pointer"
+                className="h-full pl-4 pr-7 text-sm font-medium appearance-none cursor-pointer"
+                style={{
+                  background: 'transparent',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'none',
+                  borderRadius: 0,
+                }}
               >
                 {locations.map((loc) => (
                   <option key={loc} value={loc}>{loc}</option>
                 ))}
               </select>
-              <span className="absolute right-1 pointer-events-none text-gray-500 text-xs select-none">▾</span>
+              <span className="absolute right-1 pointer-events-none text-xs select-none" style={{ color: 'var(--text-inactive)' }}>▾</span>
             </div>
 
             {/* Divider */}
-            <div className="w-px bg-gray-200 my-2 shrink-0" />
+            <div className="w-px my-2 shrink-0" style={{ background: 'var(--shadow-dark)', opacity: 0.3 }} />
 
             {/* Search input */}
             <input
@@ -95,36 +110,56 @@ export default function Header() {
               placeholder="Search products, suppliers..."
               onClick={() => setShowDropdown(true)}
               onFocus={() => setShowDropdown(true)}
-              className="flex-1 px-3 text-sm text-black bg-transparent outline-none placeholder-gray-400"
+              className="flex-1 px-3 text-sm"
+              style={{
+                background: 'transparent',
+                color: 'var(--text-primary)',
+                boxShadow: 'none',
+                borderRadius: 0,
+              }}
             />
 
-            {/* Search button — inside bar, right side */}
+            {/* Search button */}
             <button
-              className="shrink-0 px-6 text-sm font-semibold text-white transition-colors"
-              style={{ background: '#000000', color: '#ffffff', borderRadius: '0 8px 8px 0' }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#222222')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = '#000000')}
+              className="shrink-0 px-6 text-sm font-semibold"
+              style={{
+                background: 'var(--active-bg)',
+                color: '#fff',
+                borderRadius: '0 var(--radius-pill) var(--radius-pill) 0',
+                boxShadow: 'none',
+              }}
             >
               Search
             </button>
           </div>
 
-          {/* Trending Searches Dropdown */}
+          {/* Trending dropdown */}
           {showDropdown && (
             <div
-              className="absolute left-0 right-0 bg-white z-50 pt-4 pb-2"
-              style={{ top: 'calc(100% + 4px)', borderRadius: '8px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}
+              className="absolute left-0 right-0 z-50 pt-4 pb-2 dropdown-enter"
+              style={{
+                top: 'calc(100% + 8px)',
+                background: 'var(--surface)',
+                boxShadow: 'var(--shadow-raised)',
+                borderRadius: 'var(--radius-md)',
+              }}
             >
-              <p className="px-4 pb-2 text-xs font-black text-black uppercase tracking-widest">
+              <p className="px-4 pb-2 text-xs font-black uppercase tracking-widest" style={{ color: 'var(--text-inactive)' }}>
                 Trending Searches
               </p>
               {trendingSearches.map((term) => (
                 <button
                   key={term}
-                  className="w-full text-left px-4 py-2.5 text-sm transition-colors"
-                  style={{ background: '#ffffff', color: '#111827', borderRadius: '0' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#f7f7f8')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+                  className="w-full text-left px-4 py-2.5 text-sm font-medium"
+                  style={{
+                    background: 'transparent',
+                    color: 'var(--text-primary)',
+                    boxShadow: 'none',
+                    borderRadius: 0,
+                    transition: 'var(--transition)',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-inactive)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setShowDropdown(false)}
                 >
@@ -135,39 +170,44 @@ export default function Header() {
           )}
         </div>
 
-        {/* Right: Cart icon + Auth */}
+        {/* Right: Cart + Auth */}
         <div className="flex items-center gap-4 shrink-0">
           {/* Cart */}
-          <Link href="/cart" aria-label="Cart" className="text-white hover:text-gray-300 transition-colors">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+          <Link
+            href="/cart"
+            aria-label="Cart"
+            className="flex items-center justify-center"
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: '50%',
+              background: 'var(--surface)',
+              boxShadow: 'var(--shadow-raised)',
+              color: 'var(--text-primary)',
+              transition: 'var(--transition)',
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="9" cy="21" r="1" />
               <circle cx="20" cy="21" r="1" />
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
           </Link>
 
-          {/* Auth: profile icon when logged in, login button when not */}
+          {/* Auth */}
           {user ? (
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setShowUserMenu((v) => !v)}
                 aria-label="User menu"
-                className="flex items-center justify-center text-black font-bold text-sm transition-colors"
+                className="flex items-center justify-center font-bold text-sm"
                 style={{
                   width: '36px',
                   height: '36px',
                   borderRadius: '50%',
-                  background: '#ffffff',
-                  color: '#000000',
+                  background: 'var(--active-bg)',
+                  color: '#fff',
+                  boxShadow: 'var(--shadow-active)',
                   flexShrink: 0,
                 }}
               >
@@ -176,18 +216,29 @@ export default function Header() {
 
               {showUserMenu && (
                 <div
-                  className="absolute right-0 bg-white z-50 py-2 min-w-[180px]"
-                  style={{ top: 'calc(100% + 8px)', borderRadius: '10px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}
+                  className="absolute right-0 z-50 py-2 min-w-[180px] dropdown-enter"
+                  style={{
+                    top: 'calc(100% + 8px)',
+                    background: 'var(--surface)',
+                    boxShadow: 'var(--shadow-raised)',
+                    borderRadius: 'var(--radius-md)',
+                  }}
                 >
-                  <p className="px-4 py-2 text-xs text-gray-500 truncate border-b border-gray-100 mb-1">
+                  <p className="px-4 py-2 text-xs truncate mb-1" style={{ color: 'var(--text-inactive)' }}>
                     {user.email}
                   </p>
                   <button
                     onClick={handleSignOut}
-                    className="w-full text-left px-4 py-2 text-sm"
-                    style={{ background: '#ffffff', color: '#111827' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#f7f7f8')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+                    className="w-full text-left px-4 py-2 text-sm font-medium"
+                    style={{
+                      background: 'transparent',
+                      color: 'var(--text-primary)',
+                      boxShadow: 'none',
+                      borderRadius: 0,
+                      transition: 'var(--transition)',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-inactive)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
                   >
                     Sign out
                   </button>
@@ -197,8 +248,14 @@ export default function Header() {
           ) : (
             <Link
               href="/onboarding"
-              className="px-5 py-2 text-sm font-semibold transition-colors"
-              style={{ background: '#ffffff', color: '#000000', borderRadius: '999px' }}
+              className="px-5 py-2 text-sm font-semibold"
+              style={{
+                background: 'var(--surface)',
+                color: 'var(--text-primary)',
+                boxShadow: 'var(--shadow-raised)',
+                borderRadius: 'var(--radius-pill)',
+                transition: 'var(--transition)',
+              }}
             >
               Login / Signup
             </Link>

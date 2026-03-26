@@ -35,20 +35,24 @@ export default function LanguagePopup() {
   return (
     <div
       className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', background: 'rgba(0,0,0,0.45)', animation: 'fadeIn 200ms ease-out both' }}
+      style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', background: 'rgba(160,160,170,0.35)', animation: 'fadeIn 200ms ease-out both' }}
     >
       <div
-        className="bg-white w-full scale-in"
-        style={{ maxWidth: '460px', borderRadius: '16px', padding: '36px 28px 28px', boxShadow: '0 12px 48px rgba(0,0,0,0.18)' }}
+        className="w-full scale-in"
+        style={{
+          maxWidth: '460px',
+          background: 'var(--surface)',
+          boxShadow: 'var(--shadow-raised)',
+          borderRadius: 'var(--radius-md)',
+          padding: '36px 28px 28px',
+        }}
       >
-        {/* Header */}
         <div className="text-center mb-7">
           <div className="text-4xl mb-3">🌐</div>
-          <h2 className="text-xl font-black text-black mb-1">Choose your language</h2>
-          <p className="text-sm text-gray-500">You can change this anytime from settings</p>
+          <h2 className="text-xl font-black mb-1" style={{ color: 'var(--text-primary)' }}>Choose your language</h2>
+          <p className="text-sm" style={{ color: 'var(--text-inactive)' }}>You can change this anytime from settings</p>
         </div>
 
-        {/* Language chips */}
         <div className="grid grid-cols-2 gap-2 mb-7 stagger-children">
           {languages.map((lang) => {
             const isSelected = selected === lang.code;
@@ -58,28 +62,28 @@ export default function LanguagePopup() {
                 onClick={() => setSelected(lang.code)}
                 className="fade-up flex items-center gap-3 px-4 py-3 text-left"
                 style={{
-                  borderRadius: '10px',
-                  border: isSelected ? '2px solid #000' : '1.5px solid #e5e7eb',
-                  background: isSelected ? '#000' : '#fff',
-                  color: isSelected ? '#fff' : '#111827',
-                  transition: 'all 150ms ease-out',
+                  borderRadius: 'var(--radius-sm)',
+                  background: isSelected ? 'var(--active-bg)' : 'var(--surface)',
+                  boxShadow: isSelected ? 'var(--shadow-active)' : 'var(--shadow-raised)',
+                  color: isSelected ? '#fff' : 'var(--text-primary)',
+                  transition: 'var(--transition)',
                 }}
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-semibold leading-tight">{lang.native}</div>
-                  <div className="text-xs mt-0.5" style={{ opacity: 0.55 }}>{lang.label}</div>
+                  <div className="text-xs mt-0.5" style={{ opacity: 0.6 }}>{lang.label}</div>
                 </div>
                 <div
                   className="shrink-0 w-5 h-5 flex items-center justify-center"
                   style={{
                     borderRadius: '50%',
-                    border: isSelected ? 'none' : '1.5px solid #d1d5db',
-                    background: isSelected ? '#fff' : 'transparent',
-                    transition: 'all 150ms ease-out',
+                    background: isSelected ? 'rgba(255,255,255,0.2)' : 'transparent',
+                    boxShadow: isSelected ? 'none' : 'var(--shadow-inset)',
+                    transition: 'var(--transition)',
                   }}
                 >
                   {isSelected && (
-                    <span className="check-in text-black font-black" style={{ fontSize: '11px', lineHeight: 1 }}>✓</span>
+                    <span className="check-in font-black" style={{ fontSize: '11px', lineHeight: 1, color: '#fff' }}>✓</span>
                   )}
                 </div>
               </button>
@@ -87,11 +91,10 @@ export default function LanguagePopup() {
           })}
         </div>
 
-        {/* Confirm */}
         <button
           onClick={handleConfirm}
           className="w-full py-3.5 text-sm font-bold"
-          style={{ background: '#000', color: '#fff', borderRadius: '999px' }}
+          style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-active)' }}
         >
           Continue
         </button>

@@ -143,16 +143,16 @@ export default function EditProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-xl mx-auto">
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '36px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '36px', boxShadow: 'var(--shadow-raised)' }}>
           <h1 className="text-2xl font-black text-black mb-6">Edit Profile</h1>
 
           <form onSubmit={handleSave} className="space-y-5">
@@ -160,7 +160,7 @@ export default function EditProfilePage() {
             <div className="flex items-center gap-5">
               <div
                 className="flex-shrink-0 flex items-center justify-center font-black text-2xl"
-                style={{ width: '72px', height: '72px', borderRadius: '50%', background: '#000', color: '#fff', overflow: 'hidden' }}
+                style={{ width: '72px', height: '72px', borderRadius: '50%', background: '#000', color: 'var(--surface)', overflow: 'hidden' }}
               >
                 {avatarPreview
                   ? <img src={avatarPreview} alt="avatar" style={{ width: '72px', height: '72px', objectFit: 'cover' }} />
@@ -173,7 +173,7 @@ export default function EditProfilePage() {
                   onClick={() => fileRef.current?.click()}
                   disabled={uploading}
                   className="px-4 py-2 text-sm font-semibold transition-colors"
-                  style={{ border: '1.5px solid #000', borderRadius: '999px', background: '#fff', color: '#000' }}
+                  style={{ border: '1.5px solid #000', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: '#000' }}
                 >
                   {uploading ? 'Uploading...' : 'Upload Logo'}
                 </button>
@@ -193,7 +193,7 @@ export default function EditProfilePage() {
                   value={form.business_type}
                   onChange={e => set('business_type', e.target.value)}
                   className="w-full px-4 py-3 text-sm text-black outline-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
                 >
                   <option value="">Select type</option>
                   {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
@@ -213,7 +213,7 @@ export default function EditProfilePage() {
                   value={form.state}
                   onChange={e => set('state', e.target.value)}
                   className="w-full px-4 py-3 text-sm text-black outline-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
                 >
                   <option value="">Select state</option>
                   {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -230,7 +230,7 @@ export default function EditProfilePage() {
                 type="button"
                 onClick={() => router.back()}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -238,7 +238,7 @@ export default function EditProfilePage() {
                 type="submit"
                 disabled={saving || uploading}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: '999px', opacity: saving ? 0.6 : 1 }}
+                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>
@@ -268,11 +268,11 @@ function Field({
         disabled={disabled}
         className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
         style={{
-          border: '1.5px solid #e5e7eb', borderRadius: '10px', background: disabled ? '#f9fafb' : '#fff',
-          color: disabled ? '#9ca3af' : '#111827',
+          border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: disabled ? '#f9fafb' : 'var(--surface)',
+          color: disabled ? 'var(--text-inactive)' : 'var(--text-primary)',
         }}
         onFocus={e => !disabled && (e.currentTarget.style.borderColor = '#000')}
-        onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />
     </div>
   );

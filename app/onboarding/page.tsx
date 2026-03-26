@@ -326,7 +326,7 @@ function BackBtn({ onBack }: { onBack: () => void }) {
     <button
       onClick={onBack}
       className="self-start mb-8 flex items-center gap-1 text-sm font-semibold"
-      style={{ background: 'transparent', color: '#111827', padding: '4px 0', borderRadius: 0 }}
+      style={{ background: 'transparent', color: 'var(--text-primary)', padding: '4px 0', borderRadius: 0, boxShadow: 'none' }}
     >
       <span style={{ fontSize: 18, lineHeight: 1 }}>‹</span> Back
     </button>
@@ -343,7 +343,7 @@ function ContinueBtn({ disabled, onClick }: { disabled: boolean; onClick: () => 
       style={{
         background: disabled ? '#e5e7eb' : '#000',
         color: disabled ? '#9ca3af' : '#fff',
-        borderRadius: '999px',
+        borderRadius: 'var(--radius-pill)',
         transition: 'background 200ms ease-out, color 200ms ease-out',
         cursor: disabled ? 'default' : 'pointer',
       }}
@@ -404,14 +404,14 @@ function WelcomeScreen({
         <button
           onClick={onGetStarted}
           className="w-full py-4 text-base font-bold"
-          style={{ background: '#000', color: '#fff', borderRadius: '999px' }}
+          style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)' }}
         >
           Get Started
         </button>
         <button
           onClick={onLogin}
           className="w-full py-4 text-base font-semibold"
-          style={{ background: 'transparent', color: '#6b7280', borderRadius: '999px', border: '1.5px solid #e5e7eb' }}
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none', boxShadow: 'var(--shadow-inset)' }}
         >
           I already have an account
         </button>
@@ -451,15 +451,15 @@ function AccountTypeScreen({
             onKeyDown={(e) => e.key === 'Enter' && setSelected(key)}
             className="card-lift flex items-center gap-5 p-5 bg-white cursor-pointer"
             style={{
-              borderRadius: '16px',
-              border: selected === key ? '2px solid #000' : '1.5px solid #e5e7eb',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: selected === key ? 'var(--shadow-active)' : 'var(--shadow-raised)',
               boxShadow: selected === key ? '0 4px 20px rgba(0,0,0,0.10)' : '0 2px 8px rgba(0,0,0,0.05)',
               transition: 'border 150ms ease-out, box-shadow 150ms ease-out',
             }}
           >
             <div
               className="flex items-center justify-center shrink-0"
-              style={{ width: 56, height: 56, borderRadius: '14px', background: '#f3f4f6', fontSize: 28 }}
+              style={{ width: 56, height: 56, borderRadius: 'var(--radius-sm)', background: 'var(--bg)', fontSize: 28 }}
             >
               {emoji}
             </div>
@@ -517,7 +517,7 @@ function BuyerBasicScreen({
         {/* Full Name */}
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -533,7 +533,7 @@ function BuyerBasicScreen({
         {/* Email */}
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="email"
@@ -582,7 +582,7 @@ function BuyerBusinessScreen({
         {/* Business Name */}
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -607,7 +607,7 @@ function BuyerBusinessScreen({
                   onClick={() => onChange({ ...values, businessType: type })}
                   className="px-4 py-2 text-sm font-semibold"
                   style={{
-                    borderRadius: '999px',
+                    borderRadius: 'var(--radius-pill)',
                     border: active ? 'none' : '1.5px solid #e5e7eb',
                     background: active ? '#000' : '#fff',
                     color: active ? '#fff' : '#374151',
@@ -666,7 +666,7 @@ function BuyerCategoriesScreen({
               onClick={() => toggle(cat)}
               className="px-4 py-2.5 text-sm font-semibold"
               style={{
-                borderRadius: '999px',
+                borderRadius: 'var(--radius-pill)',
                 border: active ? 'none' : '1.5px solid #e5e7eb',
                 background: active ? '#000' : '#fff',
                 color: active ? '#fff' : '#374151',
@@ -729,8 +729,8 @@ function BuyerLocationScreen({
           disabled={detectStatus === 'detecting'}
           className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-bold"
           style={{
-            borderRadius: '12px',
-            border: '1.5px solid #e5e7eb',
+            borderRadius: 'var(--radius-sm)',
+            boxShadow: 'var(--shadow-inset)',
             background: detectStatus === 'done' ? '#f0fdf4' : '#fff',
             color: detectStatus === 'done' ? '#16a34a' : '#111827',
             transition: 'all 200ms ease-out',
@@ -744,7 +744,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -759,7 +759,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -774,7 +774,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}
+          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -810,7 +810,7 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
         width: 46,
         height: 26,
         borderRadius: 999,
-        background: on ? '#000' : '#d1d5db',
+        background: on ? 'var(--active-bg)' : 'var(--bg)',
         position: 'relative',
         cursor: 'pointer',
         transition: 'background 200ms ease-out',
@@ -825,7 +825,7 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
           width: 20,
           height: 20,
           borderRadius: '50%',
-          background: '#fff',
+          background: 'var(--surface)',
           transition: 'left 200ms ease-out',
           boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
         }}
@@ -853,7 +853,7 @@ function ChipGroup({ label, options, value, onChange }: {
               onClick={() => onChange(opt)}
               className="px-4 py-2 text-sm font-semibold"
               style={{
-                borderRadius: '999px',
+                borderRadius: 'var(--radius-pill)',
                 border: active ? 'none' : '1.5px solid #e5e7eb',
                 background: active ? '#000' : '#fff',
                 color: active ? '#fff' : '#374151',
@@ -943,7 +943,7 @@ function BuyerPaymentScreen({ animClass, values, onChange, onBack, onNext }: {
           <div
             key={key}
             className="flex items-center justify-between p-4 bg-white"
-            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+            style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
               <p className="text-sm font-bold text-black">{label}</p>
@@ -989,7 +989,7 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
           <div
             key={key}
             className="flex items-center justify-between p-4 bg-white"
-            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+            style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
               <p className="text-sm font-bold text-black">{label}</p>
@@ -1059,7 +1059,7 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
           <button
             onClick={() => setPreview(null)}
             className="text-xs font-semibold"
-            style={{ background: 'transparent', color: '#6b7280', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: '999px' }}
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}
           >
             Remove
           </button>
@@ -1071,7 +1071,7 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
         <button
           onClick={onNext}
           className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
         >
           Skip for now
         </button>
@@ -1138,7 +1138,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Tell us a bit about yourself.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1150,7 +1150,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>Full Name</label>
         </div>
 
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="email"
             placeholder=" "
@@ -1189,7 +1189,7 @@ function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Help buyers find and trust your business.</p>
 
       <div className="flex flex-col gap-6 mb-auto">
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1212,7 +1212,7 @@ function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
                   onClick={() => onChange({ ...values, businessType: type })}
                   className="px-4 py-2 text-sm font-semibold"
                   style={{
-                    borderRadius: '999px',
+                    borderRadius: 'var(--radius-pill)',
                     border: active ? 'none' : '1.5px solid #e5e7eb',
                     background: active ? '#000' : '#fff',
                     color: active ? '#fff' : '#374151',
@@ -1263,7 +1263,7 @@ function SellerCategoriesScreen({ animClass, selected, onChange, onBack, onNext 
               onClick={() => toggle(cat)}
               className="px-4 py-2.5 text-sm font-semibold"
               style={{
-                borderRadius: '999px',
+                borderRadius: 'var(--radius-pill)',
                 border: active ? 'none' : '1.5px solid #e5e7eb',
                 background: active ? '#000' : '#fff',
                 color: active ? '#fff' : '#374151',
@@ -1316,8 +1316,8 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           disabled={detectStatus === 'detecting'}
           className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-bold"
           style={{
-            borderRadius: '12px',
-            border: '1.5px solid #e5e7eb',
+            borderRadius: 'var(--radius-sm)',
+            boxShadow: 'var(--shadow-inset)',
             background: detectStatus === 'done' ? '#f0fdf4' : '#fff',
             color: detectStatus === 'done' ? '#16a34a' : '#111827',
             transition: 'all 200ms ease-out',
@@ -1329,7 +1329,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           {detectStatus === 'detecting' ? 'Detecting location…' : detectStatus === 'done' ? 'Location detected' : 'Detect My Location'}
         </button>
 
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1341,7 +1341,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>City</label>
         </div>
 
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1353,7 +1353,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>State</label>
         </div>
 
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1394,7 +1394,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
       <p className="text-sm text-gray-500 mb-8">Add your GSTIN to unlock all seller features.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
-        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1410,7 +1410,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
         {/* Note */}
         <div
           className="flex items-start gap-3 p-4"
-          style={{ borderRadius: '12px', background: '#fefce8', border: '1.5px solid #fde68a' }}
+          style={{ borderRadius: 'var(--radius-sm)', background: '#fefce8', border: '1.5px solid #fde68a' }}
         >
           <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>⚠️</span>
           <p className="text-xs text-yellow-800 leading-relaxed">
@@ -1424,7 +1424,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
         <button
           onClick={onSkip}
           className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
         >
           Skip for now
         </button>
@@ -1464,7 +1464,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
             key={id}
             htmlFor={id}
             className="flex items-center justify-between p-4 cursor-pointer"
-            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb', background: '#fff' }}
+            style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)', background: 'var(--surface)' }}
           >
             <div className="flex items-center gap-3">
               <span style={{ fontSize: 22 }}>{state ? '📄' : '📁'}</span>
@@ -1478,7 +1478,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
             <div
               className="shrink-0 px-3 py-1 text-xs font-bold"
               style={{
-                borderRadius: '999px',
+                borderRadius: 'var(--radius-pill)',
                 background: state ? '#f0fdf4' : '#f3f4f6',
                 color: state ? '#16a34a' : '#6b7280',
               }}
@@ -1492,7 +1492,7 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
         {/* Review note */}
         <div
           className="flex items-start gap-3 p-4"
-          style={{ borderRadius: '12px', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
+          style={{ borderRadius: 'var(--radius-sm)', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
         >
           <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>🔍</span>
           <p className="text-xs text-blue-800 leading-relaxed">
@@ -1557,7 +1557,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
                   onClick={() => !disabled && onChange({ ...values, delivery: label })}
                   className="px-4 py-2 text-sm font-semibold"
                   style={{
-                    borderRadius: '999px',
+                    borderRadius: 'var(--radius-pill)',
                     border: active ? 'none' : '1.5px solid #e5e7eb',
                     background: disabled ? '#f3f4f6' : active ? '#000' : '#fff',
                     color: disabled ? '#9ca3af' : active ? '#fff' : '#374151',
@@ -1583,7 +1583,7 @@ function SellerSellingScreen({ animClass, values, onChange, onBack, onNext }: {
               <div
                 key={key}
                 className="flex items-center justify-between px-4 py-3 bg-white"
-                style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+                style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
               >
                 <span className="text-sm font-semibold text-black">{label}</span>
                 <Toggle on={values[key]} onToggle={() => onChange({ ...values, [key]: !values[key] })} />
@@ -1628,7 +1628,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
 
       <div className="flex flex-col gap-4 mb-auto">
         {fields.map(({ key, label, mono, maxLen, upper, numeric }) => (
-          <div key={key} className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+          <div key={key} className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
             <input
               type="text"
               placeholder=" "
@@ -1651,7 +1651,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
         {/* Note */}
         <div
           className="flex items-start gap-3 p-4"
-          style={{ borderRadius: '12px', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
+          style={{ borderRadius: 'var(--radius-sm)', background: '#f0f9ff', border: '1.5px solid #bae6fd' }}
         >
           <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>💳</span>
           <p className="text-xs text-blue-800 leading-relaxed">
@@ -1665,7 +1665,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
         <button
           onClick={onSkip}
           className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
         >
           Skip for now
         </button>
@@ -1701,7 +1701,7 @@ function SellerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
           <div
             key={key}
             className="flex items-center justify-between p-4 bg-white"
-            style={{ borderRadius: '12px', border: '1.5px solid #e5e7eb' }}
+            style={{ borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-inset)' }}
           >
             <div>
               <p className="text-sm font-bold text-black">{label}</p>
@@ -1769,7 +1769,7 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
           <button
             onClick={() => setPreview(null)}
             className="text-xs font-semibold"
-            style={{ background: 'transparent', color: '#6b7280', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: '999px' }}
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', border: '1px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}
           >
             Remove
           </button>
@@ -1781,7 +1781,7 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
         <button
           onClick={onNext}
           className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: '#9ca3af', borderRadius: '999px' }}
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
         >
           Skip for now
         </button>

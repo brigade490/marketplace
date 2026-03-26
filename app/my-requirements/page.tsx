@@ -54,35 +54,35 @@ export default function MyRequirementsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">My Requirements</h1>
           <Link
             href="/post-requirement"
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: '999px' }}
+            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
           >
             + Post Requirement
           </Link>
         </div>
 
         {requirements.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📝</div>
             <h3 className="font-black text-black mb-2">No requirements posted</h3>
             <p className="text-gray-400 text-sm mb-6">Post what you're looking to buy and let sellers come to you.</p>
             <Link
               href="/post-requirement"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: '999px' }}
+              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
             >
               Post Requirement
             </Link>
@@ -90,20 +90,20 @@ export default function MyRequirementsPage() {
         ) : (
           <div className="space-y-4">
             {requirements.map(req => (
-              <div key={req.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
+              <div key={req.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-bold text-black">{req.title}</h3>
                       {req.is_urgent && (
-                        <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-50" style={{ borderRadius: '999px' }}>
+                        <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-50" style={{ borderRadius: 'var(--radius-pill)' }}>
                           URGENT
                         </span>
                       )}
                       <span
                         className="px-2 py-0.5 text-xs font-semibold"
                         style={{
-                          borderRadius: '999px',
+                          borderRadius: 'var(--radius-pill)',
                           background: req.is_open ? '#dcfce7' : '#fee2e2',
                           color: req.is_open ? '#166534' : '#991b1b',
                         }}

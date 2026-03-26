@@ -135,7 +135,7 @@ export default function MessagesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading messages...</div>
       </div>
     );
@@ -144,13 +144,13 @@ export default function MessagesPage() {
   const activeConvData = conversations.find(c => c.otherId === activeConv);
 
   return (
-    <div className="min-h-screen" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
       <div className="max-w-5xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-black text-black mb-6">Messages</h1>
 
         <div
           className="bg-white flex overflow-hidden"
-          style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', height: 'calc(100vh - 220px)', minHeight: '500px' }}
+          style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)', height: 'calc(100vh - 220px)', minHeight: '500px' }}
         >
           {/* Left panel: Conversations */}
           <div
@@ -184,13 +184,13 @@ export default function MessagesPage() {
                   }}
                   className="w-full text-left p-4 transition-colors border-b border-gray-50"
                   style={{
-                    background: activeConv === conv.otherId ? '#f7f7f8' : 'transparent',
+                    background: activeConv === conv.otherId ? 'var(--bg)' : 'transparent',
                   }}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className="flex-shrink-0 flex items-center justify-center font-bold text-sm"
-                      style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#000', color: '#fff' }}
+                      style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#000', color: 'var(--surface)' }}
                     >
                       {conv.otherName[0]?.toUpperCase() || '?'}
                     </div>
@@ -200,7 +200,7 @@ export default function MessagesPage() {
                         {conv.unread > 0 && (
                           <span
                             className="flex-shrink-0 text-xs font-bold text-white ml-1 px-1.5"
-                            style={{ background: '#000', borderRadius: '999px', minWidth: '18px', textAlign: 'center' }}
+                            style={{ background: '#000', borderRadius: 'var(--radius-pill)', minWidth: '18px', textAlign: 'center' }}
                           >
                             {conv.unread}
                           </span>
@@ -222,7 +222,7 @@ export default function MessagesPage() {
                 <div className="p-4 border-b border-gray-100 flex items-center gap-3">
                   <div
                     className="flex items-center justify-center font-bold text-sm"
-                    style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#000', color: '#fff' }}
+                    style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#000', color: 'var(--surface)' }}
                   >
                     {activeConvData?.otherName[0]?.toUpperCase() || '?'}
                   </div>
@@ -241,8 +241,8 @@ export default function MessagesPage() {
                           className="px-4 py-2.5 text-sm max-w-xs"
                           style={{
                             borderRadius: isMine ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                            background: isMine ? '#000000' : '#f3f4f6',
-                            color: isMine ? '#ffffff' : '#111827',
+                            background: isMine ? '#000000' : 'var(--bg)',
+                            color: isMine ? 'var(--surface)' : 'var(--text-primary)',
                           }}
                         >
                           <p>{msg.content}</p>
@@ -264,15 +264,15 @@ export default function MessagesPage() {
                     onChange={e => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
                     className="flex-1 px-4 py-2.5 text-sm text-black outline-none"
-                    style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px' }}
+                    style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}
                     onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                    onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                   />
                   <button
                     type="submit"
                     disabled={sending || !newMessage.trim()}
                     className="px-5 py-2.5 text-sm font-bold text-white"
-                    style={{ background: '#000000', borderRadius: '999px', opacity: sending ? 0.6 : 1 }}
+                    style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: sending ? 0.6 : 1 }}
                   >
                     Send
                   </button>

@@ -66,7 +66,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading profile...</div>
       </div>
     );
@@ -78,11 +78,11 @@ export default function ProfilePage() {
   const tierEmoji = sellerInfo?.tier === 'Gold' ? '🥇' : sellerInfo?.tier === 'Silver' ? '🥈' : '🥉';
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
 
         {/* Header card */}
-        <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '32px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '32px', boxShadow: 'var(--shadow-raised)' }}>
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-5">
               {/* Avatar */}
@@ -90,7 +90,7 @@ export default function ProfilePage() {
                 className="flex items-center justify-center font-black text-2xl"
                 style={{
                   width: '80px', height: '80px', borderRadius: '50%',
-                  background: '#000000', color: '#ffffff', flexShrink: 0, overflow: 'hidden',
+                  background: 'var(--active-bg)', color: '#fff', flexShrink: 0, overflow: 'hidden',
                 }}
               >
                 {profile.avatar_url
@@ -111,7 +111,7 @@ export default function ProfilePage() {
                   <span
                     className="px-2.5 py-0.5 text-xs font-semibold"
                     style={{
-                      borderRadius: '999px',
+                      borderRadius: 'var(--radius-pill)',
                       background: isSeller ? '#000000' : '#f3f4f6',
                       color: isSeller ? '#fbbf24' : '#6b7280',
                     }}
@@ -119,7 +119,7 @@ export default function ProfilePage() {
                     {profile.role === 'seller+buyer' ? 'Seller & Buyer' : profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
                   </span>
                   {(profile.is_verified || sellerInfo?.is_verified) && (
-                    <span className="px-2.5 py-0.5 text-xs font-semibold text-green-700 bg-green-50" style={{ borderRadius: '999px' }}>
+                    <span className="px-2.5 py-0.5 text-xs font-semibold text-green-700 bg-green-50" style={{ borderRadius: 'var(--radius-pill)' }}>
                       ✓ GST Verified
                     </span>
                   )}
@@ -129,7 +129,7 @@ export default function ProfilePage() {
             <Link
               href="/edit-profile"
               className="px-4 py-2 text-sm font-semibold transition-colors"
-              style={{ background: '#000000', color: '#ffffff', borderRadius: '999px' }}
+              style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)' }}
             >
               Edit Profile
             </Link>
@@ -137,7 +137,7 @@ export default function ProfilePage() {
 
           {/* Stats for sellers */}
           {isSeller && sellerInfo && (
-            <div className="grid grid-cols-3 gap-4 mb-6 pt-4" style={{ borderTop: '1px solid #f3f4f6' }}>
+            <div className="grid grid-cols-3 gap-4 mb-6 pt-4" style={{  }}>
               <div className="text-center">
                 <div className="text-xl font-black text-black">{tierEmoji} {sellerInfo.tier}</div>
                 <div className="text-xs text-gray-500 mt-0.5">Seller Tier</div>
@@ -155,7 +155,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Details card */}
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
           <h2 className="text-base font-black text-black mb-5">Contact & Details</h2>
           <div className="space-y-4">
             <InfoRow icon="📧" label="Email" value={profile.email} />
@@ -175,7 +175,7 @@ export default function ProfilePage() {
             )}
           </div>
 
-          <div className="mt-6 pt-5" style={{ borderTop: '1px solid #f3f4f6' }}>
+          <div className="mt-6 pt-5" style={{  }}>
             <div className="flex gap-3 flex-wrap">
               <Link href="/verification" className="text-sm font-semibold text-black underline">
                 Verification Status →

@@ -66,14 +66,14 @@ export default function MyProductsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading products...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -83,21 +83,21 @@ export default function MyProductsPage() {
           <Link
             href="/add-product"
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: '999px' }}
+            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
           >
             + Add Product
           </Link>
         </div>
 
         {products.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🏪</div>
             <h3 className="font-black text-black mb-2">No products yet</h3>
             <p className="text-gray-400 text-sm mb-6">Start by adding your first product listing.</p>
             <Link
               href="/add-product"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: '999px' }}
+              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
             >
               Add Product
             </Link>
@@ -107,12 +107,12 @@ export default function MyProductsPage() {
             {products.map(product => {
               const img = product.images?.[0];
               return (
-                <div key={product.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+                <div key={product.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
                   <div className="flex items-start gap-4 p-5">
                     {/* Image */}
                     <div
                       className="flex-shrink-0 flex items-center justify-center"
-                      style={{ width: '80px', height: '80px', borderRadius: '10px', background: '#f3f4f6', overflow: 'hidden' }}
+                      style={{ width: '80px', height: '80px', borderRadius: 'var(--radius-sm)', background: 'var(--bg)', overflow: 'hidden' }}
                     >
                       {img
                         ? <img src={img} alt={product.name} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
@@ -139,7 +139,7 @@ export default function MyProductsPage() {
                             onClick={() => toggleActive(product)}
                             className="text-xs px-3 py-1 font-semibold"
                             style={{
-                              borderRadius: '999px',
+                              borderRadius: 'var(--radius-pill)',
                               background: product.is_active ? '#dcfce7' : '#fee2e2',
                               color: product.is_active ? '#166534' : '#991b1b',
                             }}
@@ -186,7 +186,7 @@ export default function MyProductsPage() {
           style={{ background: 'rgba(0,0,0,0.5)' }}
           onClick={e => { if (e.target === e.currentTarget) setConfirmDeleteId(null); }}
         >
-          <div className="bg-white p-8 text-center" style={{ borderRadius: '16px', maxWidth: '360px', width: '100%' }}>
+          <div className="bg-white p-8 text-center" style={{ borderRadius: 'var(--radius-md)', maxWidth: '360px', width: '100%' }}>
             <div className="text-3xl mb-3">🗑️</div>
             <h3 className="text-lg font-black text-black mb-2">Delete Product?</h3>
             <p className="text-sm text-gray-500 mb-6">This action cannot be undone.</p>
@@ -194,7 +194,7 @@ export default function MyProductsPage() {
               <button
                 onClick={() => setConfirmDeleteId(null)}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -202,7 +202,7 @@ export default function MyProductsPage() {
                 onClick={() => handleDelete(confirmDeleteId)}
                 disabled={deletingId === confirmDeleteId}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#dc2626', borderRadius: '999px', opacity: deletingId ? 0.6 : 1 }}
+                style={{ background: '#dc2626', borderRadius: 'var(--radius-pill)', opacity: deletingId ? 0.6 : 1 }}
               >
                 {deletingId ? 'Deleting...' : 'Delete'}
               </button>

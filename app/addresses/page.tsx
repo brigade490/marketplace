@@ -101,32 +101,32 @@ export default function AddressesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading addresses...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">Addresses</h1>
           <button
             onClick={openAdd}
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: '999px' }}
+            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
           >
             + Add Address
           </button>
         </div>
 
         {addresses.length === 0 && !showForm && (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📍</div>
             <h3 className="font-black text-black mb-2">No addresses saved</h3>
             <p className="text-gray-400 text-sm mb-6">Add delivery addresses for faster checkout.</p>
-            <button onClick={openAdd} className="px-6 py-3 text-sm font-bold text-white" style={{ background: '#000', borderRadius: '999px' }}>
+            <button onClick={openAdd} className="px-6 py-3 text-sm font-bold text-white" style={{ background: '#000', borderRadius: 'var(--radius-pill)' }}>
               Add Address
             </button>
           </div>
@@ -134,13 +134,13 @@ export default function AddressesPage() {
 
         <div className="space-y-4">
           {addresses.map(addr => (
-            <div key={addr.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
+            <div key={addr.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-bold text-black">{addr.name}</h3>
                     {addr.is_default && (
-                      <span className="px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#000', borderRadius: '999px' }}>Default</span>
+                      <span className="px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#000', borderRadius: 'var(--radius-pill)' }}>Default</span>
                     )}
                   </div>
                   <p className="text-sm text-gray-600">{addr.street}</p>
@@ -166,7 +166,7 @@ export default function AddressesPage() {
             style={{ background: 'rgba(0,0,0,0.5)' }}
             onClick={e => { if (e.target === e.currentTarget) setShowForm(false); }}
           >
-            <div className="bg-white w-full" style={{ borderRadius: '16px', padding: '32px', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div className="bg-white w-full" style={{ borderRadius: 'var(--radius-md)', padding: '32px', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
               <h2 className="text-xl font-black text-black mb-5">{editId ? 'Edit Address' : 'Add Address'}</h2>
               <form onSubmit={handleSave} className="space-y-4">
                 <Field label="Full Name *" value={form.name} onChange={v => set('name', v)} placeholder="Recipient name" required />
@@ -180,7 +180,7 @@ export default function AddressesPage() {
                     onChange={e => set('state', e.target.value)}
                     required
                     className="w-full px-4 py-3 text-sm text-black outline-none"
-                    style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                    style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
                   >
                     <option value="">Select state</option>
                     {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -191,8 +191,8 @@ export default function AddressesPage() {
                 {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2" style={{ borderRadius: '8px' }}>{error}</p>}
 
                 <div className="flex gap-3 pt-2">
-                  <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-3 text-sm font-semibold" style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px' }}>Cancel</button>
-                  <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold text-white" style={{ background: '#000000', borderRadius: '999px', opacity: saving ? 0.6 : 1 }}>
+                  <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-3 text-sm font-semibold" style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}>Cancel</button>
+                  <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold text-white" style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}>
                     {saving ? 'Saving...' : 'Save'}
                   </button>
                 </div>
@@ -213,9 +213,9 @@ function Field({ label, value, onChange, placeholder, required, type = 'text' }:
       <label className="block text-xs font-semibold text-gray-700 mb-1.5">{label}</label>
       <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} required={required}
         className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-        style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-        onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />
     </div>
   );

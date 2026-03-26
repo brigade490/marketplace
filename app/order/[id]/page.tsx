@@ -76,7 +76,7 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading order...</div>
       </div>
     );
@@ -84,7 +84,7 @@ export default function OrderDetailPage() {
 
   if (!order) return null;
 
-  const sc = STATUS_COLORS[order.status] || { bg: '#f3f4f6', color: '#6b7280' };
+  const sc = STATUS_COLORS[order.status] || { bg: 'var(--bg)', color: 'var(--text-inactive)' };
   const currentStepIndex = STATUS_STEPS.indexOf(order.status);
   const img = order.products?.images?.[0];
   const addr = order.shipping_address;
@@ -97,7 +97,7 @@ export default function OrderDetailPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
 
         {/* Breadcrumb */}
@@ -108,7 +108,7 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Status + Order ID */}
-        <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
           <div className="flex items-start justify-between">
             <div>
               <p className="text-xs text-gray-500 mb-1">Order ID</p>
@@ -119,7 +119,7 @@ export default function OrderDetailPage() {
             </div>
             <span
               className="px-3 py-1 text-sm font-bold"
-              style={{ borderRadius: '999px', background: sc.bg, color: sc.color }}
+              style={{ borderRadius: 'var(--radius-pill)', background: sc.bg, color: sc.color }}
             >
               {order.status}
             </span>
@@ -133,7 +133,7 @@ export default function OrderDetailPage() {
                   className="absolute h-1 top-4 left-0"
                   style={{
                     right: '0',
-                    background: '#e5e7eb',
+                    background: 'var(--surface)',
                     zIndex: 0,
                   }}
                 />
@@ -155,14 +155,14 @@ export default function OrderDetailPage() {
                         className="flex items-center justify-center text-xs font-bold"
                         style={{
                           width: '32px', height: '32px', borderRadius: '50%',
-                          background: done ? '#000000' : '#ffffff',
-                          color: done ? '#ffffff' : '#9ca3af',
+                          background: done ? '#000000' : 'var(--surface)',
+                          color: done ? 'var(--surface)' : 'var(--text-inactive)',
                           border: done ? '2px solid #000000' : '2px solid #e5e7eb',
                         }}
                       >
                         {done ? '✓' : idx + 1}
                       </div>
-                      <p className="text-xs font-semibold mt-2" style={{ color: done ? '#000000' : '#9ca3af' }}>{step}</p>
+                      <p className="text-xs font-semibold mt-2" style={{ color: done ? '#000000' : 'var(--text-inactive)' }}>{step}</p>
                       {ts && (
                         <p className="text-xs text-gray-400 mt-0.5">
                           {new Date(ts).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
@@ -177,12 +177,12 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Product info */}
-        <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
           <h2 className="text-sm font-black text-black mb-4">Product</h2>
           <div className="flex gap-4">
             <div
               className="flex-shrink-0 flex items-center justify-center"
-              style={{ width: '80px', height: '80px', borderRadius: '10px', background: '#f3f4f6', overflow: 'hidden' }}
+              style={{ width: '80px', height: '80px', borderRadius: 'var(--radius-sm)', background: 'var(--bg)', overflow: 'hidden' }}
             >
               {img
                 ? <img src={img} alt={order.products?.name} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
@@ -200,7 +200,7 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Price breakdown */}
-        <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
           <h2 className="text-sm font-black text-black mb-4">Price Breakdown</h2>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
@@ -220,7 +220,7 @@ export default function OrderDetailPage() {
 
         {/* Delivery address */}
         {addr && (
-          <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
             <h2 className="text-sm font-black text-black mb-3">Delivery Address</h2>
             <p className="text-sm text-gray-700 leading-relaxed">
               {[addr.name, addr.street, addr.city, addr.state, addr.pincode].filter(Boolean).join(', ')}
@@ -231,7 +231,7 @@ export default function OrderDetailPage() {
 
         {/* Seller info + contact */}
         {order.sellers && (
-          <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
             <h2 className="text-sm font-black text-black mb-3">Seller</h2>
             <p className="text-sm font-semibold text-black">{order.sellers.company_name}</p>
             {order.sellers.users?.email && (
@@ -240,7 +240,7 @@ export default function OrderDetailPage() {
             <Link
               href={`/messages`}
               className="inline-block mt-3 px-4 py-2 text-sm font-semibold"
-              style={{ border: '1.5px solid #000', borderRadius: '999px', color: '#000', background: '#fff' }}
+              style={{ border: '1.5px solid #000', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
             >
               Contact Seller
             </Link>
@@ -249,7 +249,7 @@ export default function OrderDetailPage() {
 
         {/* Notes */}
         {order.notes && (
-          <div className="bg-white mb-4" style={{ borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white mb-4" style={{ borderRadius: 'var(--radius-md)', padding: '24px', boxShadow: 'var(--shadow-raised)' }}>
             <h2 className="text-sm font-black text-black mb-2">Notes</h2>
             <p className="text-sm text-gray-600">{order.notes}</p>
           </div>
@@ -259,7 +259,7 @@ export default function OrderDetailPage() {
         <Link
           href={`/invoices`}
           className="block text-center w-full py-3.5 text-sm font-bold text-white"
-          style={{ background: '#000000', borderRadius: '12px' }}
+          style={{ background: '#000000', borderRadius: 'var(--radius-sm)' }}
         >
           🧾 Download Invoice
         </Link>

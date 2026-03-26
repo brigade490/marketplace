@@ -62,14 +62,14 @@ export default function NotificationsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading notifications...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -89,7 +89,7 @@ export default function NotificationsPage() {
         </div>
 
         {notifications.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🔔</div>
             <h3 className="font-black text-black mb-2">No notifications</h3>
             <p className="text-gray-400 text-sm">You're all caught up! Notifications will appear here.</p>
@@ -101,7 +101,7 @@ export default function NotificationsPage() {
                 key={notif.id}
                 className="bg-white flex items-start gap-4 cursor-pointer"
                 style={{
-                  borderRadius: '12px',
+                  borderRadius: 'var(--radius-sm)',
                   padding: '16px 20px',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                   borderLeft: notif.is_read ? 'none' : '3px solid #000000',

@@ -80,13 +80,13 @@ export default function HelpPage() {
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-black text-black mb-2">Help & Support</h1>
         <p className="text-gray-500 text-sm mb-8">Find answers to common questions or reach out to our support team.</p>
 
         {/* FAQ */}
-        <div className="bg-white mb-8" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', overflow: 'hidden' }}>
+        <div className="bg-white mb-8" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)', overflow: 'hidden' }}>
           <div className="px-6 pt-6 pb-2">
             <h2 className="text-lg font-black text-black">Frequently Asked Questions</h2>
           </div>
@@ -116,21 +116,21 @@ export default function HelpPage() {
         </div>
 
         {/* Contact section */}
-        <div className="bg-white mb-6" style={{ borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white mb-6" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
           <h2 className="text-lg font-black text-black mb-1">Contact Support</h2>
           <p className="text-sm text-gray-500 mb-4">Can't find your answer? Reach out to us directly.</p>
           <div className="flex flex-wrap gap-4">
             <a
               href="mailto:support@karobarrr.com"
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold"
-              style={{ border: '1.5px solid #000', borderRadius: '999px', color: '#000', background: '#fff' }}
+              style={{ border: '1.5px solid #000', borderRadius: 'var(--radius-pill)', color: '#000', background: 'var(--surface)' }}
             >
               📧 Email Support
             </a>
             <a
               href="#"
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white"
-              style={{ background: '#000000', borderRadius: '999px' }}
+              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
             >
               💬 Live Chat
             </a>
@@ -138,7 +138,7 @@ export default function HelpPage() {
         </div>
 
         {/* Raise ticket */}
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '28px', boxShadow: 'var(--shadow-raised)' }}>
           <h2 className="text-lg font-black text-black mb-1">Raise a Ticket</h2>
           <p className="text-sm text-gray-500 mb-5">Submit a support ticket and we'll get back to you within 24 hours.</p>
 
@@ -165,9 +165,9 @@ export default function HelpPage() {
                   placeholder="Brief description of your issue"
                   required
                   className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />
               </div>
               <div>
@@ -179,9 +179,9 @@ export default function HelpPage() {
                   rows={4}
                   required
                   className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none resize-none"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />
               </div>
 
@@ -197,7 +197,7 @@ export default function HelpPage() {
                 type="submit"
                 disabled={submitting || !isLoggedIn}
                 className="w-full py-3.5 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: '999px', opacity: (submitting || !isLoggedIn) ? 0.6 : 1 }}
+                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: (submitting || !isLoggedIn) ? 0.6 : 1 }}
               >
                 {submitting ? 'Submitting...' : 'Submit Ticket'}
               </button>

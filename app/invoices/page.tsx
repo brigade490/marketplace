@@ -111,14 +111,14 @@ Thank you for trading on Karobarrr!
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading invoices...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">Invoices</h1>
@@ -152,7 +152,7 @@ Thank you for trading on Karobarrr!
               <button
                 onClick={() => { setDateFrom(''); setDateTo(''); }}
                 className="px-4 py-2 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px', background: '#fff', color: '#6b7280' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: '8px', background: 'var(--surface)', color: 'var(--text-inactive)' }}
               >
                 Clear
               </button>
@@ -161,7 +161,7 @@ Thank you for trading on Karobarrr!
         </div>
 
         {filtered.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">🧾</div>
             <h3 className="font-black text-black mb-2">No invoices found</h3>
             <p className="text-gray-400 text-sm">Invoices are generated automatically from your orders.</p>
@@ -172,7 +172,7 @@ Thank you for trading on Karobarrr!
               <div
                 key={invoice.id}
                 className="bg-white flex items-center gap-4"
-                style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '16px 20px' }}
+                style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '16px 20px' }}
               >
                 <div className="text-2xl flex-shrink-0">🧾</div>
                 <div className="flex-1 min-w-0">
@@ -200,7 +200,7 @@ Thank you for trading on Karobarrr!
                 <button
                   onClick={() => downloadInvoice(invoice)}
                   className="flex-shrink-0 px-4 py-2 text-xs font-bold text-white"
-                  style={{ background: '#000000', borderRadius: '999px' }}
+                  style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
                 >
                   Download
                 </button>

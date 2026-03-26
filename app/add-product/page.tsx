@@ -144,18 +144,18 @@ export default function AddProductPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-black text-black mb-6">{editId ? 'Edit Product' : 'Add New Product'}</h1>
 
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '36px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '36px', boxShadow: 'var(--shadow-raised)' }}>
           <form onSubmit={handleSubmit} className="space-y-5">
             <Field label="Product Name *" value={form.name} onChange={v => set('name', v)} placeholder="e.g. Stainless Steel Rods 304 Grade" required />
 
@@ -167,7 +167,7 @@ export default function AddProductPage() {
                 onChange={e => set('category', e.target.value)}
                 required
                 className="w-full px-4 py-3 text-sm text-black outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -195,9 +195,9 @@ export default function AddProductPage() {
                 placeholder="Describe your product, specifications, and key features..."
                 rows={4}
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none resize-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -255,8 +255,8 @@ export default function AddProductPage() {
                 <div
                   className="relative"
                   style={{
-                    width: '44px', height: '24px', borderRadius: '999px',
-                    background: form.is_active ? '#000000' : '#e5e7eb',
+                    width: '44px', height: '24px', borderRadius: 'var(--radius-pill)',
+                    background: form.is_active ? '#000000' : 'var(--surface)',
                     transition: 'background 0.2s',
                   }}
                 >
@@ -265,7 +265,7 @@ export default function AddProductPage() {
                       position: 'absolute', top: '3px',
                       left: form.is_active ? '23px' : '3px',
                       width: '18px', height: '18px',
-                      borderRadius: '50%', background: '#fff',
+                      borderRadius: '50%', background: 'var(--surface)',
                       transition: 'left 0.2s',
                     }}
                   />
@@ -281,7 +281,7 @@ export default function AddProductPage() {
                 type="button"
                 onClick={() => router.push('/my-products')}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -289,7 +289,7 @@ export default function AddProductPage() {
                 type="submit"
                 disabled={saving || uploading}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: '999px', opacity: saving ? 0.6 : 1 }}
+                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}
               >
                 {saving ? 'Saving...' : editId ? 'Update Product' : 'Add Product'}
               </button>
@@ -319,9 +319,9 @@ function Field({
         min={type === 'number' ? '0' : undefined}
         step={type === 'number' ? 'any' : undefined}
         className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-        style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-        onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />
     </div>
   );

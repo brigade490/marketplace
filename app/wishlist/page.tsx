@@ -61,14 +61,14 @@ export default function WishlistPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading wishlist...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">Saved / Wishlist</h1>
@@ -76,14 +76,14 @@ export default function WishlistPage() {
         </div>
 
         {items.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">❤️</div>
             <h3 className="font-black text-black mb-2">Your wishlist is empty</h3>
             <p className="text-gray-400 text-sm mb-6">Save products you're interested in to view them later.</p>
             <Link
               href="/products"
               className="inline-block px-6 py-3 text-sm font-bold text-white"
-              style={{ background: '#000000', borderRadius: '999px' }}
+              style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
             >
               Browse Products
             </Link>
@@ -96,11 +96,11 @@ export default function WishlistPage() {
               const img = product.images?.[0];
 
               return (
-                <div key={item.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+                <div key={item.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
                   <Link href={`/products/${product.id}`}>
                     <div
                       className="flex items-center justify-center"
-                      style={{ width: '100%', height: '180px', background: '#f3f4f6', overflow: 'hidden' }}
+                      style={{ width: '100%', height: '180px', background: 'var(--bg)', overflow: 'hidden' }}
                     >
                       {img
                         ? <img src={img} alt={product.name} style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
@@ -127,7 +127,7 @@ export default function WishlistPage() {
                       <Link
                         href={`/products/${product.id}`}
                         className="flex-1 py-2 text-xs font-bold text-white text-center"
-                        style={{ background: '#000000', borderRadius: '999px' }}
+                        style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
                       >
                         View Product
                       </Link>
@@ -135,7 +135,7 @@ export default function WishlistPage() {
                         onClick={() => handleRemove(item.id)}
                         disabled={removing === item.id}
                         className="px-3 py-2 text-xs font-semibold"
-                        style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#dc2626', opacity: removing === item.id ? 0.6 : 1 }}
+                        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: '#dc2626', opacity: removing === item.id ? 0.6 : 1 }}
                       >
                         {removing === item.id ? '...' : '✕'}
                       </button>

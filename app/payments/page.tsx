@@ -89,38 +89,38 @@ export default function PaymentsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading payment methods...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">Payments & Billing</h1>
           <button
             onClick={() => setShowModal(true)}
             className="px-5 py-2.5 text-sm font-bold text-white"
-            style={{ background: '#000000', borderRadius: '999px' }}
+            style={{ background: '#000000', borderRadius: 'var(--radius-pill)' }}
           >
             + Add Method
           </button>
         </div>
 
         {methods.length === 0 && (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">💳</div>
             <h3 className="font-black text-black mb-2">No payment methods</h3>
             <p className="text-gray-400 text-sm mb-6">Add a UPI ID or bank account for payments.</p>
-            <button onClick={() => setShowModal(true)} className="px-6 py-3 text-sm font-bold text-white" style={{ background: '#000', borderRadius: '999px' }}>Add Method</button>
+            <button onClick={() => setShowModal(true)} className="px-6 py-3 text-sm font-bold text-white" style={{ background: '#000', borderRadius: 'var(--radius-pill)' }}>Add Method</button>
           </div>
         )}
 
         <div className="space-y-4">
           {methods.map(method => (
-            <div key={method.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
+            <div key={method.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{method.type === 'upi' ? '📱' : '🏦'}</span>
@@ -128,7 +128,7 @@ export default function PaymentsPage() {
                     <div className="flex items-center gap-2">
                       <h3 className="font-bold text-black text-sm">{method.type === 'upi' ? 'UPI' : 'Bank Account'}</h3>
                       {method.is_default && (
-                        <span className="px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#000', borderRadius: '999px' }}>Default</span>
+                        <span className="px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#000', borderRadius: 'var(--radius-pill)' }}>Default</span>
                       )}
                     </div>
                     {method.type === 'upi' ? (
@@ -157,15 +157,15 @@ export default function PaymentsPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.5)' }}
           onClick={e => { if (e.target === e.currentTarget) setShowModal(false); }}>
-          <div className="bg-white w-full" style={{ borderRadius: '16px', padding: '32px', maxWidth: '440px' }}>
+          <div className="bg-white w-full" style={{ borderRadius: 'var(--radius-md)', padding: '32px', maxWidth: '440px' }}>
             <h2 className="text-xl font-black text-black mb-5">Add Payment Method</h2>
 
             {/* Type tabs */}
-            <div className="flex mb-5 p-1" style={{ background: '#f7f7f8', borderRadius: '10px' }}>
+            <div className="flex mb-5 p-1" style={{ background: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
               {(['upi', 'bank'] as const).map(t => (
                 <button key={t} type="button" onClick={() => setAddType(t)}
                   className="flex-1 py-2 text-sm font-semibold"
-                  style={{ borderRadius: '8px', background: addType === t ? '#000' : 'transparent', color: addType === t ? '#fff' : '#6b7280' }}>
+                  style={{ borderRadius: '8px', background: addType === t ? '#000' : 'transparent', color: addType === t ? 'var(--surface)' : 'var(--text-inactive)' }}>
                   {t === 'upi' ? 'UPI' : 'Bank Account'}
                 </button>
               ))}
@@ -177,9 +177,9 @@ export default function PaymentsPage() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">UPI ID *</label>
                   <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} placeholder="name@upi"
                     className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                    style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                    style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                     onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                    onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')} />
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')} />
                 </div>
               ) : (
                 <>
@@ -191,9 +191,9 @@ export default function PaymentsPage() {
                       <input type="text" value={bankForm[field as keyof typeof bankForm]}
                         onChange={e => setBankForm(f => ({ ...f, [field]: e.target.value }))}
                         className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-                        style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                        onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')} />
+                        onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')} />
                     </div>
                   ))}
                 </>
@@ -203,9 +203,9 @@ export default function PaymentsPage() {
 
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-3 text-sm font-semibold"
-                  style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px' }}>Cancel</button>
+                  style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)' }}>Cancel</button>
                 <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold text-white"
-                  style={{ background: '#000', borderRadius: '999px', opacity: saving ? 0.6 : 1 }}>
+                  style={{ background: '#000', borderRadius: 'var(--radius-pill)', opacity: saving ? 0.6 : 1 }}>
                   {saving ? 'Adding...' : 'Add'}
                 </button>
               </div>

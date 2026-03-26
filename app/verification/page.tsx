@@ -98,14 +98,14 @@ export default function VerificationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading verification status...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-black text-black mb-6">Verification Status</h1>
 
@@ -114,7 +114,7 @@ export default function VerificationPage() {
           className="mb-6 p-5 flex items-center gap-4"
           style={{
             borderRadius: '14px',
-            background: overallStatus === 'approved' ? '#dcfce7' : overallStatus === 'rejected' ? '#fee2e2' : overallStatus === 'pending' ? '#fef9c3' : '#f3f4f6',
+            background: overallStatus === 'approved' ? '#dcfce7' : overallStatus === 'rejected' ? '#fee2e2' : overallStatus === 'pending' ? '#fef9c3' : 'var(--bg)',
           }}
         >
           <span className="text-3xl">
@@ -137,7 +137,7 @@ export default function VerificationPage() {
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-50 text-red-600 text-sm" style={{ borderRadius: '10px' }}>
+          <div className="mb-4 px-4 py-3 bg-red-50 text-red-600 text-sm" style={{ borderRadius: 'var(--radius-sm)' }}>
             {error}
           </div>
         )}
@@ -162,7 +162,7 @@ export default function VerificationPage() {
           />
         </div>
 
-        <div className="mt-6 p-4 bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <div className="mt-6 p-4 bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           <h3 className="font-bold text-black text-sm mb-2">Why get verified?</h3>
           <ul className="space-y-1.5 text-sm text-gray-600">
             <li>✓ Verified badge on your profile and products</li>
@@ -189,7 +189,7 @@ function DocCard({
   const statusCfg = doc ? STATUS_CONFIG[doc.status] : null;
 
   return (
-    <div className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
+    <div className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', padding: '20px' }}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <h3 className="font-bold text-black">{title}</h3>
@@ -198,7 +198,7 @@ function DocCard({
         {statusCfg && (
           <span
             className="flex-shrink-0 px-3 py-1 text-xs font-bold"
-            style={{ borderRadius: '999px', background: statusCfg.bg, color: statusCfg.color }}
+            style={{ borderRadius: 'var(--radius-pill)', background: statusCfg.bg, color: statusCfg.color }}
           >
             {statusCfg.icon} {statusCfg.label}
           </span>
@@ -228,8 +228,8 @@ function DocCard({
         className="px-4 py-2 text-sm font-semibold transition-colors"
         style={{
           border: '1.5px solid #000',
-          borderRadius: '999px',
-          background: '#fff',
+          borderRadius: 'var(--radius-pill)',
+          background: 'var(--surface)',
           color: '#000',
           opacity: isUploading ? 0.6 : 1,
         }}

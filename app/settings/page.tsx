@@ -79,14 +79,14 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading settings...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-xl mx-auto">
         <h1 className="text-2xl font-black text-black mb-6">Settings</h1>
 
@@ -120,18 +120,18 @@ export default function SettingsPage() {
               value={settings.language}
               onChange={e => select('language', e.target.value)}
               className="w-full px-4 py-3 text-sm text-black outline-none"
-              style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
             >
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
           </div>
-          <div className="py-3" style={{ borderTop: '1px solid #f3f4f6' }}>
+          <div className="py-3" style={{  }}>
             <label className="block text-sm font-semibold text-black mb-2">Currency</label>
             <select
               value={settings.currency}
               onChange={e => select('currency', e.target.value)}
               className="w-full px-4 py-3 text-sm text-black outline-none"
-              style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
             >
               {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
             </select>
@@ -164,7 +164,7 @@ export default function SettingsPage() {
           onClick={handleSave}
           disabled={saving}
           className="w-full py-3.5 text-sm font-bold text-white"
-          style={{ background: '#000000', borderRadius: '12px', opacity: saving ? 0.6 : 1 }}
+          style={{ background: '#000000', borderRadius: 'var(--radius-sm)', opacity: saving ? 0.6 : 1 }}
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
@@ -186,7 +186,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
   label: string; description: string; checked: boolean; onToggle: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between py-3" style={{ borderTop: '1px solid #f3f4f6' }}>
+    <div className="flex items-center justify-between py-3" style={{  }}>
       <div className="flex-1 pr-4">
         <p className="text-sm font-semibold text-black">{label}</p>
         <p className="text-xs text-gray-500 mt-0.5">{description}</p>
@@ -195,7 +195,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
         type="button"
         onClick={onToggle}
         style={{
-          width: '44px', height: '24px', borderRadius: '999px', flexShrink: 0,
+          width: '44px', height: '24px', borderRadius: 'var(--radius-pill)', flexShrink: 0,
           background: checked ? '#000000' : '#e5e7eb',
           position: 'relative', transition: 'background 0.2s',
         }}
@@ -205,7 +205,7 @@ function ToggleRow({ label, description, checked, onToggle }: {
             position: 'absolute', top: '3px',
             left: checked ? '23px' : '3px',
             width: '18px', height: '18px',
-            borderRadius: '50%', background: '#fff',
+            borderRadius: '50%', background: 'var(--surface)',
             transition: 'left 0.2s',
           }}
         />

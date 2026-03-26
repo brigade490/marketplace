@@ -74,14 +74,14 @@ export default function OrdersReceivedPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading orders...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-black text-black">Orders Received</h1>
@@ -96,11 +96,11 @@ export default function OrdersReceivedPage() {
               onClick={() => setStatusFilter(s)}
               className="px-4 py-1.5 text-sm font-semibold transition-colors"
               style={{
-                borderRadius: '999px',
-                background: statusFilter === s ? '#000000' : '#ffffff',
-                color: statusFilter === s ? '#ffffff' : '#6b7280',
+                borderRadius: 'var(--radius-pill)',
+                background: statusFilter === s ? '#000000' : 'var(--surface)',
+                color: statusFilter === s ? 'var(--surface)' : 'var(--text-inactive)',
                 border: '1.5px solid',
-                borderColor: statusFilter === s ? '#000000' : '#e5e7eb',
+                borderColor: statusFilter === s ? '#000000' : 'var(--surface)',
               }}
             >
               {s}
@@ -109,7 +109,7 @@ export default function OrdersReceivedPage() {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="bg-white text-center py-16" style={{ borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+          <div className="bg-white text-center py-16" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)' }}>
             <div className="text-4xl mb-3">📋</div>
             <h3 className="font-black text-black mb-2">No orders yet</h3>
             <p className="text-gray-400 text-sm">Orders from buyers will appear here.</p>
@@ -117,16 +117,16 @@ export default function OrdersReceivedPage() {
         ) : (
           <div className="space-y-4">
             {filtered.map(order => {
-              const sc = STATUS_COLORS[order.status] || { bg: '#f3f4f6', color: '#6b7280' };
+              const sc = STATUS_COLORS[order.status] || { bg: 'var(--bg)', color: 'var(--text-inactive)' };
               const img = order.products?.images?.[0];
               const buyerName = order.buyers?.users?.full_name || order.buyers?.users?.email || 'Unknown Buyer';
 
               return (
-                <div key={order.id} className="bg-white" style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+                <div key={order.id} className="bg-white" style={{ borderRadius: 'var(--radius-sm)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
                   <div className="flex items-start gap-4 p-5">
                     <div
                       className="flex-shrink-0 flex items-center justify-center"
-                      style={{ width: '72px', height: '72px', borderRadius: '10px', background: '#f3f4f6', overflow: 'hidden' }}
+                      style={{ width: '72px', height: '72px', borderRadius: 'var(--radius-sm)', background: 'var(--bg)', overflow: 'hidden' }}
                     >
                       {img
                         ? <img src={img} alt={order.products?.name} style={{ width: '72px', height: '72px', objectFit: 'cover' }} />
@@ -150,7 +150,7 @@ export default function OrdersReceivedPage() {
                           <div className="font-black text-black text-base">₹{order.total_amount.toLocaleString('en-IN')}</div>
                           <span
                             className="inline-block mt-1 px-2.5 py-0.5 text-xs font-semibold"
-                            style={{ borderRadius: '999px', background: sc.bg, color: sc.color }}
+                            style={{ borderRadius: 'var(--radius-pill)', background: sc.bg, color: sc.color }}
                           >
                             {order.status}
                           </span>
@@ -210,7 +210,7 @@ function ActionBtn({ label, bg, color, onClick, disabled }: { label: string; bg:
       onClick={onClick}
       disabled={disabled}
       className="px-3 py-1.5 text-xs font-semibold transition-opacity"
-      style={{ borderRadius: '999px', background: bg, color, opacity: disabled ? 0.6 : 1 }}
+      style={{ borderRadius: 'var(--radius-pill)', background: bg, color, opacity: disabled ? 0.6 : 1 }}
     >
       {label}
     </button>

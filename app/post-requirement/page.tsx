@@ -88,19 +88,19 @@ export default function PostRequirementPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f7f7f8' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="text-gray-400 text-sm">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 px-4" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-xl mx-auto">
         <h1 className="text-2xl font-black text-black mb-2">Post a Requirement</h1>
         <p className="text-gray-500 text-sm mb-6">Tell sellers what you need and get competitive quotes.</p>
 
-        <div className="bg-white" style={{ borderRadius: '16px', padding: '36px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+        <div className="bg-white" style={{ borderRadius: 'var(--radius-md)', padding: '36px', boxShadow: 'var(--shadow-raised)' }}>
           <form onSubmit={handleSubmit} className="space-y-5">
             <Field label="Requirement Title *" value={form.title} onChange={v => set('title', v)} placeholder="e.g. Need 500 kg Stainless Steel Rods" required />
 
@@ -110,7 +110,7 @@ export default function PostRequirementPage() {
                 value={form.category}
                 onChange={e => set('category', e.target.value)}
                 className="w-full px-4 py-3 text-sm text-black outline-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px', background: '#fff' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -125,9 +125,9 @@ export default function PostRequirementPage() {
                 placeholder="Describe your requirement in detail — specifications, quality standards, delivery requirements..."
                 rows={4}
                 className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none resize-none"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
             </div>
 
@@ -149,8 +149,8 @@ export default function PostRequirementPage() {
               >
                 <div
                   style={{
-                    width: '44px', height: '24px', borderRadius: '999px',
-                    background: form.is_urgent ? '#dc2626' : '#e5e7eb',
+                    width: '44px', height: '24px', borderRadius: 'var(--radius-pill)',
+                    background: form.is_urgent ? '#dc2626' : 'var(--surface)',
                     position: 'relative', transition: 'background 0.2s',
                   }}
                 >
@@ -159,7 +159,7 @@ export default function PostRequirementPage() {
                       position: 'absolute', top: '3px',
                       left: form.is_urgent ? '23px' : '3px',
                       width: '18px', height: '18px',
-                      borderRadius: '50%', background: '#fff',
+                      borderRadius: '50%', background: 'var(--surface)',
                       transition: 'left 0.2s',
                     }}
                   />
@@ -175,7 +175,7 @@ export default function PostRequirementPage() {
                 type="button"
                 onClick={() => router.back()}
                 className="flex-1 py-3 text-sm font-semibold"
-                style={{ border: '1.5px solid #e5e7eb', borderRadius: '999px', background: '#fff', color: '#111827' }}
+                style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-pill)', background: 'var(--surface)', color: 'var(--text-primary)' }}
               >
                 Cancel
               </button>
@@ -183,7 +183,7 @@ export default function PostRequirementPage() {
                 type="submit"
                 disabled={submitting}
                 className="flex-1 py-3 text-sm font-bold text-white"
-                style={{ background: '#000000', borderRadius: '999px', opacity: submitting ? 0.6 : 1 }}
+                style={{ background: '#000000', borderRadius: 'var(--radius-pill)', opacity: submitting ? 0.6 : 1 }}
               >
                 {submitting ? 'Posting...' : 'Post Requirement'}
               </button>
@@ -211,9 +211,9 @@ function Field({
         placeholder={placeholder}
         required={required}
         className="w-full px-4 py-3 text-sm text-black placeholder-gray-400 outline-none"
-        style={{ border: '1.5px solid #e5e7eb', borderRadius: '10px' }}
+        style={{ border: '1.5px solid #e5e7eb', borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
-        onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />
     </div>
   );

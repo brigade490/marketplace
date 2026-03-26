@@ -17,231 +17,257 @@
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 }
 
+/* ═══════════════════════════════════════════════════
+   NEUMORPHIC DESIGN SYSTEM
+═══════════════════════════════════════════════════ */
+
 :root {
-  --background: #f7f7f8;
-  --foreground: #0d0f14;
+  --bg:            #e8e8ed;
+  --surface:       #efefef;
+  --shadow-dark:   rgba(160,160,170,0.55);
+  --shadow-light:  rgba(255,255,255,0.95);
+  --active-bg:     linear-gradient(145deg, #2c2c33, #111114);
+  --text-primary:  #3a3a42;
+  --text-inactive: #9a9aa5;
+  --radius-sm:     13px;
+  --radius-md:     22px;
+  --radius-pill:   999px;
+  --shadow-raised: 6px 6px 16px var(--shadow-dark), -6px -6px 16px var(--shadow-light);
+  --shadow-inset:  inset 4px 4px 10px rgba(160,160,170,0.5), inset -4px -4px 10px rgba(255,255,255,0.9);
+  --shadow-active: 0 4px 20px rgba(0,0,0,0.38);
+  --transition:    all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  /* legacy compat */
+  --background: var(--bg);
+  --foreground: var(--text-primary);
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  border: none !important;
+  outline: none !important;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text-primary);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--shadow-dark);
+  border-radius: 3px;
+  box-shadow: none !important;
+}
 
-/* Global button styles */
+/* ─── Utility classes ────────────────────────────────────── */
+
+.neu-raised {
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.neu-inset {
+  background: var(--surface);
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--radius-pill);
+  transition: var(--transition);
+}
+
+.neu-inset-sm {
+  background: var(--surface);
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.neu-active {
+  background: var(--active-bg);
+  box-shadow: var(--shadow-active);
+  color: #fff;
+  border-radius: var(--radius-pill);
+}
+
+/* ─── Global button ──────────────────────────────────────── */
+
 button {
-  border-radius: 999px;
-  background: #000000;
+  background: var(--active-bg);
   color: #ffffff;
-  /* Tap feedback — universal */
-  transition: transform 120ms ease-out, opacity 120ms ease-out;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-active);
+  transition: var(--transition);
+  cursor: pointer;
 }
 button:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
+  box-shadow: var(--shadow-inset);
+}
+button:hover {
+  opacity: 0.92;
 }
 
-/* Hide scrollbar for horizontal scroll containers */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-
-/* ═══════════════════════════════════════════════════
-   KEYFRAMES
-═══════════════════════════════════════════════════ */
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Ghost / secondary buttons */
+button.ghost,
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text-inactive);
+  box-shadow: var(--shadow-raised);
+}
+button.ghost:active,
+.btn-ghost:active {
+  box-shadow: var(--shadow-inset);
 }
 
-@keyframes scaleIn {
-  from { transform: scale(0.94); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
+/* ─── Global inputs ──────────────────────────────────────── */
+
+input,
+textarea,
+select {
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--radius-pill);
+  outline: none;
+  transition: var(--transition);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-inactive);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: var(--shadow-inset), 0 0 0 2px rgba(44,44,51,0.15);
+}
+select {
+  cursor: pointer;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* ─── Cards / containers ─────────────────────────────────── */
+
+/* Anything that was bg-white becomes a neu-raised surface */
+.bg-white,
+[class*="bg-white"] {
+  background: var(--surface) !important;
+  box-shadow: var(--shadow-raised) !important;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-3px); }
-  40%       { transform: translateX(3px); }
-  60%       { transform: translateX(-2px); }
-  80%       { transform: translateX(2px); }
+/* ─── Nav / Header ───────────────────────────────────────── */
+
+header {
+  background: var(--surface) !important;
+  box-shadow: 0 4px 24px var(--shadow-dark) !important;
 }
 
-@keyframes shimmer {
-  0%   { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
+/* ─── Segmented controls / tabs ──────────────────────────── */
+
+.neu-tab-bar {
+  background: var(--surface);
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  display: flex;
+  gap: 2px;
+}
+.neu-tab {
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-inactive);
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.neu-tab:active { transform: none; }
+.neu-tab.active {
+  background: var(--active-bg);
+  box-shadow: var(--shadow-active);
+  color: #fff;
 }
 
-@keyframes checkBounce {
-  0%   { transform: scale(0.4); opacity: 0; }
-  55%  { transform: scale(1.2); opacity: 1; }
-  80%  { transform: scale(0.95); }
-  100% { transform: scale(1);   opacity: 1; }
+/* ─── Checkboxes ─────────────────────────────────────────── */
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm) !important;
+  background: var(--surface);
+  box-shadow: var(--shadow-inset);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: var(--transition);
 }
-
-@keyframes greenPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
-  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
-  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+input[type="checkbox"]:checked {
+  background: var(--active-bg);
+  box-shadow: var(--shadow-active);
 }
-
-@keyframes slideFromRight {
-  from { transform: translateX(40px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-
-@keyframes slideFromLeft {
-  from { transform: translateX(-40px); opacity: 0; }
-  to   { transform: translateX(0);     opacity: 1; }
-}
-
-@keyframes dropdownExpand {
-  from { opacity: 0; transform: scaleY(0.94) translateY(-4px); }
-  to   { opacity: 1; transform: scaleY(1)    translateY(0); }
-}
-
-@keyframes confettiDrop {
-  0%   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
-  100% { transform: translateY(-90px) rotate(400deg); opacity: 0; }
-}
-
-@keyframes readyIn {
-  from { transform: scale(0.82); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
-}
-
-@keyframes progressFill {
-  from { width: 0%; }
-}
-
-@keyframes spinnerRotate {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes successTick {
-  0%   { stroke-dashoffset: 30; opacity: 0; }
-  50%  { opacity: 1; }
-  100% { stroke-dashoffset: 0;  opacity: 1; }
-}
-
-
-/* ═══════════════════════════════════════════════════
-   UTILITY ANIMATION CLASSES
-═══════════════════════════════════════════════════ */
-
-/* Fade + slide up */
-.fade-up {
-  animation: fadeSlideUp 220ms ease-out both;
-}
-.fade-up-d1 { animation-delay: 50ms; }
-.fade-up-d2 { animation-delay: 100ms; }
-.fade-up-d3 { animation-delay: 150ms; }
-.fade-up-d4 { animation-delay: 200ms; }
-.fade-up-d5 { animation-delay: 250ms; }
-.fade-up-d6 { animation-delay: 300ms; }
-
-/* Scale in (modals, popups, chips) */
-.scale-in {
-  animation: scaleIn 200ms ease-out both;
-}
-
-/* Page/step slide transitions */
-.step-forward { animation: slideFromRight 230ms ease-out both; }
-.step-back    { animation: slideFromLeft  230ms ease-out both; }
-
-/* Step content change */
-.step-enter { animation: fadeSlideUp 200ms ease-out both; }
-
-/* Error shake */
-.shake { animation: shake 320ms ease-out; }
-
-/* Check icon bounce */
-.check-in { animation: checkBounce 380ms ease-out both; }
-
-/* OTP / success green pulse */
-.green-pulse { animation: greenPulse 600ms ease-out; }
-
-/* Dropdown expand */
-.dropdown-enter {
-  animation: dropdownExpand 180ms ease-out both;
-  transform-origin: top;
-}
-
-/* "You're ready" text */
-.ready-in { animation: readyIn 500ms 150ms ease-out both; }
-
-/* Confetti piece */
-.confetti-piece {
+input[type="checkbox"]:checked::after {
+  content: '';
   position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  animation: confettiDrop 900ms ease-out forwards;
-  pointer-events: none;
+  left: 6px;
+  top: 3px;
+  width: 6px;
+  height: 11px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(40deg);
 }
 
-/* Skeleton loader */
+/* ─── Toggles (div-based in onboarding) ──────────────────── */
+
+.neu-toggle-track {
+  transition: var(--transition);
+}
+
+/* ─── Skeleton override ──────────────────────────────────── */
+
 .skeleton {
-  background: linear-gradient(90deg, #ececec 25%, #e0e0e0 50%, #ececec 75%);
+  background: linear-gradient(90deg, #dcdce1 25%, #d0d0d6 50%, #dcdce1 75%);
   background-size: 600px 100%;
   animation: shimmer 1.4s infinite linear;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
+  box-shadow: none !important;
 }
 
-/* Progress bar smooth fill */
-.progress-bar {
-  transition: width 280ms ease-out;
-}
+/* ─── Spinner ────────────────────────────────────────────── */
 
-/* Spinner */
 .spinner {
-  border: 2px solid #e5e7eb;
-  border-top-color: #000;
+  border: 2px solid rgba(160,160,170,0.3);
+  border-top-color: var(--text-primary);
   border-radius: 50%;
+  box-shadow: none !important;
   animation: spinnerRotate 700ms linear infinite;
 }
 
+/* ─── Scrollbar hide ─────────────────────────────────────── */
 
-/* ═══════════════════════════════════════════════════
-   CARD HOVER LIFT
-═══════════════════════════════════════════════════ */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Card hover lift (neumorphic) ───────────────────────── */
 
 .card-lift {
-  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  transition: var(--transition);
   will-change: transform;
 }
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.11) !important;
-}
-.card-lift .card-img {
-  transition: transform 250ms ease-out;
-  overflow: hidden;
-}
-.card-lift:hover .card-img {
-  transform: scale(1.02);
+  box-shadow: 10px 10px 24px var(--shadow-dark), -10px -10px 24px var(--shadow-light) !important;
 }
 
-
-/* ═══════════════════════════════════════════════════
-   FLOATING LABEL INPUTS
-═══════════════════════════════════════════════════ */
+/* ─── Floating label inputs (neumorphic) ─────────────────── */
 
 .float-field {
   position: relative;
@@ -251,7 +277,7 @@ button:active {
   padding-top: 20px;
   padding-bottom: 8px;
   height: auto;
-  transition: border-color 150ms ease-out;
+  border-radius: var(--radius-sm) !important;
 }
 .float-field label {
   position: absolute;
@@ -259,13 +285,11 @@ button:active {
   top: 50%;
   transform: translateY(-50%);
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--text-inactive);
   pointer-events: none;
-  transition: top 150ms ease-out, font-size 150ms ease-out,
-              color 150ms ease-out, transform 150ms ease-out;
+  transition: var(--transition);
   white-space: nowrap;
 }
-/* Textarea label starts at top */
 .float-field.is-textarea label {
   top: 16px;
   transform: none;
@@ -278,29 +302,107 @@ button:active {
   transform: translateY(0);
   font-size: 10px;
   font-weight: 700;
-  color: #000;
+  color: var(--text-primary);
   letter-spacing: 0.02em;
 }
-.float-field.is-textarea input:focus ~ label,
-.float-field.is-textarea textarea:focus ~ label,
-.float-field.is-textarea textarea:not(:placeholder-shown) ~ label {
-  top: 7px;
+
+/* ─── Progress bar ───────────────────────────────────────── */
+
+.progress-bar {
+  transition: width 280ms ease-out;
 }
 
-
 /* ═══════════════════════════════════════════════════
-   INPUT FOCUS HIGHLIGHT
+   KEYFRAMES
 ═══════════════════════════════════════════════════ */
 
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-3px); }
+  40%       { transform: translateX(3px); }
+  60%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+@keyframes checkBounce {
+  0%   { transform: scale(0.4); opacity: 0; }
+  55%  { transform: scale(1.2); opacity: 1; }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes greenPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+@keyframes slideFromRight {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideFromLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes dropdownExpand {
+  from { opacity: 0; transform: scaleY(0.94) translateY(-4px); }
+  to   { opacity: 1; transform: scaleY(1)    translateY(0); }
+}
+@keyframes confettiDrop {
+  0%   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(-90px) rotate(400deg); opacity: 0; }
+}
+@keyframes readyIn {
+  from { transform: scale(0.82); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
 }
 
-
 /* ═══════════════════════════════════════════════════
-   STAGGER CHILDREN
+   ANIMATION UTILITY CLASSES
 ═══════════════════════════════════════════════════ */
+
+.fade-up          { animation: fadeSlideUp 220ms ease-out both; }
+.fade-up-d1       { animation-delay: 50ms; }
+.fade-up-d2       { animation-delay: 100ms; }
+.fade-up-d3       { animation-delay: 150ms; }
+.fade-up-d4       { animation-delay: 200ms; }
+.fade-up-d5       { animation-delay: 250ms; }
+.fade-up-d6       { animation-delay: 300ms; }
+.scale-in         { animation: scaleIn 200ms ease-out both; }
+.step-forward     { animation: slideFromRight 230ms ease-out both; }
+.step-back        { animation: slideFromLeft  230ms ease-out both; }
+.shake            { animation: shake 320ms ease-out; }
+.check-in         { animation: checkBounce 380ms ease-out both; }
+.green-pulse      { animation: greenPulse 600ms ease-out; }
+.ready-in         { animation: readyIn 500ms 150ms ease-out both; }
+.dropdown-enter   { animation: dropdownExpand 180ms ease-out both; transform-origin: top; }
+
+.confetti-piece {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  animation: confettiDrop 900ms ease-out forwards;
+  pointer-events: none;
+  box-shadow: none !important;
+}
 
 .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
 .stagger-children > *:nth-child(2) { animation-delay: 55ms; }
