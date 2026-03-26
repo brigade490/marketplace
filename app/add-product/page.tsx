@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
@@ -11,6 +11,10 @@ const CATEGORIES = [
 ];
 
 export default function AddProductPage() {
+  return <Suspense><AddProductInner /></Suspense>;
+}
+
+function AddProductInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('edit');

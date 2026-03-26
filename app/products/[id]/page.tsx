@@ -101,7 +101,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         .single();
 
       if (data) {
-        const seller = data.sellers as {
+        const seller = data.sellers as unknown as {
           company_name: string; tier: string; member_since: string;
           total_orders: number; response_time_h: number; on_time_pct: number;
         } | null;

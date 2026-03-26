@@ -35,7 +35,7 @@ const FAQS = [
   },
   {
     q: 'Is my data secure?',
-    a: 'Yes, we use industry-standard encryption and Supabase's secure database infrastructure. Your data is protected with Row Level Security policies.',
+    a: "Yes, we use industry-standard encryption and Supabase's secure database infrastructure. Your data is protected with Row Level Security policies.",
   },
 ];
 
@@ -88,7 +88,7 @@ export default function HelpPage() {
         {/* FAQ */}
         <div className="bg-white mb-8" style={{ borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-raised)', overflow: 'hidden' }}>
           <div className="px-6 pt-6 pb-2">
-            <h2 className="text-lg font-black>Frequently Asked Questions</h2>
+            <h2 className="text-lg font-black">Frequently Asked Questions</h2>
           </div>
           <div>
             {FAQS.map((faq, idx) => (

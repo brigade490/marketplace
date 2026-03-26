@@ -64,7 +64,7 @@ export default function MyRequirementsPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>My Requirements</h1>
+          <h1 className="text-2xl font-black">My Requirements</h1>
           <Link
             href="/post-requirement"
             className="px-5 py-2.5 text-sm font-bold text-white"

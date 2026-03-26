@@ -84,7 +84,7 @@ export default function ProductsPage() {
       if (!error && data && data.length > 0) {
         setAllProducts(
           data.map((p) => {
-            const seller = p.sellers as { company_name: string; tier: string } | null;
+            const seller = p.sellers as unknown as { company_name: string; tier: string } | null;
             return {
               id: p.id,
               emoji: categoryEmoji[p.category] ?? "📦",

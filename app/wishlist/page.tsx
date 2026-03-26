@@ -45,7 +45,7 @@ export default function WishlistPage() {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      setItems((data as WishlistItem[]) || []);
+      setItems((data as unknown as WishlistItem[]) || []);
       setLoading(false);
     }
     load();
@@ -71,7 +71,7 @@ export default function WishlistPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>Saved / Wishlist</h1>
+          <h1 className="text-2xl font-black">Saved / Wishlist</h1>
           <span className="text-sm text-gray-500">{items.length} saved</span>
         </div>
 

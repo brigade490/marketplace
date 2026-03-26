@@ -121,7 +121,7 @@ Thank you for trading on Karobarrr!
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>Invoices</h1>
+          <h1 className="text-2xl font-black">Invoices</h1>
           <span className="text-sm text-gray-500">{filtered.length} invoices</span>
         </div>
 
@@ -185,7 +185,7 @@ Thank you for trading on Karobarrr!
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-black>₹{invoice.total_amount.toLocaleString('en-IN')}</p>
+                      <p className="font-black">₹{invoice.total_amount.toLocaleString('en-IN')}</p>
                       <span
                         className="text-xs font-semibold"
                         style={{

@@ -44,7 +44,7 @@ export default function RequirementsPage() {
     if (!error && data && data.length > 0) {
       setRequirements(
         data.map((r) => {
-          const buyer = r.buyers as { users: { email: string } | null } | null;
+          const buyer = r.buyers as unknown as { users: { email: string } | null } | null;
           const email = buyer?.users?.email ?? "Anonymous";
           const postedDate = new Date(r.created_at);
           const daysAgo = Math.floor((Date.now() - postedDate.getTime()) / 86400000);

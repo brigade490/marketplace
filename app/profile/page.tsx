@@ -99,7 +99,7 @@ export default function ProfilePage() {
                 }
               </div>
               <div>
-                <h1 className="text-2xl font-black>
+                <h1 className="text-2xl font-black">
                   {profile.full_name || 'Your Name'}
                 </h1>
                 {(sellerInfo?.company_name || buyerInfo?.company_name || profile.business_name) && (

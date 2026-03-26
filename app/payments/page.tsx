@@ -99,7 +99,7 @@ export default function PaymentsPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>Payments & Billing</h1>
+          <h1 className="text-2xl font-black">Payments & Billing</h1>
           <button
             onClick={() => setShowModal(true)}
             className="px-5 py-2.5 text-sm font-bold text-white"

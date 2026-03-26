@@ -120,7 +120,7 @@ export default function SettingsPage() {
               value={settings.language}
               onChange={e => select('language', e.target.value)}
               className="w-full px-4 py-3 text-sm  outline-none"
-              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
+              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--input-bg)', borderRadius: '10px' }}
             >
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
@@ -131,7 +131,7 @@ export default function SettingsPage() {
               value={settings.currency}
               onChange={e => select('currency', e.target.value)}
               className="w-full px-4 py-3 text-sm  outline-none"
-              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--surface)', borderRadius: '10px', background: 'var(--surface)' }}
+              style={{ boxShadow: 'var(--shadow-inset)', background: 'var(--input-bg)', borderRadius: '10px' }}
             >
               {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
             </select>

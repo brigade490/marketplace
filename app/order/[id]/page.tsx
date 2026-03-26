@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
         .single();
 
       if (!data) { router.push('/my-orders'); return; }
-      setOrder(data as OrderDetail);
+      setOrder(data as unknown as OrderDetail);
       setLoading(false);
     }
     load();
@@ -205,14 +205,14 @@ export default function OrderDetailPage() {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Unit Price</span>
-              <span className="font-semibold>₹{order.unit_price.toLocaleString('en-IN')}</span>
+              <span className="font-semibold">₹{order.unit_price.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Quantity</span>
               <span className="font-semibold">{order.quantity}</span>
             </div>
             <div className="flex justify-between text-sm pt-2" style={{ borderTop: '1px solid #f3f4f6' }}>
-              <span className="font-black>Total</span>
+              <span className="font-black">Total</span>
               <span className="font-black  text-lg">₹{order.total_amount.toLocaleString('en-IN')}</span>
             </div>
           </div>

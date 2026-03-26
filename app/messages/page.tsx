@@ -52,7 +52,7 @@ export default function MessagesPage() {
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order('created_at', { ascending: true });
 
-      const msgs = (data as Message[]) || [];
+      const msgs = (data as unknown as Message[]) || [];
 
       // Build conversations
       const convMap = new Map<string, { lastMessage: string; lastTime: string; unread: number; name: string }>();
@@ -127,7 +127,7 @@ export default function MessagesPage() {
       .single();
 
     if (!error && data) {
-      setMessages(prev => [...prev, data as Message]);
+      setMessages(prev => [...prev, data as unknown as Message]);
       setNewMessage('');
     }
     setSending(false);
@@ -180,7 +180,7 @@ export default function MessagesPage() {
                       `)
                       .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${conv.otherId}),and(receiver_id.eq.${currentUserId},sender_id.eq.${conv.otherId})`)
                       .order('created_at', { ascending: true })
-                      .then(({ data }) => setMessages((data as Message[]) || []));
+                      .then(({ data }) => setMessages((data as unknown as Message[]) || []));
                   }}
                   className="w-full text-left p-4 transition-colors border-b border-gray-50"
                   style={{

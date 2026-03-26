@@ -48,7 +48,7 @@ export default function AddressesPage() {
         .eq('user_id', user.id)
         .order('is_default', { ascending: false });
 
-      setAddresses((data as Address[]) || []);
+      setAddresses((data as unknown as Address[]) || []);
       setLoading(false);
     }
     load();
@@ -79,7 +79,7 @@ export default function AddressesPage() {
     } else {
       const isFirst = addresses.length === 0;
       const { data } = await supabase.from('addresses').insert({ ...form, user_id: userId, is_default: isFirst }).select('*').single();
-      if (data) setAddresses(prev => [...prev, data as Address]);
+      if (data) setAddresses(prev => [...prev, data as unknown as Address]);
     }
 
     setShowForm(false);
@@ -111,7 +111,7 @@ export default function AddressesPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>Addresses</h1>
+          <h1 className="text-2xl font-black">Addresses</h1>
           <button
             onClick={openAdd}
             className="px-5 py-2.5 text-sm font-bold text-white"
@@ -149,7 +149,7 @@ export default function AddressesPage() {
                 </div>
               </div>
               <div className="flex gap-3 mt-3">
-                <button onClick={() => openEdit(addr)} className="text-xs font-semibold>Edit</button>
+                <button onClick={() => openEdit(addr)} className="text-xs font-semibold">Edit</button>
                 {!addr.is_default && (
                   <button onClick={() => setDefault(addr.id)} className="text-xs font-semibold text-gray-600">Set Default</button>
                 )}

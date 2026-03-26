@@ -412,7 +412,7 @@ function WelcomeScreen({
         <button
           onClick={onLogin}
           className="w-full py-4 text-base font-semibold"
-          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none', boxShadow: 'var(--shadow-inset)' }}
+          style={{ background: 'var(--input-bg)', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-inset)' }}
         >
           I already have an account
         </button>
@@ -454,7 +454,6 @@ function AccountTypeScreen({
             style={{
               borderRadius: 'var(--radius-md)',
               boxShadow: selected === key ? 'var(--shadow-active)' : 'var(--shadow-raised)',
-              boxShadow: selected === key ? '0 4px 20px rgba(0,0,0,0.10)' : '0 2px 8px rgba(0,0,0,0.05)',
               transition: 'border 150ms ease-out, box-shadow 150ms ease-out',
             }}
           >

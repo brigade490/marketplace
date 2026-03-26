@@ -206,8 +206,7 @@ export default function SellerDashboardPage() {
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-all -mb-px ${tab === key ? "border-black : "border-transparent text-gray-500 hover:text-gray-700"}`}
-              style={{ background: "transparent" }}
+              className={`neu-tab${tab === key ? " active" : ""}`}
             >
               {label}
             </button>
@@ -276,7 +275,7 @@ export default function SellerDashboardPage() {
           {tab === "orders" && (
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-black>Order Management</h2>
+                <h2 className="text-lg font-black">Order Management</h2>
                 <p className="text-sm text-gray-500">{orders.length} orders total</p>
               </div>
               {orders.length === 0 ? (
@@ -308,7 +307,7 @@ export default function SellerDashboardPage() {
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="text-right">
-                              <div className="text-lg font-black>₹{Number(order.total_amount).toLocaleString("en-IN")}</div>
+                              <div className="text-lg font-black">₹{Number(order.total_amount).toLocaleString("en-IN")}</div>
                             </div>
                             <select
                               value={order.status}

@@ -57,7 +57,7 @@ export default function MyOrdersPage() {
         .eq('buyer_id', buyer.id)
         .order('created_at', { ascending: false });
 
-      setOrders((data as Order[]) || []);
+      setOrders((data as unknown as Order[]) || []);
       setLoading(false);
     }
     load();
@@ -77,7 +77,7 @@ export default function MyOrdersPage() {
     <div className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black>My Orders</h1>
+          <h1 className="text-2xl font-black">My Orders</h1>
           <span className="text-sm text-gray-500">{orders.length} total</span>
         </div>
 
