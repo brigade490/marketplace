@@ -3,12 +3,16 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done';
+type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('splash');
   const [dir, setDir] = useState<'fwd' | 'bck'>('fwd');
+
+  // Seller form state
+  const [sellerBasic, setSellerBasic] = useState({ name: '', email: '' });
+  const [sellerBusiness, setSellerBusiness] = useState({ businessName: '', businessType: '' });
 
   // Buyer form state
   const [buyerBasic, setBuyerBasic] = useState({ name: '', email: '' });
@@ -37,6 +41,12 @@ export default function OnboardingPage() {
 
   const animClass = dir === 'fwd' ? 'step-forward' : 'step-back';
 
+  const sellerProgressMap: Partial<Record<Step, number>> = {
+    's-basic': 1,
+    's-business': 2,
+  };
+  const totalSellerSteps = 10; // full seller flow length
+
   const progressMap: Partial<Record<Step, number>> = {
     'b-basic': 1,
     'b-business': 2,
@@ -48,20 +58,23 @@ export default function OnboardingPage() {
     'b-logo': 8,
   };
   const totalBuyerSteps = 8;
-  const currentProgress = progressMap[step];
+  const currentBuyerProgress = progressMap[step];
+  const currentSellerProgress = sellerProgressMap[step];
 
   return (
     <div
       className="fixed inset-0 flex flex-col bg-white"
       style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
     >
-      {/* Progress bar — only shown during buyer steps */}
-      {currentProgress !== undefined && (
+      {/* Progress bar */}
+      {currentBuyerProgress !== undefined && (
         <div className="w-full h-1 bg-gray-100 shrink-0">
-          <div
-            className="h-full bg-black progress-bar"
-            style={{ width: `${(currentProgress / totalBuyerSteps) * 100}%` }}
-          />
+          <div className="h-full bg-black progress-bar" style={{ width: `${(currentBuyerProgress / totalBuyerSteps) * 100}%` }} />
+        </div>
+      )}
+      {currentSellerProgress !== undefined && (
+        <div className="w-full h-1 bg-gray-100 shrink-0">
+          <div className="h-full bg-black progress-bar" style={{ width: `${(currentSellerProgress / totalSellerSteps) * 100}%` }} />
         </div>
       )}
 
@@ -83,7 +96,7 @@ export default function OnboardingPage() {
           onBack={() => goBack('welcome')}
           onSelect={(type) => {
             if (type === 'buyer') goTo('b-basic');
-            else router.push('/seller/dashboard');
+            else goTo('s-basic');
           }}
         />
       )}
@@ -176,6 +189,28 @@ export default function OnboardingPage() {
 
       {step === 'b-done' && (
         <BuyerDoneScreen key="b-done" onFinish={() => router.push('/')} />
+      )}
+
+      {step === 's-basic' && (
+        <SellerBasicScreen
+          key="s-basic"
+          animClass={animClass}
+          values={sellerBasic}
+          onChange={setSellerBasic}
+          onBack={() => goBack('account-type')}
+          onNext={() => goTo('s-business')}
+        />
+      )}
+
+      {step === 's-business' && (
+        <SellerBusinessScreen
+          key="s-business"
+          animClass={animClass}
+          values={sellerBusiness}
+          onChange={setSellerBusiness}
+          onBack={() => goBack('s-basic')}
+          onNext={() => router.push('/seller/dashboard')}
+        />
       )}
     </div>
   );
@@ -977,6 +1012,121 @@ function BuyerDoneScreen({ onFinish }: { onFinish: () => void }) {
           Your buyer account is set up. Start sourcing from verified Indian suppliers.
         </p>
         <div className="mt-4 w-6 h-6 spinner" />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 1: Basic Details ──────────────────────── */
+function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: { name: string; email: string };
+  onChange: (v: { name: string; email: string }) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const valid = values.name.trim().length > 0 && values.email.trim().includes('@');
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Your basic details</h1>
+      <p className="text-sm text-gray-500 mb-8">Tell us a bit about yourself.</p>
+
+      <div className="flex flex-col gap-4 mb-auto">
+        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+          <input
+            type="text"
+            placeholder=" "
+            value={values.name}
+            onChange={(e) => onChange({ ...values, name: e.target.value })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>Full Name</label>
+        </div>
+
+        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+          <input
+            type="email"
+            placeholder=" "
+            value={values.email}
+            onChange={(e) => onChange({ ...values, email: e.target.value })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>Email Address</label>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Seller Step 2: Business Info ───────────────────────── */
+const SELLER_BUSINESS_TYPES = ['Manufacturer', 'Wholesaler', 'Trader', 'Distributor'];
+
+function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
+  animClass: string;
+  values: { businessName: string; businessType: string };
+  onChange: (v: { businessName: string; businessType: string }) => void;
+  onBack: () => void;
+  onNext: () => void;
+}) {
+  const valid = values.businessName.trim().length > 0 && values.businessType !== '';
+
+  return (
+    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+      <BackBtn onBack={onBack} />
+      <h1 className="text-2xl font-black text-black mb-2">Your business info</h1>
+      <p className="text-sm text-gray-500 mb-8">Help buyers find and trust your business.</p>
+
+      <div className="flex flex-col gap-6 mb-auto">
+        <div className="float-field" style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+          <input
+            type="text"
+            placeholder=" "
+            value={values.businessName}
+            onChange={(e) => onChange({ ...values, businessName: e.target.value })}
+            className="w-full px-4 text-black bg-white"
+            style={{ height: 56, paddingTop: 20, paddingBottom: 8, fontSize: 15 }}
+          />
+          <label>Business Name</label>
+        </div>
+
+        <div>
+          <p className="text-xs font-bold text-black uppercase tracking-widest mb-3">Business Type</p>
+          <div className="flex flex-wrap gap-2">
+            {SELLER_BUSINESS_TYPES.map((type) => {
+              const active = values.businessType === type;
+              return (
+                <button
+                  key={type}
+                  onClick={() => onChange({ ...values, businessType: type })}
+                  className="px-4 py-2 text-sm font-semibold"
+                  style={{
+                    borderRadius: '999px',
+                    border: active ? 'none' : '1.5px solid #e5e7eb',
+                    background: active ? '#000' : '#fff',
+                    color: active ? '#fff' : '#374151',
+                    transition: 'all 150ms ease-out',
+                    transform: active ? 'scale(1.04)' : 'scale(1)',
+                  }}
+                >
+                  {active && <span className="mr-1.5" style={{ fontSize: 11 }}>✓</span>}
+                  {type}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <ContinueBtn disabled={!valid} onClick={onNext} />
       </div>
     </div>
   );
