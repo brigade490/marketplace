@@ -15,30 +15,19 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
 };
 
 const demoProducts = [
-  { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", tier: "Gold", price: "₹4,200", numPrice: 4200, unit: "/ unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment", tags: ["heavy-duty", "automation"] },
-  { id: "2", emoji: "💻", name: "Commercial LED Display Panels", seller: "BrightView Corp", tier: "Silver", price: "₹890", numPrice: 890, unit: "/ panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech", tags: ["LED", "display"] },
-  { id: "3", emoji: "🔩", name: "Stainless Steel Fasteners Set", seller: "MetalPro Solutions", tier: "Gold", price: "₹145", numPrice: 145, unit: "/ kg", minOrder: "Min. 50 kg", rating: 4.8, reviews: 203, location: "Pune", category: "Industrial Equipment", tags: ["fasteners", "steel"] },
-  { id: "4", emoji: "🌾", name: "Organic Fertilizer Blend", seller: "GreenGrow Exports", tier: "Bronze", price: "₹55", numPrice: 55, unit: "/ bag", minOrder: "Min. 100 bags", rating: 4.5, reviews: 67, location: "Ahmedabad", category: "Agriculture", tags: ["organic", "fertilizer"] },
-  { id: "5", emoji: "🧵", name: "100% Cotton Fabric Roll", seller: "PrimeTex Mills", tier: "Gold", price: "₹3.20", numPrice: 3.2, unit: "/ meter", minOrder: "Min. 500 m", rating: 4.6, reviews: 189, location: "Surat", category: "Textiles & Apparel", tags: ["cotton", "fabric"] },
-  { id: "6", emoji: "🏗️", name: "Reinforced Concrete Blocks", seller: "BuildCo Materials", tier: "Silver", price: "₹12", numPrice: 12, unit: "/ piece", minOrder: "Min. 1,000 pcs", rating: 4.4, reviews: 51, location: "Hyderabad", category: "Construction Materials", tags: ["concrete", "blocks"] },
-  { id: "7", emoji: "💊", name: "Paracetamol API Bulk Supply", seller: "PharmGrade Labs", tier: "Gold", price: "₹28", numPrice: 28, unit: "/ kg", minOrder: "Min. 25 kg", rating: 4.9, reviews: 312, location: "Bangalore", category: "Pharmaceuticals", tags: ["API", "pharma"] },
-  { id: "8", emoji: "🚗", name: "Brake Pad Set — OEM Compatible", seller: "AutoParts Direct", tier: "Silver", price: "₹65", numPrice: 65, unit: "/ set", minOrder: "Min. 20 sets", rating: 4.7, reviews: 147, location: "Chennai", category: "Auto Parts", tags: ["brake", "OEM"] },
-  { id: "9", emoji: "🍱", name: "Freeze-Dried Fruit Assortment", seller: "NaturePack Co.", tier: "Bronze", price: "₹18", numPrice: 18, unit: "/ kg", minOrder: "Min. 50 kg", rating: 4.3, reviews: 38, location: "Kolkata", category: "Food & Beverages", tags: ["freeze-dried", "fruit"] },
-  { id: "10", emoji: "🖥️", name: "Industrial Touch Screen Panels", seller: "SmartDisplay Tech", tier: "Gold", price: "₹1,250", numPrice: 1250, unit: "/ unit", minOrder: "Min. 3 units", rating: 4.8, reviews: 76, location: "Jaipur", category: "Electronics & Tech", tags: ["touchscreen", "industrial"] },
-  { id: "11", emoji: "⚙️", name: "Precision CNC Machine Parts", seller: "MachCraft Works", tier: "Silver", price: "₹320", numPrice: 320, unit: "/ batch", minOrder: "Min. 10 batches", rating: 4.6, reviews: 93, location: "Lucknow", category: "Industrial Equipment", tags: ["CNC", "precision"] },
-  { id: "12", emoji: "🌿", name: "Neem Oil Cold Pressed", seller: "NatureExtracts Ltd", tier: "Bronze", price: "₹8", numPrice: 8, unit: "/ liter", minOrder: "Min. 200 L", rating: 4.4, reviews: 44, location: "Mumbai", category: "Agriculture", tags: ["neem", "organic"] },
+  { id: "1", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", verified: true, tier: "Gold", price: "₹4,200", numPrice: 4200, unit: "unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment" },
+  { id: "2", name: "Commercial LED Display Panels", seller: "BrightView Corp", verified: true, tier: "Silver", price: "₹890", numPrice: 890, unit: "panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech" },
+  { id: "3", name: "Stainless Steel Fasteners Set", seller: "MetalPro Solutions", verified: true, tier: "Gold", price: "₹145", numPrice: 145, unit: "kg", minOrder: "Min. 50 kg", rating: 4.8, reviews: 203, location: "Pune", category: "Industrial Equipment" },
+  { id: "4", name: "Organic Fertilizer Blend", seller: "GreenGrow Exports", verified: false, tier: "Bronze", price: "₹55", numPrice: 55, unit: "bag", minOrder: "Min. 100 bags", rating: 4.5, reviews: 67, location: "Ahmedabad", category: "Agriculture" },
+  { id: "5", name: "100% Cotton Fabric Roll", seller: "PrimeTex Mills", verified: true, tier: "Gold", price: "₹3.20", numPrice: 3.2, unit: "meter", minOrder: "Min. 500 m", rating: 4.6, reviews: 189, location: "Surat", category: "Textiles & Apparel" },
+  { id: "6", name: "Reinforced Concrete Blocks", seller: "BuildCo Materials", verified: false, tier: "Silver", price: "₹12", numPrice: 12, unit: "piece", minOrder: "Min. 1,000 pcs", rating: 4.4, reviews: 51, location: "Hyderabad", category: "Construction Materials" },
+  { id: "7", name: "Paracetamol API Bulk Supply", seller: "PharmGrade Labs", verified: true, tier: "Gold", price: "₹28", numPrice: 28, unit: "kg", minOrder: "Min. 25 kg", rating: 4.9, reviews: 312, location: "Bangalore", category: "Pharmaceuticals" },
+  { id: "8", name: "Brake Pad Set — OEM Compatible", seller: "AutoParts Direct", verified: true, tier: "Silver", price: "₹65", numPrice: 65, unit: "set", minOrder: "Min. 20 sets", rating: 4.7, reviews: 147, location: "Chennai", category: "Auto Parts" },
+  { id: "9", name: "Freeze-Dried Fruit Assortment", seller: "NaturePack Co.", verified: false, tier: "Bronze", price: "₹18", numPrice: 18, unit: "kg", minOrder: "Min. 50 kg", rating: 4.3, reviews: 38, location: "Kolkata", category: "Food & Beverages" },
+  { id: "10", name: "Industrial Touch Screen Panels", seller: "SmartDisplay Tech", verified: true, tier: "Gold", price: "₹1,250", numPrice: 1250, unit: "unit", minOrder: "Min. 3 units", rating: 4.8, reviews: 76, location: "Jaipur", category: "Electronics & Tech" },
+  { id: "11", name: "Precision CNC Machine Parts", seller: "MachCraft Works", verified: true, tier: "Silver", price: "₹320", numPrice: 320, unit: "batch", minOrder: "Min. 10 batches", rating: 4.6, reviews: 93, location: "Lucknow", category: "Industrial Equipment" },
+  { id: "12", name: "Neem Oil Cold Pressed", seller: "NatureExtracts Ltd", verified: false, tier: "Bronze", price: "₹8", numPrice: 8, unit: "liter", minOrder: "Min. 200 L", rating: 4.4, reviews: 44, location: "Mumbai", category: "Agriculture" },
 ];
-
-const categoryEmoji: Record<string, string> = {
-  "Industrial Equipment": "📦",
-  "Electronics & Tech": "💻",
-  "Textiles & Apparel": "🧵",
-  "Agriculture": "🌾",
-  "Construction Materials": "🏗️",
-  "Pharmaceuticals": "💊",
-  "Auto Parts": "🚗",
-  "Food & Beverages": "🍱",
-};
 
 type Product = typeof demoProducts[0];
 
@@ -46,29 +35,31 @@ const categories = ["All", "Industrial Equipment", "Electronics & Tech", "Textil
 const locationOptions = ["All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", "Kolkata", "Ahmedabad", "Surat", "Jaipur", "Lucknow"];
 const sortOptions = ["Relevance", "Price: Low to High", "Price: High to Low", "Rating", "Most Reviews"];
 
-const tierStyle: Record<string, { bg: string; color: string }> = {
-  Gold:   { bg: 'rgba(245,166,35,0.12)', color: '#b07a0a' },
-  Silver: { bg: 'rgba(140,140,152,0.12)', color: '#666670' },
-  Bronze: { bg: 'rgba(180,100,60,0.12)',  color: '#a05030' },
-};
-const tierEmoji: Record<string, string> = { Gold: "🥇", Silver: "🥈", Bronze: "🥉" };
-
-/* Flat grey filter input style — raised shadow on hover */
-const filterInputStyle: React.CSSProperties = {
-  background: '#d8d8dc',
-  color: '#4a4a52',
-  borderRadius: '12px',
-  boxShadow: 'none',
-  transition: 'box-shadow 0.22s ease',
-  width: '100%',
-  padding: '10px 12px',
-  fontSize: '13px',
-};
-function addHover(el: HTMLElement) {
-  el.style.boxShadow = '6px 6px 16px rgba(140,140,152,0.32), -6px -6px 16px rgba(255,255,255,0.88)';
-}
-function removeHover(el: HTMLElement) {
-  el.style.boxShadow = 'none';
+function StarRating({ rating }: { rating: number }) {
+  const full = Math.floor(rating);
+  const half = rating - full >= 0.5;
+  return (
+    <span className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }).map((_, i) => {
+        const filled = i < full;
+        const isHalf = !filled && i === full && half;
+        return (
+          <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <defs>
+              <linearGradient id={`half-${i}`} x1="0" x2="1" y1="0" y2="0">
+                <stop offset="50%" stopColor="#f59e0b" />
+                <stop offset="50%" stopColor="#d1d5db" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M6 1l1.236 2.506 2.764.402-2 1.948.472 2.75L6 7.506l-2.472 1.1.472-2.75-2-1.948 2.764-.402z"
+              fill={filled ? '#f59e0b' : isHalf ? `url(#half-${i})` : '#d1d5db'}
+            />
+          </svg>
+        );
+      })}
+    </span>
+  );
 }
 
 function ProductsPageInner() {
@@ -91,28 +82,27 @@ function ProductsPageInner() {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("products")
-        .select("id, name, category, price, price_unit, min_order_qty, min_order_unit, location, tags, avg_rating, review_count, sellers(company_name, tier)")
+        .select("id, name, category, price, price_unit, min_order_qty, min_order_unit, location, avg_rating, review_count, sellers(company_name, tier, verified)")
         .eq("is_active", true)
         .order("created_at", { ascending: false });
       if (!error && data && data.length > 0) {
         setAllProducts(
           data.map((p) => {
-            const seller = p.sellers as unknown as { company_name: string; tier: string } | null;
+            const seller = p.sellers as unknown as { company_name: string; tier: string; verified?: boolean } | null;
             return {
               id: p.id,
-              emoji: categoryEmoji[p.category] ?? "📦",
               name: p.name,
               seller: seller?.company_name ?? "Karobarrr Seller",
+              verified: seller?.verified ?? false,
               tier: seller?.tier ?? "Bronze",
               price: `₹${Number(p.price).toLocaleString("en-IN")}`,
               numPrice: Number(p.price),
-              unit: `/ ${p.price_unit}`,
+              unit: p.price_unit ?? "unit",
               minOrder: `Min. ${p.min_order_qty} ${p.min_order_unit}`,
               rating: Number(p.avg_rating) || 4.5,
               reviews: p.review_count || 0,
               location: p.location ?? "India",
               category: p.category,
-              tags: p.tags ?? [],
             };
           })
         );
@@ -161,27 +151,37 @@ function ProductsPageInner() {
   else if (sort === "Rating")         filtered = [...filtered].sort((a, b) => b.rating - a.rating);
   else if (sort === "Most Reviews")   filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
-  return (
-    <div className="min-h-screen" style={{ background: '#e4e4e8' }}>
+  const sidebarInputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '9px 12px',
+    fontSize: '13px',
+    background: '#fff',
+    border: '1px solid #e5e5e5',
+    borderRadius: '10px',
+    color: '#333',
+    outline: 'none',
+  };
 
-      {/* ── Category tab bar ─────────────────────────────── */}
-      <div className="max-w-screen-xl mx-auto px-6 pt-6 pb-2">
-        {/* Outer wrapper with vertical padding so the raised shadow isn't clipped */}
-        <div style={{ padding: '16px 0' }}>
+  return (
+    <div className="min-h-screen" style={{ background: '#f7f7f8' }}>
+
+      {/* ── Sticky category chips bar ─────────────────────── */}
+      <div
+        className="sticky top-[60px] z-20"
+        style={{ background: '#f7f7f8', borderBottom: '1px solid #ebebeb' }}
+      >
+        <div className="max-w-screen-xl mx-auto px-6">
           <div
             ref={tabBarRef}
+            className="no-scrollbar"
             style={{
-              background: '#f2f2f5',
-              borderRadius: '999px',
-              padding: '6px 8px',
-              boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
               display: 'flex',
-              gap: '4px',
+              gap: '8px',
               overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
               cursor: 'grab',
+              padding: '12px 0',
             } as React.CSSProperties}
           >
             {categories.map((cat) => {
@@ -191,17 +191,17 @@ function ProductsPageInner() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   style={{
-                    background: active ? 'linear-gradient(150deg,#2e2e36,#0e0e12)' : 'transparent',
-                    color: active ? '#fff' : '#888890',
+                    background: active ? '#111' : '#fff',
+                    color: active ? '#fff' : '#555',
+                    border: active ? '1px solid #111' : '1px solid #e0e0e0',
                     borderRadius: '999px',
-                    padding: '8px 18px',
+                    padding: '7px 18px',
                     fontSize: '13px',
-                    fontWeight: 600,
+                    fontWeight: active ? 600 : 500,
                     whiteSpace: 'nowrap',
                     flexShrink: 0,
-                    boxShadow: active ? '0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18)' : 'none',
-                    transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
                     cursor: 'pointer',
+                    transition: 'all 0.18s ease',
                   }}
                 >
                   {cat}
@@ -213,126 +213,99 @@ function ProductsPageInner() {
       </div>
 
       {/* ── Main layout ──────────────────────────────────── */}
-      <div className="max-w-screen-xl mx-auto px-6 pb-10">
-        <div className="flex gap-6">
+      <div className="max-w-screen-xl mx-auto px-6 py-6">
+        <div className="flex gap-6 items-start">
 
           {/* ── Sidebar ───────────────────────────────────── */}
-          <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-60 shrink-0`}>
+          <aside className={`${showFilters ? "block" : "hidden"} lg:block shrink-0`} style={{ width: '220px' }}>
             <div
-              className="sticky top-20 space-y-5"
+              className="sticky"
               style={{
-                background: '#f2f2f5',
-                boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
-                borderRadius: '24px',
-                padding: '22px 18px',
+                top: '120px',
+                background: '#fff',
+                border: '1px solid #ebebeb',
+                borderRadius: '16px',
+                padding: '20px 16px',
               }}
             >
+              <p style={{ fontSize: '13px', fontWeight: 700, color: '#111', marginBottom: '16px', letterSpacing: '0.02em', textTransform: 'uppercase' }}>Filters</p>
+
               {/* Sort */}
-              <div>
-                <p className="section-label mb-2">Sort by</p>
+              <div style={{ marginBottom: '18px' }}>
+                <p style={{ fontSize: '11px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>Sort By</p>
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  style={filterInputStyle}
-                  onMouseEnter={(e) => addHover(e.currentTarget)}
-                  onMouseLeave={(e) => removeHover(e.currentTarget)}
+                  style={sidebarInputStyle}
                 >
                   {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
               {/* City */}
-              <div>
-                <p className="section-label mb-2">City</p>
+              <div style={{ marginBottom: '18px' }}>
+                <p style={{ fontSize: '11px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>City</p>
                 <select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  style={filterInputStyle}
-                  onMouseEnter={(e) => addHover(e.currentTarget)}
-                  onMouseLeave={(e) => removeHover(e.currentTarget)}
+                  style={sidebarInputStyle}
                 >
                   {locationOptions.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
                 </select>
               </div>
 
               {/* Price Range */}
-              <div>
-                <p className="section-label mb-2">Price Range (₹)</p>
+              <div style={{ marginBottom: '18px' }}>
+                <p style={{ fontSize: '11px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>Price Range (₹)</p>
                 <div className="flex gap-2">
                   <input
                     type="number"
                     placeholder="Min"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
-                    style={{ ...filterInputStyle, width: '50%' }}
-                    onMouseEnter={(e) => addHover(e.currentTarget)}
-                    onMouseLeave={(e) => removeHover(e.currentTarget)}
+                    style={{ ...sidebarInputStyle, width: '50%' }}
                   />
                   <input
                     type="number"
                     placeholder="Max"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
-                    style={{ ...filterInputStyle, width: '50%' }}
-                    onMouseEnter={(e) => addHover(e.currentTarget)}
-                    onMouseLeave={(e) => removeHover(e.currentTarget)}
+                    style={{ ...sidebarInputStyle, width: '50%' }}
                   />
                 </div>
               </div>
 
               {/* Rating */}
-              <div>
-                <p className="section-label mb-2">Min. Rating</p>
-                <div className="flex gap-1.5 flex-wrap">
-                  {[0, 4, 4.5, 4.8].map((r) => {
-                    const active = minRating === r;
+              <div style={{ marginBottom: '20px' }}>
+                <p style={{ fontSize: '11px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>Min. Rating</p>
+                <div className="flex gap-2 flex-wrap">
+                  {[{ val: 0, label: 'All' }, { val: 4, label: '4+' }, { val: 4.5, label: '4.5+' }, { val: 4.8, label: '4.8+' }].map(({ val, label }) => {
+                    const active = minRating === val;
                     return (
                       <button
-                        key={r}
-                        onClick={() => setMinRating(r)}
+                        key={val}
+                        onClick={() => setMinRating(val)}
                         style={{
-                          background: active ? 'linear-gradient(150deg,#2e2e36,#0e0e12)' : '#d8d8dc',
-                          color: active ? '#fff' : '#888890',
-                          borderRadius: '12px',
-                          padding: '6px 12px',
-                          fontSize: '11px',
+                          background: active ? '#111' : '#fff',
+                          color: active ? '#fff' : '#555',
+                          border: active ? '1px solid #111' : '1px solid #e0e0e0',
+                          borderRadius: '999px',
+                          padding: '5px 12px',
+                          fontSize: '12px',
                           fontWeight: 600,
-                          boxShadow: active ? '0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18)' : 'none',
-                          transition: 'all 0.22s',
                           cursor: 'pointer',
+                          transition: 'all 0.18s',
                         }}
-                        onMouseEnter={(e) => { if (!active) addHover(e.currentTarget); }}
-                        onMouseLeave={(e) => { if (!active) removeHover(e.currentTarget); }}
                       >
-                        {r === 0 ? "All" : `⭐ ${r}+`}
+                        {label}
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Mobile filter toggle */}
-              <div className="lg:hidden pt-1">
-                <button
-                  onClick={() => setShowFilters(false)}
-                  style={{
-                    width: '100%',
-                    padding: '10px',
-                    background: '#d8d8dc',
-                    color: '#888890',
-                    borderRadius: '12px',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    boxShadow: 'none',
-                    cursor: 'pointer',
-                    transition: 'box-shadow 0.22s',
-                  }}
-                  onMouseEnter={(e) => addHover(e.currentTarget)}
-                  onMouseLeave={(e) => removeHover(e.currentTarget)}
-                >
-                  Close Filters
-                </button>
-              </div>
+              {/* Divider */}
+              <div style={{ borderTop: '1px solid #ebebeb', marginBottom: '12px' }} />
 
               {/* Clear */}
               <button
@@ -341,18 +314,38 @@ function ProductsPageInner() {
                   width: '100%',
                   padding: '8px',
                   background: 'transparent',
-                  color: '#aaaab2',
-                  borderRadius: '12px',
+                  color: '#999',
+                  border: 'none',
+                  borderRadius: '8px',
                   fontSize: '12px',
                   fontWeight: 600,
-                  boxShadow: 'none',
                   cursor: 'pointer',
                   transition: 'color 0.2s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#e05050')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#aaaab2')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#e03030')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
               >
                 Clear All Filters
+              </button>
+
+              {/* Mobile close */}
+              <button
+                className="lg:hidden"
+                onClick={() => setShowFilters(false)}
+                style={{
+                  width: '100%',
+                  marginTop: '8px',
+                  padding: '8px',
+                  background: '#f7f7f8',
+                  color: '#555',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Close
               </button>
             </div>
           </aside>
@@ -362,96 +355,166 @@ function ProductsPageInner() {
 
             {/* Top bar: count + mobile filter button */}
             <div className="flex items-center justify-between mb-5">
-              <p className="text-sm" style={{ color: '#aaaab2' }}>
-                <span className="font-bold" style={{ color: '#222228' }}>{filtered.length}</span> products found
+              <p style={{ fontSize: '13px', color: '#888' }}>
+                <span style={{ fontWeight: 700, color: '#111' }}>{filtered.length}</span> products found
               </p>
               <button
                 className="lg:hidden px-4 py-2 text-xs font-semibold"
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
-                  background: 'linear-gradient(150deg,#2e2e36,#0e0e12)',
+                  background: '#111',
                   color: '#fff',
                   borderRadius: '999px',
-                  boxShadow: 'none',
+                  border: 'none',
                   cursor: 'pointer',
-                  transition: 'box-shadow 0.24s ease',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  padding: '8px 16px',
                 }}
               >
-                🎛️ Filters
+                Filters
               </button>
             </div>
 
             {filtered.length === 0 ? (
               <div
                 className="text-center py-20"
-                style={{ background: '#f2f2f5', borderRadius: '24px', boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)' }}
+                style={{ background: '#fff', borderRadius: '16px', border: '1px solid #ebebeb' }}
               >
-                <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: '#4a4a52' }}>No products found</h3>
-                <p className="text-sm" style={{ color: '#aaaab2' }}>Try adjusting your filters.</p>
+                <div style={{ fontSize: '40px', marginBottom: '12px', color: '#ccc' }}>—</div>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#333', marginBottom: '6px' }}>No products found</h3>
+                <p style={{ fontSize: '13px', color: '#999' }}>Try adjusting your filters.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {filtered.map((product) => (
-                  <Link
+                  <div
                     key={product.id}
-                    href={`/products/${product.id}`}
-                    className="group block"
                     style={{
-                      background: '#f2f2f5',
-                      boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
-                      borderRadius: '24px',
-                      transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1)',
+                      background: '#fff',
+                      border: '1px solid #ebebeb',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      transition: 'box-shadow 0.2s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-4px)'}
-                    onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; }}
                   >
-                    {/* Inner clip wrapper — keeps rounded corners without touching the outer shadow */}
-                    <div style={{ borderRadius: '24px', overflow: 'hidden' }}>
-
-                      {/* Image area */}
+                    {/* Image area */}
+                    <Link href={`/products/${product.id}`} className="block">
                       <div
-                        className="flex items-center justify-center"
-                        style={{ background: '#e4e4e8', height: '200px', fontSize: '60px', borderRadius: '24px 24px 0 0' }}
-                      >
-                        {product.emoji}
+                        style={{
+                          height: '200px',
+                          background: '#f5f5f5',
+                          borderRadius: '16px 16px 0 0',
+                        }}
+                      />
+                    </Link>
+
+                    {/* Content */}
+                    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+                      {/* Product name */}
+                      <Link href={`/products/${product.id}`} className="block">
+                        <h3
+                          style={{
+                            fontSize: '15px',
+                            fontWeight: 700,
+                            color: '#111',
+                            lineHeight: 1.35,
+                            marginBottom: '8px',
+                          }}
+                          className="line-clamp-2"
+                        >
+                          {product.name}
+                        </h3>
+                      </Link>
+
+                      {/* Seller + verified */}
+                      <div className="flex items-center gap-1.5" style={{ marginBottom: '8px' }}>
+                        <span style={{ fontSize: '12px', color: '#666' }}>{product.seller}</span>
+                        {product.verified && (
+                          <span
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: 700,
+                              color: '#0a7aff',
+                              background: '#e8f2ff',
+                              borderRadius: '999px',
+                              padding: '2px 7px',
+                            }}
+                          >
+                            Verified
+                          </span>
+                        )}
                       </div>
 
-                      {/* Content */}
-                      <div style={{ padding: '18px 20px 22px', background: '#f2f2f5' }}>
-                        <div className="flex items-center gap-1.5 mb-2">
-                          <span className="text-xs" style={{ color: '#aaaab2' }}>{product.seller}</span>
-                          <span
-                            className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-medium"
-                            style={{ borderRadius: '999px', background: tierStyle[product.tier]?.bg, color: tierStyle[product.tier]?.color }}
-                          >
-                            {tierEmoji[product.tier]} {product.tier}
-                          </span>
-                        </div>
-                        <h3 className="font-semibold text-sm leading-snug mb-3" style={{ color: '#222228' }}>{product.name}</h3>
-                        <div className="mb-0.5">
-                          <span className="text-xl" style={{ fontWeight: 400, color: '#222228' }}>{product.price}</span>
-                          <span className="text-xs ml-1" style={{ color: '#aaaab2' }}>{product.unit}</span>
-                        </div>
-                        <div className="text-xs mb-4" style={{ color: '#aaaab2' }}>{product.minOrder}</div>
-                        <div className="flex items-center justify-between text-xs mb-4" style={{ color: '#888890' }}>
-                          <span>⭐ {product.rating} ({product.reviews})</span>
-                          <span>📍 {product.location}</span>
-                        </div>
-                        <div
-                          className="text-center py-2.5 text-sm font-semibold"
+                      {/* Star rating + review count */}
+                      <div className="flex items-center gap-1.5" style={{ marginBottom: '10px' }}>
+                        <StarRating rating={product.rating} />
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#333' }}>{product.rating}</span>
+                        <span style={{ fontSize: '12px', color: '#999' }}>({product.reviews})</span>
+                      </div>
+
+                      {/* Price */}
+                      <div className="flex items-baseline gap-1" style={{ marginBottom: '4px' }}>
+                        <span style={{ fontSize: '22px', fontWeight: 800, color: '#111' }}>{product.price}</span>
+                        <span style={{ fontSize: '13px', color: '#888' }}>/ {product.unit}</span>
+                      </div>
+
+                      {/* Min order */}
+                      <p style={{ fontSize: '12px', color: '#999', marginBottom: '6px' }}>{product.minOrder}</p>
+
+                      {/* Location */}
+                      <p style={{ fontSize: '12px', color: '#888', marginBottom: '14px' }}>{product.location}</p>
+
+                      {/* Spacer */}
+                      <div style={{ flex: 1 }} />
+
+                      {/* Buttons */}
+                      <div className="flex gap-2">
+                        <button
                           style={{
-                            background: 'linear-gradient(150deg,#2e2e36,#0e0e12)',
+                            flex: 1,
+                            padding: '10px 0',
+                            background: '#000',
                             color: '#fff',
+                            border: 'none',
                             borderRadius: '999px',
+                            fontSize: '13px',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            transition: 'opacity 0.18s',
                           }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '0.85')}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '1')}
                         >
-                          View Details
-                        </div>
+                          Add to Cart
+                        </button>
+                        <button
+                          style={{
+                            flex: 1,
+                            padding: '10px 0',
+                            background: '#fff',
+                            color: '#000',
+                            border: '1.5px solid #000',
+                            borderRadius: '999px',
+                            fontSize: '13px',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            transition: 'background 0.18s, color 0.18s',
+                          }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f5f5f5'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#fff'; }}
+                        >
+                          Get a Quote
+                        </button>
                       </div>
 
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
