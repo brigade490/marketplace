@@ -161,7 +161,7 @@ export default function ProductsPage() {
               background: '#f2f2f5',
               borderRadius: '999px',
               padding: '6px 8px',
-              boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+              boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
               display: 'flex',
               gap: '4px',
               overflowX: 'auto',
@@ -209,7 +209,7 @@ export default function ProductsPage() {
               className="sticky top-20 space-y-5"
               style={{
                 background: '#f2f2f5',
-                boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+                boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
                 borderRadius: '24px',
                 padding: '22px 18px',
               }}
@@ -371,7 +371,7 @@ export default function ProductsPage() {
             {filtered.length === 0 ? (
               <div
                 className="text-center py-20"
-                style={{ background: '#f2f2f5', borderRadius: '24px', boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)' }}
+                style={{ background: '#f2f2f5', borderRadius: '24px', boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)' }}
               >
                 <div className="text-5xl mb-4">🔍</div>
                 <h3 className="text-lg font-bold mb-1" style={{ color: '#4a4a52' }}>No products found</h3>
@@ -386,7 +386,7 @@ export default function ProductsPage() {
                     className="group block"
                     style={{
                       background: '#f2f2f5',
-                      boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+                      boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
                       borderRadius: '24px',
                       transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1)',
                     }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import LanguagePopup from './components/LanguagePopup';
 
 const sections = [
@@ -41,7 +41,7 @@ function ProductCard() {
         height: '500px',
         borderRadius: '24px',
         background: '#f2f2f5',
-        boxShadow: '8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1)',
+        boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
       }}
     >
       {/* Inner overflow clip so corners are rounded without killing the outer shadow */}
@@ -66,11 +66,25 @@ function ProductCard() {
 
 function ProductSection({ title }: { title: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    function update() {
+      if (!el) return;
+      setCanScrollLeft(el.scrollLeft > 4);
+      setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    }
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    return () => { el.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+  }, []);
 
   function scroll(direction: 'left' | 'right') {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: direction === 'right' ? 700 : -700, behavior: 'smooth' });
-    }
+    scrollRef.current?.scrollBy({ left: direction === 'right' ? 700 : -700, behavior: 'smooth' });
   }
 
   return (
@@ -79,27 +93,31 @@ function ProductSection({ title }: { title: string }) {
         <h2 className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>{title}</h2>
       </div>
       <div className="relative pb-8">
-        <button
-          onClick={() => scroll('left')}
-          aria-label={`Scroll ${title} left`}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
-          style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
-        >
-          ‹
-        </button>
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll('left')}
+            aria-label={`Scroll ${title} left`}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+            style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
+          >
+            ‹
+          </button>
+        )}
 
         <div ref={scrollRef} className="no-scrollbar flex gap-4 overflow-x-auto" style={{ paddingLeft: '56px', paddingRight: '56px', paddingTop: '24px', paddingBottom: '24px' }}>
           {Array.from({ length: 10 }).map((_, i) => <ProductCard key={i} />)}
         </div>
 
-        <button
-          onClick={() => scroll('right')}
-          aria-label={`Scroll ${title} right`}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
-          style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
-        >
-          ›
-        </button>
+        {canScrollRight && (
+          <button
+            onClick={() => scroll('right')}
+            aria-label={`Scroll ${title} right`}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+            style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
+          >
+            ›
+          </button>
+        )}
       </div>
     </div>
   );

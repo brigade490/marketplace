@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
@@ -18,6 +18,7 @@ interface SearchResult {
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [showDropdown, setShowDropdown] = useState(false);
   const [location, setLocation] = useState('All Locations');
   const [user, setUser] = useState<User | null>(null);
@@ -41,10 +42,14 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (!user) { setAvatarUrl(null); setUserRole(''); return; }
+    if (!user) { setAvatarUrl(null); setUserRole(''); setLocation('All Locations'); return; }
     const supabase = createClient();
-    supabase.from('users').select('avatar_url, role').eq('id', user.id).single().then(({ data }) => {
-      if (data) { setAvatarUrl(data.avatar_url ?? null); setUserRole(data.role ?? ''); }
+    supabase.from('users').select('avatar_url, role, city').eq('id', user.id).single().then(({ data }) => {
+      if (data) {
+        setAvatarUrl(data.avatar_url ?? null);
+        setUserRole(data.role ?? '');
+        if (data.city) setLocation(data.city);
+      }
     });
   }, [user]);
 
@@ -79,8 +84,10 @@ export default function Header() {
 
   function handleSearchSubmit() {
     if (!searchQuery.trim()) return;
-    router.push(`/products?q=${encodeURIComponent(searchQuery)}`);
+    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
     setShowDropdown(false);
+    setSearchQuery('');
+    setSearchResults([]);
   }
 
   async function handleSignOut() {
@@ -92,6 +99,10 @@ export default function Header() {
   }
 
   const isSeller = userRole === 'seller' || userRole === 'seller+buyer';
+  const isBuyerOnly = userRole === 'buyer';
+
+  // Hide header entirely on onboarding and auth pages
+  if (pathname === '/onboarding' || pathname?.startsWith('/onboarding')) return null;
 
   const menuItems = [
     { label: 'My Account', href: '/profile' },
@@ -220,8 +231,17 @@ export default function Header() {
           )}
         </div>
 
-        {/* Right: Cart + Auth */}
+        {/* Right: Start Selling + Cart + Auth */}
         <div className="flex items-center gap-4 shrink-0">
+          {isBuyerOnly && (
+            <Link
+              href="/become-seller"
+              className="px-4 py-2 text-sm font-semibold shrink-0"
+              style={{ background: 'var(--active-bg)', color: '#fff', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-active)', whiteSpace: 'nowrap' }}
+            >
+              Start Selling
+            </Link>
+          )}
           <Link
             href="/cart"
             aria-label="Cart"

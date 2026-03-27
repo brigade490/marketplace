@@ -434,15 +434,15 @@ function AccountTypeScreen({
   const [selected, setSelected] = useState<'buyer' | 'seller' | null>(null);
 
   return (
-    <div className={`flex-1 flex flex-col px-6 pt-12 pb-8 ${animClass}`}>
+    <div className={`flex-1 flex flex-col px-6 pt-6 pb-6 ${animClass}`}>
       <BackBtn onBack={onBack} />
-      <h1 className="text-2xl font-black  mb-2">How will you use<br />Karobarrr?</h1>
-      <p className="text-sm text-gray-500 mb-8">Choose your account type to get started.</p>
+      <h1 className="text-xl font-black mb-1">How will you use Karobarrr?</h1>
+      <p className="text-sm text-gray-500 mb-5">Choose your account type to get started.</p>
 
-      <div className="flex flex-col gap-4 mb-10">
+      <div className="flex flex-col gap-3 mb-6">
         {([
-          { key: 'buyer', emoji: '🛒', title: 'I am a Buyer', desc: 'Source products and raw materials from verified Indian suppliers.' },
-          { key: 'seller', emoji: '🏭', title: 'I am a Seller', desc: 'List your products and reach thousands of B2B buyers across India.' },
+          { key: 'buyer', emoji: '🛒', title: 'I am a Buyer', desc: 'Source products from verified Indian suppliers.' },
+          { key: 'seller', emoji: '🏭', title: 'I am a Seller', desc: 'List products and reach thousands of B2B buyers.' },
         ] as const).map(({ key, emoji, title, desc }) => (
           <div
             key={key}
@@ -450,43 +450,42 @@ function AccountTypeScreen({
             tabIndex={0}
             onClick={() => setSelected(key)}
             onKeyDown={(e) => e.key === 'Enter' && setSelected(key)}
-            className="card-lift flex items-center gap-5 p-5 bg-white cursor-pointer"
+            className="flex items-center gap-4 p-4 cursor-pointer"
             style={{
               borderRadius: 'var(--radius-md)',
               boxShadow: selected === key ? 'var(--shadow-active)' : 'var(--shadow-raised)',
-              transition: 'border 150ms ease-out, box-shadow 150ms ease-out',
+              background: selected === key ? 'var(--surface)' : 'var(--surface)',
+              transition: 'box-shadow 150ms ease-out',
             }}
           >
             <div
               className="flex items-center justify-center shrink-0"
-              style={{ width: 56, height: 56, borderRadius: 'var(--radius-sm)', background: 'var(--bg)', fontSize: 28 }}
+              style={{ width: 44, height: 44, borderRadius: 'var(--radius-sm)', background: 'var(--bg)', fontSize: 22 }}
             >
               {emoji}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-base font-black  mb-0.5">{title}</div>
-              <div className="text-sm text-gray-500 leading-snug">{desc}</div>
+              <div className="text-sm font-black mb-0.5">{title}</div>
+              <div className="text-xs text-gray-500 leading-snug">{desc}</div>
             </div>
             <div
-              className="shrink-0 w-6 h-6 flex items-center justify-center"
+              className="shrink-0 w-5 h-5 flex items-center justify-center"
               style={{
                 borderRadius: '50%',
-                background: selected === key ? '#000' : '#fff',
+                background: selected === key ? '#000' : 'transparent',
                 border: selected === key ? 'none' : '1.5px solid #d1d5db',
                 transition: 'all 150ms ease-out',
               }}
             >
               {selected === key && (
-                <span className="check-in text-white font-black" style={{ fontSize: 12 }}>✓</span>
+                <span className="check-in text-white font-black" style={{ fontSize: 10 }}>✓</span>
               )}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-auto">
-        <ContinueBtn disabled={!selected} onClick={() => selected && onSelect(selected)} />
-      </div>
+      <ContinueBtn disabled={!selected} onClick={() => selected && onSelect(selected)} />
     </div>
   );
 }
