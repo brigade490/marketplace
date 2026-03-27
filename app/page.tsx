@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import LanguagePopup from './components/LanguagePopup';
 
 const sections = [
@@ -11,21 +12,30 @@ const sections = [
   { id: 'construction', title: 'Construction Materials' },
 ];
 
+const AD_COLORS = ['#1a1a2e', '#16213e', '#0f3460', '#533483'];
+
 function AdBanner() {
+  const [colorIdx, setColorIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setColorIdx(i => (i + 1) % AD_COLORS.length), 3000);
+    return () => clearInterval(t);
+  }, []);
+
   return (
     <div
       style={{
-        background: 'var(--surface)',
-        boxShadow: 'var(--shadow-raised)',
-        borderRadius: 'var(--radius-md)',
-        height: '300px',
+        background: AD_COLORS[colorIdx],
+        borderRadius: '16px',
+        height: '250px',
         margin: '24px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        transition: 'background 0.8s ease',
       }}
     >
-      <span style={{ fontSize: '14px', color: 'var(--text-inactive)', fontWeight: 500 }}>Ad Space</span>
+      <span style={{ fontSize: '14px', color: '#ffffff', fontWeight: 500, opacity: 0.7 }}>Ad Space</span>
     </div>
   );
 }
@@ -33,33 +43,26 @@ function AdBanner() {
 function ProductCard() {
   return (
     <div
-      className="shrink-0 card-lift"
+      className="shrink-0"
       style={{
-        minWidth: '360px',
-        width: '360px',
-        minHeight: '500px',
-        height: '500px',
-        borderRadius: '24px',
-        background: '#f2f2f5',
-        boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
+        minWidth: '220px',
+        width: '220px',
+        borderRadius: '16px',
+        background: '#ffffff',
+        border: '1px solid #f0f0f0',
+        overflow: 'hidden',
+        transition: 'transform 0.2s ease',
       }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
     >
-      {/* Inner overflow clip so corners are rounded without killing the outer shadow */}
-      <div style={{ borderRadius: '24px', overflow: 'hidden', height: '100%' }}>
-      <div className="relative" style={{ height: '360px', borderRadius: '24px 24px 0 0', overflow: 'hidden', background: '#e4e4e8' }}>
-        <div
-          className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5"
-          style={{ borderRadius: 'var(--radius-pill)', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)' }}
-        >
-          <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
-          <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 500 }}>Verified</span>
-        </div>
+      {/* Image area */}
+      <div style={{ height: '160px', background: '#f5f5f5' }} />
+      {/* Content */}
+      <div style={{ padding: '12px 14px 16px' }}>
+        <p style={{ fontSize: '16px', fontWeight: 600, color: '#111', lineHeight: 1.3, marginBottom: '6px' }}>Product Name</p>
+        <p style={{ fontSize: '15px', fontWeight: 700, color: '#111' }}>₹0.00</p>
       </div>
-      <div className="px-4 pt-4" style={{ height: '140px' }}>
-        <p style={{ fontSize: '13px', fontWeight: 400, color: 'var(--text-primary)', lineHeight: 1.4, marginBottom: '6px' }}>Product Name</p>
-        <p style={{ fontSize: '18px', fontWeight: 400, color: 'var(--text-primary)' }}>₹0.00</p>
-      </div>
-      </div>{/* end inner clip wrapper */}
     </div>
   );
 }
@@ -84,27 +87,40 @@ function ProductSection({ title }: { title: string }) {
   }, []);
 
   function scroll(direction: 'left' | 'right') {
-    scrollRef.current?.scrollBy({ left: direction === 'right' ? 700 : -700, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: direction === 'right' ? 600 : -600, behavior: 'smooth' });
   }
 
   return (
-    <div style={{ background: 'var(--bg)' }}>
-      <div className="px-14 pt-8 pb-3">
-        <h2 className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>{title}</h2>
+    <div style={{ background: '#ffffff' }}>
+      {/* Section header */}
+      <div className="flex items-center justify-between px-6 pt-8 pb-3">
+        <h2 className="text-xl font-black" style={{ color: '#111' }}>{title}</h2>
+        <Link
+          href="/products"
+          className="text-sm font-semibold"
+          style={{ color: '#2563eb' }}
+        >
+          See All
+        </Link>
       </div>
+
       <div className="relative pb-8">
         {canScrollLeft && (
           <button
             onClick={() => scroll('left')}
             aria-label={`Scroll ${title} left`}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
-            style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+            style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#fff', border: '1px solid #e5e5e5', color: '#333', fontSize: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
           >
             ‹
           </button>
         )}
 
-        <div ref={scrollRef} className="no-scrollbar flex gap-4 overflow-x-auto" style={{ paddingLeft: '56px', paddingRight: '56px', paddingTop: '24px', paddingBottom: '24px' }}>
+        <div
+          ref={scrollRef}
+          className="no-scrollbar flex gap-4 overflow-x-auto"
+          style={{ paddingLeft: '24px', paddingRight: '24px', paddingTop: '8px', paddingBottom: '16px' }}
+        >
           {Array.from({ length: 10 }).map((_, i) => <ProductCard key={i} />)}
         </div>
 
@@ -112,8 +128,8 @@ function ProductSection({ title }: { title: string }) {
           <button
             onClick={() => scroll('right')}
             aria-label={`Scroll ${title} right`}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
-            style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', fontSize: '22px' }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+            style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#fff', border: '1px solid #e5e5e5', color: '#333', fontSize: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
           >
             ›
           </button>
@@ -125,7 +141,7 @@ function ProductSection({ title }: { title: string }) {
 
 export default function HomePage() {
   return (
-    <div style={{ background: 'var(--bg)' }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh' }}>
       <LanguagePopup />
       <AdBanner />
       {sections.map((section) => (
