@@ -92,6 +92,9 @@ export default function OnboardingPage() {
         </div>
       )}
 
+      <div className="flex-1 flex flex-col items-center overflow-y-auto">
+      <div className="w-full flex-1 flex flex-col" style={{ maxWidth: '480px' }}>
+
       {step === 'splash' && <SplashScreen />}
 
       {step === 'welcome' && (
@@ -316,6 +319,9 @@ export default function OnboardingPage() {
       {step === 's-done' && (
         <SellerDoneScreen key="s-done" onFinish={() => router.push('/seller/dashboard')} />
       )}
+
+      </div>
+      </div>
     </div>
   );
 }
