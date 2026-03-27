@@ -27,8 +27,17 @@ export default function SellerAuthPage() {
     const supabase = createClient();
     if (tab === 'login') {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message);
-      else if (data.user) { await upsertUserProfile(data.user.id, data.user.email!); router.push('/become-seller'); router.refresh(); }
+      if (error) { setError(error.message); }
+      else if (data.user) {
+        await upsertUserProfile(data.user.id, data.user.email!);
+        const { data: userData } = await supabase.from('users').select('onboarding_completed, role').eq('id', data.user.id).single();
+        if (userData?.onboarding_completed) {
+          router.push(userData.role === 'seller' ? '/seller/dashboard' : '/');
+        } else {
+          router.push('/onboarding');
+        }
+        router.refresh();
+      }
     } else {
       const { error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
       if (error) setError(error.message);

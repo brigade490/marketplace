@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 type Step = 'splash' | 'welcome' | 'account-type' | 'b-basic' | 'b-business' | 'b-categories' | 'b-location' | 'b-prefs' | 'b-payment' | 'b-notifs' | 'b-logo' | 'b-done' | 's-basic' | 's-business' | 's-categories' | 's-location' | 's-gst' | 's-verify' | 's-selling' | 's-bank' | 's-notifs' | 's-logo' | 's-done';
 
@@ -29,6 +30,11 @@ export default function OnboardingPage() {
   const [buyerPayment, setBuyerPayment] = useState({ upi: true, bankTransfer: true, emi: false, cod: false });
   const [buyerNotifs, setBuyerNotifs] = useState({ orderUpdates: true, sellerResponses: true, priceAlerts: false, promotions: false });
 
+  // File uploads lifted from child screens
+  const [sellerGstCertFile, setSellerGstCertFile] = useState<File | null>(null);
+  const [sellerBizProofFile, setSellerBizProofFile] = useState<File | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
   function goTo(next: Step) {
     setDir('fwd');
     setStep(next);
@@ -44,6 +50,133 @@ export default function OnboardingPage() {
     const t = setTimeout(() => goTo('welcome'), 1500);
     return () => clearTimeout(t);
   }, [step]);
+
+  // Auth check on mount: pre-fill known fields, skip if already onboarded
+  useEffect(() => {
+    async function checkAuth() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('users')
+          .select('onboarding_completed, role, full_name, email, city')
+          .eq('id', user.id)
+          .single();
+        if (data?.onboarding_completed) {
+          router.replace(data.role === 'seller' ? '/seller/dashboard' : '/');
+          return;
+        }
+        // Pre-fill email from auth
+        const email = user.email ?? '';
+        setBuyerBasic(v => ({ ...v, email, name: v.name || data?.full_name || '' }));
+        setSellerBasic(v => ({ ...v, email, name: v.name || data?.full_name || '' }));
+      }
+      setAuthChecked(true);
+    }
+    checkAuth();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Upload helper ──────────────────────────────────────────
+  async function uploadFile(supabase: ReturnType<typeof createClient>, file: File, prefix: string): Promise<string | undefined> {
+    const ext = file.name.split('.').pop() ?? 'bin';
+    const path = `${prefix}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { data: up, error } = await supabase.storage.from('uploads').upload(path, file, { upsert: true });
+    if (error || !up) return undefined;
+    return supabase.storage.from('uploads').getPublicUrl(up.path).data.publicUrl;
+  }
+
+  // ── Save buyer data on completion ─────────────────────────
+  async function handleBuyerComplete(logoFile?: File) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { goTo('b-done'); return; }
+    try {
+      const logoUrl = logoFile ? await uploadFile(supabase, logoFile, 'logos') : undefined;
+      await supabase.from('users').upsert({
+        id: user.id,
+        email: buyerBasic.email || user.email,
+        full_name: buyerBasic.name || undefined,
+        city: buyerLocation.city || undefined,
+        state: buyerLocation.state || undefined,
+        pincode: buyerLocation.pincode || undefined,
+        business_name: buyerBusiness.businessName || undefined,
+        role: 'buyer',
+        onboarding_completed: true,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+      await supabase.from('buyers').upsert({
+        user_id: user.id,
+        company_name: buyerBusiness.businessName || undefined,
+        business_type: buyerBusiness.businessType || undefined,
+        categories: buyerCategories,
+        city: buyerLocation.city || undefined,
+        state: buyerLocation.state || undefined,
+        pincode: buyerLocation.pincode || undefined,
+        preferences: { orderType: buyerPrefs.orderType, frequency: buyerPrefs.frequency, urgency: buyerPrefs.urgency },
+        payment_methods: buyerPayment,
+        notifications: buyerNotifs,
+        ...(logoUrl ? { logo_url: logoUrl } : {}),
+      }, { onConflict: 'user_id' });
+    } catch (err) { console.error('Buyer onboarding save error:', err); }
+    goTo('b-done');
+  }
+
+  // ── Save seller data on completion ────────────────────────
+  async function handleSellerComplete(logoFile?: File) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { goTo('s-done'); return; }
+    try {
+      const [logoUrl, gstCertUrl, bizProofUrl] = await Promise.all([
+        logoFile ? uploadFile(supabase, logoFile, 'logos') : Promise.resolve(undefined),
+        sellerGstCertFile ? uploadFile(supabase, sellerGstCertFile, 'gst-certs') : Promise.resolve(undefined),
+        sellerBizProofFile ? uploadFile(supabase, sellerBizProofFile, 'biz-proofs') : Promise.resolve(undefined),
+      ]);
+      await supabase.from('users').upsert({
+        id: user.id,
+        email: sellerBasic.email || user.email,
+        full_name: sellerBasic.name || undefined,
+        city: sellerLocation.city || undefined,
+        state: sellerLocation.state || undefined,
+        pincode: sellerLocation.pincode || undefined,
+        business_name: sellerBusiness.businessName || undefined,
+        gst_number: sellerGst || undefined,
+        role: 'seller',
+        onboarding_completed: true,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+      await supabase.from('sellers').upsert({
+        user_id: user.id,
+        company_name: sellerBusiness.businessName || 'My Business',
+        business_type: sellerBusiness.businessType.toLowerCase() || undefined,
+        categories: sellerCategories,
+        city: sellerLocation.city || undefined,
+        state: sellerLocation.state || undefined,
+        pincode: sellerLocation.pincode || undefined,
+        gstin: sellerGst || undefined,
+        is_verified: false,
+        preferences: {
+          orderType: sellerSelling.orderType,
+          delivery: sellerSelling.delivery,
+          upi: sellerSelling.upi,
+          bankTransfer: sellerSelling.bankTransfer,
+          emi: sellerSelling.emi,
+        },
+        bank_details: {
+          upiId: sellerBank.upiId || undefined,
+          accountNumber: sellerBank.accountNumber || undefined,
+          ifsc: sellerBank.ifsc || undefined,
+          holderName: sellerBank.holderName || undefined,
+        },
+        notifications: sellerNotifs,
+        ...(logoUrl ? { logo_url: logoUrl } : {}),
+        ...(gstCertUrl ? { gst_certificate_url: gstCertUrl } : {}),
+        ...(bizProofUrl ? { business_proof_url: bizProofUrl } : {}),
+      }, { onConflict: 'user_id' });
+    } catch (err) { console.error('Seller onboarding save error:', err); }
+    goTo('s-done');
+  }
 
   const animClass = dir === 'fwd' ? 'step-forward' : 'step-back';
 
@@ -74,6 +207,14 @@ export default function OnboardingPage() {
   const totalBuyerSteps = 8;
   const currentBuyerProgress = progressMap[step];
   const currentSellerProgress = sellerProgressMap[step];
+
+  if (!authChecked) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'var(--bg)' }}>
+        <div className="w-6 h-6 spinner" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -200,7 +341,7 @@ export default function OnboardingPage() {
           key="b-logo"
           animClass={animClass}
           onBack={() => goBack('b-notifs')}
-          onNext={() => goTo('b-done')}
+          onNext={(file) => handleBuyerComplete(file)}
         />
       )}
 
@@ -270,6 +411,8 @@ export default function OnboardingPage() {
           animClass={animClass}
           onBack={() => goBack('s-gst')}
           onNext={() => goTo('s-selling')}
+          onGstCertChange={setSellerGstCertFile}
+          onBizProofChange={setSellerBizProofFile}
         />
       )}
 
@@ -312,7 +455,7 @@ export default function OnboardingPage() {
           key="s-logo"
           animClass={animClass}
           onBack={() => goBack('s-notifs')}
-          onNext={() => goTo('s-done')}
+          onNext={(file) => handleSellerComplete(file)}
         />
       )}
 
@@ -1019,15 +1162,16 @@ function BuyerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
 function BuyerLogoScreen({ animClass, onBack, onNext }: {
   animClass: string;
   onBack: () => void;
-  onNext: () => void;
+  onNext: (file?: File) => void;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | undefined>(undefined);
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setFile(f);
+    setPreview(URL.createObjectURL(f));
   }
 
   return (
@@ -1037,18 +1181,14 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Optional — you can always add it later.</p>
 
       <div className="flex flex-col items-center gap-5 mb-auto">
-        {/* Upload area */}
         <label
           htmlFor="logo-upload"
           className="flex flex-col items-center justify-center cursor-pointer"
           style={{
-            width: 140,
-            height: 140,
-            borderRadius: '50%',
+            width: 140, height: 140, borderRadius: '50%',
             border: preview ? 'none' : '2px dashed #d1d5db',
             background: preview ? 'transparent' : '#f9fafb',
-            overflow: 'hidden',
-            transition: 'border 150ms ease-out',
+            overflow: 'hidden', transition: 'border 150ms ease-out',
           }}
         >
           {preview ? (
@@ -1062,25 +1202,18 @@ function BuyerLogoScreen({ animClass, onBack, onNext }: {
           )}
         </label>
         <input id="logo-upload" type="file" accept="image/*" className="hidden" onChange={handleFile} />
-
         {preview && (
-          <button
-            onClick={() => setPreview(null)}
-            className="text-xs font-semibold"
-            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}
-          >
+          <button onClick={() => { setPreview(null); setFile(undefined); }} className="text-xs font-semibold"
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}>
             Remove
           </button>
         )}
       </div>
 
       <div className="mt-8 flex flex-col gap-3">
-        <ContinueBtn disabled={false} onClick={onNext} />
-        <button
-          onClick={onNext}
-          className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
-        >
+        <ContinueBtn disabled={false} onClick={() => onNext(file)} />
+        <button onClick={() => onNext(undefined)} className="w-full py-3 text-sm font-semibold"
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}>
           Skip for now
         </button>
       </div>
@@ -1442,17 +1575,20 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
 }
 
 /* ─── Seller Step 6: Business Verification ───────────────── */
-function SellerVerifyScreen({ animClass, onBack, onNext }: {
+function SellerVerifyScreen({ animClass, onBack, onNext, onGstCertChange, onBizProofChange }: {
   animClass: string;
   onBack: () => void;
   onNext: () => void;
+  onGstCertChange: (file: File | null) => void;
+  onBizProofChange: (file: File | null) => void;
 }) {
   const [gstCert, setGstCert] = useState<string | null>(null);
   const [bizProof, setBizProof] = useState<string | null>(null);
 
-  function handleFile(setter: (v: string) => void) {
+  function handleFile(nameSetter: (v: string) => void, fileSetter: (f: File | null) => void) {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files?.[0]) setter(e.target.files[0].name);
+      const f = e.target.files?.[0] ?? null;
+      if (f) { nameSetter(f.name); fileSetter(f); }
     };
   }
 
@@ -1465,9 +1601,9 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
       <div className="flex flex-col gap-4 mb-auto">
         {/* Upload row */}
         {([
-          { id: 'gst-cert', label: 'GST Certificate', state: gstCert, setter: setGstCert },
-          { id: 'biz-proof', label: 'Business Proof', state: bizProof, setter: setBizProof },
-        ] as const).map(({ id, label, state, setter }) => (
+          { id: 'gst-cert', label: 'GST Certificate', state: gstCert, nameSetter: setGstCert, fileSetter: onGstCertChange },
+          { id: 'biz-proof', label: 'Business Proof', state: bizProof, nameSetter: setBizProof, fileSetter: onBizProofChange },
+        ] as const).map(({ id, label, state, nameSetter, fileSetter }) => (
           <label
             key={id}
             htmlFor={id}
@@ -1478,22 +1614,14 @@ function SellerVerifyScreen({ animClass, onBack, onNext }: {
               <span style={{ fontSize: 22 }}>{state ? '📄' : '📁'}</span>
               <div>
                 <p className="text-sm font-bold">{label}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  {state ? state : 'Tap to upload'}
-                </p>
+                <p className="text-xs text-gray-400 mt-0.5">{state ? state : 'Tap to upload'}</p>
               </div>
             </div>
-            <div
-              className="shrink-0 px-3 py-1 text-xs font-bold"
-              style={{
-                borderRadius: 'var(--radius-pill)',
-                background: state ? '#f0fdf4' : '#f3f4f6',
-                color: state ? '#16a34a' : '#6b7280',
-              }}
-            >
+            <div className="shrink-0 px-3 py-1 text-xs font-bold"
+              style={{ borderRadius: 'var(--radius-pill)', background: state ? '#f0fdf4' : '#f3f4f6', color: state ? '#16a34a' : '#6b7280' }}>
               {state ? 'Uploaded' : 'Pending'}
             </div>
-            <input id={id} type="file" accept=".pdf,image/*" className="hidden" onChange={handleFile(setter)} />
+            <input id={id} type="file" accept=".pdf,image/*" className="hidden" onChange={handleFile(nameSetter, fileSetter)} />
           </label>
         ))}
 
@@ -1731,14 +1859,16 @@ function SellerNotifsScreen({ animClass, values, onChange, onBack, onNext }: {
 function SellerLogoScreen({ animClass, onBack, onNext }: {
   animClass: string;
   onBack: () => void;
-  onNext: () => void;
+  onNext: (file?: File) => void;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | undefined>(undefined);
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPreview(URL.createObjectURL(file));
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setFile(f);
+    setPreview(URL.createObjectURL(f));
   }
 
   return (
@@ -1748,19 +1878,9 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Optional — builds trust with buyers. Add later anytime.</p>
 
       <div className="flex flex-col items-center gap-5 mb-auto">
-        <label
-          htmlFor="seller-logo-upload"
-          className="flex flex-col items-center justify-center cursor-pointer"
-          style={{
-            width: 140,
-            height: 140,
-            borderRadius: '50%',
-            border: preview ? 'none' : '2px dashed #d1d5db',
-            background: preview ? 'transparent' : '#f9fafb',
-            overflow: 'hidden',
-            transition: 'border 150ms ease-out',
-          }}
-        >
+        <label htmlFor="seller-logo-upload" className="flex flex-col items-center justify-center cursor-pointer"
+          style={{ width: 140, height: 140, borderRadius: '50%', border: preview ? 'none' : '2px dashed #d1d5db',
+            background: preview ? 'transparent' : '#f9fafb', overflow: 'hidden', transition: 'border 150ms ease-out' }}>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={preview} alt="Logo preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -1772,25 +1892,18 @@ function SellerLogoScreen({ animClass, onBack, onNext }: {
           )}
         </label>
         <input id="seller-logo-upload" type="file" accept="image/*" className="hidden" onChange={handleFile} />
-
         {preview && (
-          <button
-            onClick={() => setPreview(null)}
-            className="text-xs font-semibold"
-            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}
-          >
+          <button onClick={() => { setPreview(null); setFile(undefined); }} className="text-xs font-semibold"
+            style={{ background: 'transparent', color: 'var(--text-inactive)', padding: '4px 12px', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)' }}>
             Remove
           </button>
         )}
       </div>
 
       <div className="mt-8 flex flex-col gap-3">
-        <ContinueBtn disabled={false} onClick={onNext} />
-        <button
-          onClick={onNext}
-          className="w-full py-3 text-sm font-semibold"
-          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}
-        >
+        <ContinueBtn disabled={false} onClick={() => onNext(file)} />
+        <button onClick={() => onNext(undefined)} className="w-full py-3 text-sm font-semibold"
+          style={{ background: 'transparent', color: 'var(--text-inactive)', borderRadius: 'var(--radius-pill)', boxShadow: 'none' }}>
           Skip for now
         </button>
       </div>
