@@ -22,7 +22,18 @@ export async function GET(request: Request) {
         },
         { onConflict: 'id' }
       );
-      return NextResponse.redirect(`${origin}${next}`);
+      // If `next` was explicitly provided in the URL, honour it.
+      // Otherwise route based on onboarding status.
+      if (next !== '/') {
+        return NextResponse.redirect(`${origin}${next}`);
+      }
+      const { data: userData } = await supabase
+        .from('users')
+        .select('onboarding_completed')
+        .eq('id', data.user.id)
+        .single();
+      const destination = userData?.onboarding_completed ? '/' : '/onboarding';
+      return NextResponse.redirect(`${origin}${destination}`);
     }
   }
 

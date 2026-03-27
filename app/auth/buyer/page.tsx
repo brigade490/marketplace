@@ -11,7 +11,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
 
   async function upsertUserProfile(userId: string, userEmail: string) {
     const supabase = createClient();
@@ -23,7 +23,7 @@ export default function AuthPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(''); setSuccess(''); setLoading(true);
+    setError(''); setLoading(true);
     const supabase = createClient();
     if (tab === 'login') {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -35,11 +35,56 @@ export default function AuthPage() {
         router.refresh();
       }
     } else {
-      const { error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
-      if (error) setError(error.message);
-      else setSuccess('Check your email to confirm your account, then come back to log in.');
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
+      if (error) {
+        setError(error.message);
+      } else if (data.session) {
+        // Email confirmation disabled — session returned immediately
+        await upsertUserProfile(data.user!.id, data.user!.email!);
+        router.push('/onboarding');
+        router.refresh();
+        return;
+      } else {
+        // Email confirmation required
+        setEmailSent(true);
+      }
     }
     setLoading(false);
+  }
+
+  if (emailSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-16" style={{ background: 'var(--bg)' }}>
+        <div
+          className="w-full text-center"
+          style={{ maxWidth: '440px', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-md)', padding: '48px 36px' }}
+        >
+          <a href="/" className="block text-center text-2xl font-black mb-8" style={{ color: 'var(--text-primary)' }}>
+            Karobarrr
+          </a>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#f0fff4', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#27ae60" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-black mb-2" style={{ color: 'var(--text-primary)' }}>Check your email</h2>
+          <p className="text-sm mb-6" style={{ color: 'var(--text-inactive)', lineHeight: '1.6' }}>
+            We sent a confirmation link to <strong style={{ color: 'var(--text-primary)' }}>{email}</strong>. Click the link to activate your account and continue to onboarding.
+          </p>
+          <p className="text-xs" style={{ color: 'var(--text-inactive)' }}>
+            Already confirmed?{' '}
+            <button
+              type="button"
+              onClick={() => { setEmailSent(false); setTab('login'); }}
+              className="underline font-semibold"
+              style={{ color: 'var(--text-primary)', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              Sign in
+            </button>
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -58,7 +103,7 @@ export default function AuthPage() {
             <button
               key={t}
               type="button"
-              onClick={() => { setTab(t); setError(''); setSuccess(''); }}
+              onClick={() => { setTab(t); setError(''); }}
               className={`neu-tab flex-1${tab === t ? ' active' : ''}`}
             >
               {t === 'login' ? 'Login' : 'Sign Up'}
@@ -109,11 +154,6 @@ export default function AuthPage() {
           {error && (
             <p className="text-xs px-3 py-2" style={{ borderRadius: 'var(--radius-sm)', background: '#fff0f0', color: '#c0392b', boxShadow: 'inset 2px 2px 6px rgba(192,57,43,0.1)' }}>
               {error}
-            </p>
-          )}
-          {success && (
-            <p className="text-xs px-3 py-2" style={{ borderRadius: 'var(--radius-sm)', background: '#f0fff4', color: '#27ae60', boxShadow: 'inset 2px 2px 6px rgba(39,174,96,0.1)' }}>
-              {success}
             </p>
           )}
 
