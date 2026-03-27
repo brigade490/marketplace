@@ -341,11 +341,11 @@ function ContinueBtn({ disabled, onClick }: { disabled: boolean; onClick: () => 
       disabled={disabled}
       className="w-full py-4 text-base font-bold"
       style={{
-        background: disabled ? 'var(--input-bg)' : 'var(--active-bg)',
-        color: disabled ? 'var(--text-muted)' : '#fff',
+        background: disabled ? '#e0e0e0' : '#000',
+        color: disabled ? '#aaa' : '#fff',
         borderRadius: 'var(--radius-pill)',
-        boxShadow: disabled ? 'var(--shadow-soft)' : 'var(--shadow-active)',
-        transition: 'background 200ms ease-out, color 200ms ease-out, box-shadow 200ms ease-out',
+        boxShadow: 'none',
+        transition: 'background 200ms ease-out, color 200ms ease-out',
         cursor: disabled ? 'default' : 'pointer',
       }}
     >
@@ -436,6 +436,7 @@ function AccountTypeScreen({
   return (
     <div className={`flex-1 flex flex-col px-6 pt-6 pb-6 ${animClass}`}>
       <BackBtn onBack={onBack} />
+      <div style={{ maxWidth: '600px', width: '100%', margin: '0 auto' }}>
       <h1 className="text-xl font-black mb-1">How will you use Karobarrr?</h1>
       <p className="text-sm text-gray-500 mb-5">Choose your account type to get started.</p>
 
@@ -487,6 +488,7 @@ function AccountTypeScreen({
       </div>
 
       <ContinueBtn disabled={!selected} onClick={() => selected && onSelect(selected)} />
+      </div>
     </div>
   );
 }

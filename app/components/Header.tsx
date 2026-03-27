@@ -246,7 +246,7 @@ export default function Header() {
             href="/cart"
             aria-label="Cart"
             className="flex items-center justify-center"
-            style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--surface)', boxShadow: 'var(--shadow-raised)', color: 'var(--text-primary)', transition: 'transform 0.18s ease' }}
+            style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--surface)', boxShadow: 'none', color: 'var(--text-primary)', transition: 'transform 0.18s ease' }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'; }}
           >
@@ -317,7 +317,7 @@ export default function Header() {
             <Link
               href="/onboarding"
               className="px-5 py-2 text-sm font-semibold"
-              style={{ background: 'var(--surface)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-raised)', borderRadius: 'var(--radius-pill)', transition: 'var(--transition)' }}
+              style={{ background: 'var(--surface)', color: 'var(--text-primary)', boxShadow: 'none', borderRadius: 'var(--radius-pill)', border: '1px solid #e0e0e0', transition: 'var(--transition)' }}
             >
               Login / Signup
             </Link>

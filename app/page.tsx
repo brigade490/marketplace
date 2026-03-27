@@ -28,7 +28,7 @@ function AdBanner() {
   }, []);
 
   return (
-    <div style={{ margin: '24px', borderRadius: '16px', overflow: 'hidden', height: '250px', position: 'relative' }}>
+    <div style={{ margin: '24px', borderRadius: '16px', overflow: 'hidden', height: '350px', position: 'relative' }}>
       {/* Slides track */}
       <div
         style={{
