@@ -86,7 +86,7 @@ function ProductCard() {
       style={{
         minWidth: '300px',
         width: '300px',
-        minHeight: '320px',
+        minHeight: '400px',
         borderRadius: '16px',
         background: '#ffffff',
         border: '1px solid #f0f0f0',
@@ -98,7 +98,7 @@ function ProductCard() {
       onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
     >
       {/* Image area */}
-      <div style={{ height: '240px', background: '#f5f5f5' }} />
+      <div style={{ height: '300px', background: '#f5f5f5' }} />
       {/* Content */}
       <div style={{ padding: '14px 16px 18px' }}>
         <p style={{ fontSize: '16px', fontWeight: 600, color: '#111', lineHeight: 1.3, marginBottom: '6px' }}>Product Name</p>
