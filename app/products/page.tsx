@@ -14,18 +14,18 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
 };
 
 const demoProducts = [
-  { id: "1", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", verified: true, price: "₹4,200", numPrice: 4200, unit: "unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment" },
-  { id: "2", name: "Commercial LED Display Panels", seller: "BrightView Corp", verified: true, price: "₹890", numPrice: 890, unit: "panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech" },
-  { id: "3", name: "Stainless Steel Fasteners Set", seller: "MetalPro Solutions", verified: true, price: "₹145", numPrice: 145, unit: "kg", minOrder: "Min. 50 kg", rating: 4.8, reviews: 203, location: "Pune", category: "Industrial Equipment" },
-  { id: "4", name: "Organic Fertilizer Blend", seller: "GreenGrow Exports", verified: false, price: "₹55", numPrice: 55, unit: "bag", minOrder: "Min. 100 bags", rating: 4.5, reviews: 67, location: "Ahmedabad", category: "Agriculture" },
-  { id: "5", name: "100% Cotton Fabric Roll", seller: "PrimeTex Mills", verified: true, price: "₹3.20", numPrice: 3.2, unit: "meter", minOrder: "Min. 500 m", rating: 4.6, reviews: 189, location: "Surat", category: "Textiles & Apparel" },
-  { id: "6", name: "Reinforced Concrete Blocks", seller: "BuildCo Materials", verified: false, price: "₹12", numPrice: 12, unit: "piece", minOrder: "Min. 1,000 pcs", rating: 4.4, reviews: 51, location: "Hyderabad", category: "Construction Materials" },
-  { id: "7", name: "Paracetamol API Bulk Supply", seller: "PharmGrade Labs", verified: true, price: "₹28", numPrice: 28, unit: "kg", minOrder: "Min. 25 kg", rating: 4.9, reviews: 312, location: "Bangalore", category: "Pharmaceuticals" },
-  { id: "8", name: "Brake Pad Set — OEM Compatible", seller: "AutoParts Direct", verified: true, price: "₹65", numPrice: 65, unit: "set", minOrder: "Min. 20 sets", rating: 4.7, reviews: 147, location: "Chennai", category: "Auto Parts" },
-  { id: "9", name: "Freeze-Dried Fruit Assortment", seller: "NaturePack Co.", verified: false, price: "₹18", numPrice: 18, unit: "kg", minOrder: "Min. 50 kg", rating: 4.3, reviews: 38, location: "Kolkata", category: "Food & Beverages" },
-  { id: "10", name: "Industrial Touch Screen Panels", seller: "SmartDisplay Tech", verified: true, price: "₹1,250", numPrice: 1250, unit: "unit", minOrder: "Min. 3 units", rating: 4.8, reviews: 76, location: "Jaipur", category: "Electronics & Tech" },
-  { id: "11", name: "Precision CNC Machine Parts", seller: "MachCraft Works", verified: true, price: "₹320", numPrice: 320, unit: "batch", minOrder: "Min. 10 batches", rating: 4.6, reviews: 93, location: "Lucknow", category: "Industrial Equipment" },
-  { id: "12", name: "Neem Oil Cold Pressed", seller: "NatureExtracts Ltd", verified: false, price: "₹8", numPrice: 8, unit: "liter", minOrder: "Min. 200 L", rating: 4.4, reviews: 44, location: "Mumbai", category: "Agriculture" },
+  { id: "1", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", verified: true, freeDelivery: true, price: "₹4,200", numPrice: 4200, unit: "unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment" },
+  { id: "2", name: "Commercial LED Display Panels", seller: "BrightView Corp", verified: true, freeDelivery: false, price: "₹890", numPrice: 890, unit: "panel", minOrder: "Min. 10 units", rating: 4.7, reviews: 94, location: "Delhi", category: "Electronics & Tech" },
+  { id: "3", name: "Stainless Steel Fasteners Set", seller: "MetalPro Solutions", verified: true, freeDelivery: true, price: "₹145", numPrice: 145, unit: "kg", minOrder: "Min. 50 kg", rating: 4.8, reviews: 203, location: "Pune", category: "Industrial Equipment" },
+  { id: "4", name: "Organic Fertilizer Blend", seller: "GreenGrow Exports", verified: false, freeDelivery: false, price: "₹55", numPrice: 55, unit: "bag", minOrder: "Min. 100 bags", rating: 4.5, reviews: 67, location: "Ahmedabad", category: "Agriculture" },
+  { id: "5", name: "100% Cotton Fabric Roll", seller: "PrimeTex Mills", verified: true, freeDelivery: true, price: "₹3.20", numPrice: 3.2, unit: "meter", minOrder: "Min. 500 m", rating: 4.6, reviews: 189, location: "Surat", category: "Textiles & Apparel" },
+  { id: "6", name: "Reinforced Concrete Blocks", seller: "BuildCo Materials", verified: false, freeDelivery: false, price: "₹12", numPrice: 12, unit: "piece", minOrder: "Min. 1,000 pcs", rating: 4.4, reviews: 51, location: "Hyderabad", category: "Construction Materials" },
+  { id: "7", name: "Paracetamol API Bulk Supply", seller: "PharmGrade Labs", verified: true, freeDelivery: false, price: "₹28", numPrice: 28, unit: "kg", minOrder: "Min. 25 kg", rating: 4.9, reviews: 312, location: "Bangalore", category: "Pharmaceuticals" },
+  { id: "8", name: "Brake Pad Set — OEM Compatible", seller: "AutoParts Direct", verified: true, freeDelivery: true, price: "₹65", numPrice: 65, unit: "set", minOrder: "Min. 20 sets", rating: 4.7, reviews: 147, location: "Chennai", category: "Auto Parts" },
+  { id: "9", name: "Freeze-Dried Fruit Assortment", seller: "NaturePack Co.", verified: false, freeDelivery: false, price: "₹18", numPrice: 18, unit: "kg", minOrder: "Min. 50 kg", rating: 4.3, reviews: 38, location: "Kolkata", category: "Food & Beverages" },
+  { id: "10", name: "Industrial Touch Screen Panels", seller: "SmartDisplay Tech", verified: true, freeDelivery: false, price: "₹1,250", numPrice: 1250, unit: "unit", minOrder: "Min. 3 units", rating: 4.8, reviews: 76, location: "Jaipur", category: "Electronics & Tech" },
+  { id: "11", name: "Precision CNC Machine Parts", seller: "MachCraft Works", verified: true, freeDelivery: true, price: "₹320", numPrice: 320, unit: "batch", minOrder: "Min. 10 batches", rating: 4.6, reviews: 93, location: "Lucknow", category: "Industrial Equipment" },
+  { id: "12", name: "Neem Oil Cold Pressed", seller: "NatureExtracts Ltd", verified: false, freeDelivery: false, price: "₹8", numPrice: 8, unit: "liter", minOrder: "Min. 200 L", rating: 4.4, reviews: 44, location: "Mumbai", category: "Agriculture" },
 ];
 
 type Product = typeof demoProducts[0];
@@ -33,6 +33,8 @@ type Product = typeof demoProducts[0];
 const categories = ["All", "Industrial Equipment", "Electronics & Tech", "Textiles & Apparel", "Agriculture", "Construction Materials", "Pharmaceuticals", "Auto Parts", "Food & Beverages"];
 const locationOptions = ["All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", "Kolkata", "Ahmedabad", "Surat", "Jaipur", "Lucknow"];
 const sortOptions = ["Relevance", "Price: Low to High", "Price: High to Low", "Rating", "Most Reviews"];
+
+const PRICE_MAX = 10000;
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -49,6 +51,31 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+const filterLabel: React.CSSProperties = {
+  fontSize: '10px',
+  fontWeight: 600,
+  color: '#aaa',
+  textTransform: 'uppercase',
+  letterSpacing: '0.06em',
+  marginBottom: '6px',
+};
+
+const divider: React.CSSProperties = {
+  borderTop: '1px solid #f0f0f0',
+  margin: '10px 0',
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '6px 8px',
+  fontSize: '12px',
+  background: '#fafafa',
+  border: '1px solid #e8e8e8',
+  borderRadius: '6px',
+  color: '#333',
+  outline: 'none',
+};
+
 function ProductsPageInner() {
   const searchParams = useSearchParams();
   const initialCategory = SLUG_TO_CATEGORY[searchParams.get('category') ?? ''] ?? 'All';
@@ -60,9 +87,15 @@ function ProductsPageInner() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [minRating, setMinRating] = useState(0);
+  const [freeDelivery, setFreeDelivery] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const tabBarRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ dragging: false, startX: 0, scrollLeft: 0 });
+
+  // Derived slider positions (0–100%)
+  const sliderMin = minPrice ? Math.min((Number(minPrice) / PRICE_MAX) * 100, 100) : 0;
+  const sliderMax = maxPrice ? Math.min((Number(maxPrice) / PRICE_MAX) * 100, 100) : 100;
 
   useEffect(() => {
     async function fetchProducts() {
@@ -81,6 +114,7 @@ function ProductsPageInner() {
               name: p.name,
               seller: seller?.company_name ?? "Karobarrr Seller",
               verified: seller?.verified ?? false,
+              freeDelivery: false,
               price: `₹${Number(p.price).toLocaleString("en-IN")}`,
               numPrice: Number(p.price),
               unit: p.price_unit ?? "unit",
@@ -124,12 +158,14 @@ function ProductsPageInner() {
   }, []);
 
   let filtered = allProducts.filter((p) => {
-    const matchCat    = category === "All" || p.category === category;
-    const matchLoc    = location === "All Locations" || p.location === location;
-    const matchMin    = !minPrice || p.numPrice >= Number(minPrice);
-    const matchMax    = !maxPrice || p.numPrice <= Number(maxPrice);
-    const matchRating = p.rating >= minRating;
-    return matchCat && matchLoc && matchMin && matchMax && matchRating;
+    const matchCat      = category === "All" || p.category === category;
+    const matchLoc      = location === "All Locations" || p.location === location;
+    const matchMin      = !minPrice || p.numPrice >= Number(minPrice);
+    const matchMax      = !maxPrice || p.numPrice <= Number(maxPrice);
+    const matchRating   = p.rating >= minRating;
+    const matchDelivery = !freeDelivery || p.freeDelivery;
+    const matchVerified = !verifiedOnly || p.verified;
+    return matchCat && matchLoc && matchMin && matchMax && matchRating && matchDelivery && matchVerified;
   });
 
   if (sort === "Price: Low to High")      filtered = [...filtered].sort((a, b) => a.numPrice - b.numPrice);
@@ -137,16 +173,10 @@ function ProductsPageInner() {
   else if (sort === "Rating")             filtered = [...filtered].sort((a, b) => b.rating - a.rating);
   else if (sort === "Most Reviews")       filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '6px 9px',
-    fontSize: '12px',
-    background: '#fff',
-    border: '1px solid #e2e2e2',
-    borderRadius: '8px',
-    color: '#333',
-    outline: 'none',
-  };
+  function clearAll() {
+    setCategory("All"); setLocation("All Locations"); setMinPrice(""); setMaxPrice("");
+    setMinRating(0); setSort("Relevance"); setFreeDelivery(false); setVerifiedOnly(false);
+  }
 
   return (
     <div className="min-h-screen" style={{ background: '#f7f7f8' }}>
@@ -158,7 +188,7 @@ function ProductsPageInner() {
             ref={tabBarRef}
             style={{
               display: 'flex',
-              gap: '6px',
+              gap: '4px',
               overflowX: 'auto',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
@@ -173,13 +203,13 @@ function ProductsPageInner() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   style={{
-                    background: active ? '#111' : '#fff',
-                    color: active ? '#fff' : '#555',
-                    border: active ? '1px solid #111' : '1px solid #e0e0e0',
+                    background: active ? '#111' : 'transparent',
+                    color: active ? '#fff' : '#666',
+                    border: active ? '1px solid #111' : '1px solid transparent',
                     borderRadius: '999px',
-                    padding: '6px 16px',
-                    fontSize: '12px',
-                    fontWeight: active ? 600 : 500,
+                    padding: '5px 14px',
+                    fontSize: '13px',
+                    fontWeight: active ? 600 : 400,
                     whiteSpace: 'nowrap',
                     flexShrink: 0,
                     cursor: 'pointer',
@@ -198,51 +228,61 @@ function ProductsPageInner() {
       <div className="max-w-screen-xl mx-auto px-6 py-5">
         <div className="flex gap-5 items-start">
 
-          {/* ── Compact sidebar ───────────────────────────── */}
-          <aside className={`${showFilters ? "block" : "hidden"} lg:block shrink-0`} style={{ width: '200px' }}>
+          {/* ── Sidebar ───────────────────────────────────── */}
+          <aside className={`${showFilters ? "block" : "hidden"} lg:block shrink-0`} style={{ width: '210px' }}>
             <div
               className="sticky"
               style={{
                 top: '112px',
                 background: '#fff',
                 border: '1px solid #e8e8e8',
-                borderRadius: '12px',
-                padding: '14px 12px',
+                borderRadius: '10px',
+                padding: '14px 14px 10px',
               }}
             >
-              <p style={{ fontSize: '11px', fontWeight: 700, color: '#111', marginBottom: '12px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Filters</p>
+              <p style={{ fontSize: '11px', fontWeight: 700, color: '#333', marginBottom: '10px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Filters</p>
 
               {/* Sort */}
-              <div style={{ marginBottom: '12px' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Sort By</p>
+              <div>
+                <p style={filterLabel}>Sort By</p>
                 <select value={sort} onChange={(e) => setSort(e.target.value)} style={inputStyle}>
                   {sortOptions.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
+              <div style={divider} />
+
               {/* City */}
-              <div style={{ marginBottom: '12px' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>City</p>
+              <div>
+                <p style={filterLabel}>City</p>
                 <select value={location} onChange={(e) => setLocation(e.target.value)} style={inputStyle}>
                   {locationOptions.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
                 </select>
               </div>
 
-              {/* Price Range */}
-              <div style={{ marginBottom: '12px' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Price Range (₹)</p>
-                {/* Slider visual */}
-                <div style={{ position: 'relative', height: '18px', marginBottom: '6px', display: 'flex', alignItems: 'center' }}>
-                  <div style={{ position: 'absolute', left: 0, right: 0, height: '3px', background: '#e8e8e8', borderRadius: '2px' }} />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: `${minPrice ? Math.min((Number(minPrice) / 10000) * 100, 100) : 0}%`,
-                      right: `${maxPrice ? Math.max(100 - (Number(maxPrice) / 10000) * 100, 0) : 0}%`,
-                      height: '3px',
-                      background: '#111',
-                      borderRadius: '2px',
-                    }}
+              <div style={divider} />
+
+              {/* Price Range with slider */}
+              <div>
+                <p style={filterLabel}>Price Range (₹)</p>
+                {/* Track */}
+                <div style={{ position: 'relative', height: '16px', display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+                  <div style={{ position: 'absolute', left: 0, right: 0, height: '3px', background: '#eee', borderRadius: '2px' }} />
+                  <div style={{
+                    position: 'absolute',
+                    left: `${sliderMin}%`,
+                    right: `${100 - sliderMax}%`,
+                    height: '3px',
+                    background: '#111',
+                    borderRadius: '2px',
+                  }} />
+                  {/* Min thumb */}
+                  <input
+                    type="range"
+                    min={0} max={PRICE_MAX} step={100}
+                    value={minPrice || 0}
+                    onChange={(e) => setMinPrice(e.target.value === '0' ? '' : e.target.value)}
+                    style={{ position: 'absolute', width: '100%', opacity: 0, cursor: 'pointer', height: '16px', margin: 0 }}
                   />
                 </div>
                 <div className="flex gap-1.5">
@@ -263,9 +303,11 @@ function ProductsPageInner() {
                 </div>
               </div>
 
+              <div style={divider} />
+
               {/* Rating */}
-              <div style={{ marginBottom: '12px' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Min. Rating</p>
+              <div>
+                <p style={filterLabel}>Min. Rating</p>
                 <div className="flex gap-1 flex-wrap">
                   {[{ val: 0, label: 'All' }, { val: 4, label: '4+' }, { val: 4.5, label: '4.5+' }, { val: 4.8, label: '4.8+' }].map(({ val, label }) => {
                     const active = minRating === val;
@@ -274,11 +316,11 @@ function ProductsPageInner() {
                         key={val}
                         onClick={() => setMinRating(val)}
                         style={{
-                          background: active ? '#111' : '#fff',
-                          color: active ? '#fff' : '#555',
+                          background: active ? '#111' : 'transparent',
+                          color: active ? '#fff' : '#666',
                           border: active ? '1px solid #111' : '1px solid #e0e0e0',
                           borderRadius: '999px',
-                          padding: '4px 9px',
+                          padding: '3px 9px',
                           fontSize: '11px',
                           fontWeight: 600,
                           cursor: 'pointer',
@@ -292,24 +334,49 @@ function ProductsPageInner() {
                 </div>
               </div>
 
-              <div style={{ borderTop: '1px solid #ebebeb', margin: '10px 0 8px' }} />
+              <div style={divider} />
 
+              {/* Checkboxes */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '7px', cursor: 'pointer', fontSize: '12px', color: '#444', fontWeight: 500 }}>
+                  <input
+                    type="checkbox"
+                    checked={freeDelivery}
+                    onChange={(e) => setFreeDelivery(e.target.checked)}
+                    style={{ width: '13px', height: '13px', accentColor: '#111', cursor: 'pointer' }}
+                  />
+                  Free Delivery
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '7px', cursor: 'pointer', fontSize: '12px', color: '#444', fontWeight: 500 }}>
+                  <input
+                    type="checkbox"
+                    checked={verifiedOnly}
+                    onChange={(e) => setVerifiedOnly(e.target.checked)}
+                    style={{ width: '13px', height: '13px', accentColor: '#111', cursor: 'pointer' }}
+                  />
+                  Verified Sellers Only
+                </label>
+              </div>
+
+              <div style={divider} />
+
+              {/* Clear */}
               <button
-                onClick={() => { setCategory("All"); setLocation("All Locations"); setMinPrice(""); setMaxPrice(""); setMinRating(0); setSort("Relevance"); }}
+                onClick={clearAll}
                 style={{
                   width: '100%',
-                  padding: '6px',
+                  padding: '4px',
                   background: 'transparent',
-                  color: '#bbb',
+                  color: '#2563eb',
                   border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '11px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  transition: 'color 0.18s',
+                  textAlign: 'center',
+                  transition: 'opacity 0.15s',
                 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = '#e03030')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = '#bbb')}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '0.7')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '1')}
               >
                 Clear All Filters
               </button>
@@ -347,14 +414,9 @@ function ProductsPageInner() {
                 className="lg:hidden"
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
-                  background: '#111',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '999px',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  padding: '7px 16px',
-                  cursor: 'pointer',
+                  background: '#111', color: '#fff', border: 'none',
+                  borderRadius: '999px', fontSize: '12px', fontWeight: 600,
+                  padding: '7px 16px', cursor: 'pointer',
                 }}
               >
                 Filters
@@ -362,16 +424,12 @@ function ProductsPageInner() {
             </div>
 
             {filtered.length === 0 ? (
-              <div
-                className="text-center py-16"
-                style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e8e8e8' }}
-              >
-                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#333', marginBottom: '6px' }}>No products found</h3>
+              <div className="text-center py-16" style={{ background: '#fff', borderRadius: '10px', border: '1px solid #e8e8e8' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#333', marginBottom: '6px' }}>No products found</h3>
                 <p style={{ fontSize: '13px', color: '#999' }}>Try adjusting your filters.</p>
               </div>
             ) : (
-              /* Vertical list with dividers */
-              <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: '12px', overflow: 'hidden' }}>
+              <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: '10px', overflow: 'hidden' }}>
                 {filtered.map((product, idx) => (
                   <div
                     key={product.id}
@@ -383,55 +441,59 @@ function ProductsPageInner() {
                     onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.background = '#fafafa')}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.background = 'transparent')}
                   >
-                    {/* Image */}
+                    {/* Image — 300px wide */}
                     <Link href={`/products/${product.id}`} className="shrink-0 block">
-                      <div
-                        style={{
-                          width: '200px',
-                          height: '160px',
-                          background: '#f5f5f5',
-                          flexShrink: 0,
-                        }}
-                      />
+                      <div style={{ width: '300px', height: '200px', background: '#f5f5f5', flexShrink: 0 }} />
                     </Link>
 
                     {/* Info */}
-                    <div style={{ flex: 1, padding: '16px 18px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
+                    <div style={{ flex: 1, padding: '20px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
                       <div>
                         {/* Name */}
                         <Link href={`/products/${product.id}`} className="block">
-                          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111', marginBottom: '5px', lineHeight: 1.3 }}>
+                          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111', marginBottom: '6px', lineHeight: 1.35 }}>
                             {product.name}
                           </h3>
                         </Link>
 
                         {/* Seller + verified */}
-                        <div className="flex items-center gap-1.5" style={{ marginBottom: '6px' }}>
-                          <span style={{ fontSize: '12px', color: '#666' }}>{product.seller}</span>
+                        <div className="flex items-center gap-2" style={{ marginBottom: '8px' }}>
+                          <span style={{ fontSize: '13px', color: '#555' }}>{product.seller}</span>
                           {product.verified && (
-                            <span style={{ fontSize: '10px', fontWeight: 700, color: '#0a7aff', background: '#e8f2ff', borderRadius: '999px', padding: '1px 6px' }}>
+                            <span style={{
+                              fontSize: '10px',
+                              fontWeight: 600,
+                              color: '#888',
+                              border: '1px solid #ccc',
+                              borderRadius: '4px',
+                              padding: '1px 5px',
+                              lineHeight: 1.4,
+                            }}>
                               Verified
                             </span>
                           )}
                         </div>
 
                         {/* Rating */}
-                        <div className="flex items-center gap-1.5" style={{ marginBottom: '8px' }}>
+                        <div className="flex items-center gap-1.5" style={{ marginBottom: '10px' }}>
                           <StarRating rating={product.rating} />
                           <span style={{ fontSize: '12px', fontWeight: 600, color: '#333' }}>{product.rating}</span>
-                          <span style={{ fontSize: '12px', color: '#aaa' }}>({product.reviews} reviews)</span>
+                          <span style={{ fontSize: '12px', color: '#bbb' }}>({product.reviews} reviews)</span>
                         </div>
 
-                        {/* Meta row */}
+                        {/* Meta */}
                         <div className="flex items-center gap-4">
-                          <span style={{ fontSize: '11px', color: '#888' }}>{product.minOrder}</span>
-                          <span style={{ fontSize: '11px', color: '#888' }}>{product.location}</span>
-                          <span style={{ fontSize: '11px', color: '#888' }}>{product.category}</span>
+                          <span style={{ fontSize: '12px', color: '#888' }}>{product.minOrder}</span>
+                          <span style={{ fontSize: '12px', color: '#888' }}>{product.location}</span>
+                          <span style={{ fontSize: '12px', color: '#888' }}>{product.category}</span>
+                          {product.freeDelivery && (
+                            <span style={{ fontSize: '11px', fontWeight: 600, color: '#16a34a' }}>Free Delivery</span>
+                          )}
                         </div>
                       </div>
 
-                      {/* Price + buttons row */}
-                      <div className="flex items-center justify-between" style={{ marginTop: '12px' }}>
+                      {/* Price + buttons */}
+                      <div className="flex items-center justify-between" style={{ marginTop: '16px' }}>
                         <div className="flex items-baseline gap-1">
                           <span style={{ fontSize: '22px', fontWeight: 800, color: '#111' }}>{product.price}</span>
                           <span style={{ fontSize: '12px', color: '#999' }}>/ {product.unit}</span>
@@ -439,15 +501,11 @@ function ProductsPageInner() {
                         <div className="flex gap-2">
                           <button
                             style={{
-                              padding: '9px 20px',
-                              background: '#000',
-                              color: '#fff',
-                              border: 'none',
-                              borderRadius: '999px',
-                              fontSize: '13px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              whiteSpace: 'nowrap',
+                              padding: '9px 22px',
+                              background: '#000', color: '#fff',
+                              border: 'none', borderRadius: '999px',
+                              fontSize: '13px', fontWeight: 600,
+                              cursor: 'pointer', whiteSpace: 'nowrap',
                               transition: 'opacity 0.15s',
                             }}
                             onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '0.8')}
@@ -457,15 +515,11 @@ function ProductsPageInner() {
                           </button>
                           <button
                             style={{
-                              padding: '9px 20px',
-                              background: '#fff',
-                              color: '#000',
-                              border: '1.5px solid #000',
-                              borderRadius: '999px',
-                              fontSize: '13px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              whiteSpace: 'nowrap',
+                              padding: '9px 22px',
+                              background: '#fff', color: '#000',
+                              border: '1.5px solid #000', borderRadius: '999px',
+                              fontSize: '13px', fontWeight: 600,
+                              cursor: 'pointer', whiteSpace: 'nowrap',
                               transition: 'background 0.15s',
                             }}
                             onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = '#f5f5f5')}
