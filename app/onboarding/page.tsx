@@ -450,11 +450,12 @@ function AccountTypeScreen({
             tabIndex={0}
             onClick={() => setSelected(key)}
             onKeyDown={(e) => e.key === 'Enter' && setSelected(key)}
-            className="flex items-center gap-4 p-4 cursor-pointer"
+            className="flex items-center gap-4 cursor-pointer"
             style={{
+              padding: '12px 14px',
               borderRadius: 'var(--radius-md)',
               boxShadow: selected === key ? 'var(--shadow-active)' : 'var(--shadow-raised)',
-              background: selected === key ? 'var(--surface)' : 'var(--surface)',
+              background: 'var(--surface)',
               transition: 'box-shadow 150ms ease-out',
             }}
           >

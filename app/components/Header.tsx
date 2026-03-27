@@ -261,13 +261,23 @@ export default function Header() {
               <button
                 onClick={() => setShowUserMenu((v) => !v)}
                 aria-label="User menu"
-                className="flex items-center justify-center font-bold text-sm overflow-hidden"
-                style={{ width: 38, height: 38, borderRadius: '50%', background: avatarUrl ? 'transparent' : 'var(--active-bg)', color: '#fff', boxShadow: 'var(--shadow-active)', flexShrink: 0, padding: 0 }}
+                className="flex items-center gap-2"
+                style={{ background: 'transparent', boxShadow: 'none', padding: 0 }}
               >
-                {avatarUrl
-                  ? <img src={avatarUrl} alt="avatar" style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: '50%' }} />
-                  : (user.email?.[0].toUpperCase() ?? 'U')
-                }
+                <div
+                  className="flex items-center justify-center font-bold text-sm overflow-hidden shrink-0"
+                  style={{ width: 38, height: 38, borderRadius: '50%', background: avatarUrl ? 'transparent' : 'var(--active-bg)', color: '#fff', boxShadow: 'var(--shadow-active)' }}
+                >
+                  {avatarUrl
+                    ? <img src={avatarUrl} alt="avatar" style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: '50%' }} />
+                    : (user.email?.[0].toUpperCase() ?? 'U')
+                  }
+                </div>
+                {location && location !== 'All Locations' && (
+                  <span className="text-xs font-medium hidden sm:block" style={{ color: 'var(--text-inactive)', maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {location}
+                  </span>
+                )}
               </button>
 
               {showUserMenu && (

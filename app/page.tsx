@@ -84,8 +84,8 @@ function ProductCard() {
     <div
       className="shrink-0"
       style={{
-        minWidth: '300px',
-        width: '300px',
+        minWidth: '220px',
+        width: '220px',
         minHeight: '400px',
         borderRadius: '16px',
         background: '#ffffff',
@@ -102,7 +102,7 @@ function ProductCard() {
       {/* Content */}
       <div style={{ padding: '14px 16px 18px' }}>
         <p style={{ fontSize: '16px', fontWeight: 600, color: '#111', lineHeight: 1.3, marginBottom: '6px' }}>Product Name</p>
-        <p style={{ fontSize: '15px', fontWeight: 700, color: '#111' }}>₹0.00</p>
+        <p style={{ fontSize: '20px', fontWeight: 500, color: '#111' }}>₹0.00</p>
       </div>
     </div>
   );
