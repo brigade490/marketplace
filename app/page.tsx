@@ -5,37 +5,76 @@ import Link from 'next/link';
 import LanguagePopup from './components/LanguagePopup';
 
 const sections = [
-  { id: 'karobar',      title: 'Karobar' },
-  { id: 'office',       title: 'Office Supplies' },
-  { id: 'raw',          title: 'Raw Materials' },
-  { id: 'textile',      title: 'Textile & Fabric' },
-  { id: 'construction', title: 'Construction Materials' },
+  { id: 'karobar',       title: 'Karobar',               slug: 'karobar' },
+  { id: 'office',        title: 'Office Supplies',        slug: 'office-supplies' },
+  { id: 'raw',           title: 'Raw Materials',          slug: 'raw-materials' },
+  { id: 'textile',       title: 'Textile & Fabric',       slug: 'textile-fabric' },
+  { id: 'construction',  title: 'Construction Materials', slug: 'construction-materials' },
 ];
 
-const AD_COLORS = ['#1a1a2e', '#16213e', '#0f3460', '#533483'];
+const SLIDES = [
+  { bg: '#1a1a2e', label: 'Ad Space' },
+  { bg: '#0f3460', label: 'Ad Space' },
+  { bg: '#533483', label: 'Ad Space' },
+];
 
 function AdBanner() {
-  const [colorIdx, setColorIdx] = useState(0);
+  const [current, setCurrent] = useState(0);
 
+  // Auto-advance every 3 seconds
   useEffect(() => {
-    const t = setInterval(() => setColorIdx(i => (i + 1) % AD_COLORS.length), 3000);
+    const t = setInterval(() => setCurrent(i => (i + 1) % SLIDES.length), 3000);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <div
-      style={{
-        background: AD_COLORS[colorIdx],
-        borderRadius: '16px',
-        height: '250px',
-        margin: '24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'background 0.8s ease',
-      }}
-    >
-      <span style={{ fontSize: '14px', color: '#ffffff', fontWeight: 500, opacity: 0.7 }}>Ad Space</span>
+    <div style={{ margin: '24px', borderRadius: '16px', overflow: 'hidden', height: '250px', position: 'relative' }}>
+      {/* Slides track */}
+      <div
+        style={{
+          display: 'flex',
+          width: `${SLIDES.length * 100}%`,
+          height: '100%',
+          transform: `translateX(-${(current * 100) / SLIDES.length}%)`,
+          transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+      >
+        {SLIDES.map((slide, i) => (
+          <div
+            key={i}
+            style={{
+              width: `${100 / SLIDES.length}%`,
+              flexShrink: 0,
+              background: slide.bg,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)', fontWeight: 500 }}>{slide.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Dots */}
+      <div style={{ position: 'absolute', bottom: '14px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px' }}>
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            style={{
+              width: i === current ? '20px' : '8px',
+              height: '8px',
+              borderRadius: '999px',
+              background: i === current ? '#fff' : 'rgba(255,255,255,0.4)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -45,11 +84,13 @@ function ProductCard() {
     <div
       className="shrink-0"
       style={{
-        minWidth: '220px',
-        width: '220px',
+        minWidth: '300px',
+        width: '300px',
+        minHeight: '320px',
         borderRadius: '16px',
         background: '#ffffff',
         border: '1px solid #f0f0f0',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
         overflow: 'hidden',
         transition: 'transform 0.2s ease',
       }}
@@ -57,9 +98,9 @@ function ProductCard() {
       onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
     >
       {/* Image area */}
-      <div style={{ height: '160px', background: '#f5f5f5' }} />
+      <div style={{ height: '240px', background: '#f5f5f5' }} />
       {/* Content */}
-      <div style={{ padding: '12px 14px 16px' }}>
+      <div style={{ padding: '14px 16px 18px' }}>
         <p style={{ fontSize: '16px', fontWeight: 600, color: '#111', lineHeight: 1.3, marginBottom: '6px' }}>Product Name</p>
         <p style={{ fontSize: '15px', fontWeight: 700, color: '#111' }}>₹0.00</p>
       </div>
@@ -67,7 +108,7 @@ function ProductCard() {
   );
 }
 
-function ProductSection({ title }: { title: string }) {
+function ProductSection({ title, slug }: { title: string; slug: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -87,16 +128,15 @@ function ProductSection({ title }: { title: string }) {
   }, []);
 
   function scroll(direction: 'left' | 'right') {
-    scrollRef.current?.scrollBy({ left: direction === 'right' ? 600 : -600, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: direction === 'right' ? 700 : -700, behavior: 'smooth' });
   }
 
   return (
     <div style={{ background: '#ffffff' }}>
-      {/* Section header */}
       <div className="flex items-center justify-between px-6 pt-8 pb-3">
         <h2 className="text-xl font-black" style={{ color: '#111' }}>{title}</h2>
         <Link
-          href="/products"
+          href={`/products?category=${slug}`}
           className="text-sm font-semibold"
           style={{ color: '#2563eb' }}
         >
@@ -145,7 +185,7 @@ export default function HomePage() {
       <LanguagePopup />
       <AdBanner />
       {sections.map((section) => (
-        <ProductSection key={section.id} title={section.title} />
+        <ProductSection key={section.id} title={section.title} slug={section.slug} />
       ))}
     </div>
   );

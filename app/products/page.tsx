@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+
+// Map URL slugs from homepage "See All" links to display category names
+const SLUG_TO_CATEGORY: Record<string, string> = {
+  'karobar':                'All',
+  'office-supplies':        'Office Supplies',
+  'raw-materials':          'Raw Materials',
+  'textile-fabric':         'Textiles & Apparel',
+  'construction-materials': 'Construction Materials',
+};
 
 const demoProducts = [
   { id: "1", emoji: "📦", name: "Industrial Conveyor Belt System", seller: "TechMach Industries", tier: "Gold", price: "₹4,200", numPrice: 4200, unit: "/ unit", minOrder: "Min. 5 units", rating: 4.9, reviews: 128, location: "Mumbai", category: "Industrial Equipment", tags: ["heavy-duty", "automation"] },
@@ -61,9 +71,12 @@ function removeHover(el: HTMLElement) {
   el.style.boxShadow = 'none';
 }
 
-export default function ProductsPage() {
+function ProductsPageInner() {
+  const searchParams = useSearchParams();
+  const initialCategory = SLUG_TO_CATEGORY[searchParams.get('category') ?? ''] ?? 'All';
+
   const [allProducts, setAllProducts] = useState<Product[]>(demoProducts);
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState(initialCategory);
   const [location, setLocation] = useState("All Locations");
   const [sort, setSort] = useState("Relevance");
   const [minPrice, setMinPrice] = useState("");
@@ -448,4 +461,8 @@ export default function ProductsPage() {
       </div>
     </div>
   );
+}
+
+export default function ProductsPage() {
+  return <Suspense><ProductsPageInner /></Suspense>;
 }
