@@ -16,7 +16,7 @@ function parseAuthError(msg: string): string {
 type View = 'choose' | 'login' | 'signup-email' | 'signup-password' | 'login-found' | 'forgot' | 'email-sent' | 'forgot-sent';
 
 const inputCls = 'w-full px-4 py-3 text-sm';
-const inputSt: React.CSSProperties = { borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e0e0e0', boxShadow: 'none', color: '#111', outline: 'none' };
+const inputSt: React.CSSProperties = { borderRadius: '14px', background: '#d8d8dc', border: 'none', outline: 'none', boxShadow: 'inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9)', color: '#4a4a52', fontSize: '15px' };
 
 export default function SellerAuthPage() {
   const router = useRouter();

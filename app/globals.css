@@ -25,7 +25,7 @@
   /* Surfaces */
   --bg:          #e4e4e8;
   --surface:     #f2f2f5;
-  --input-bg:    #f0f0f0;
+  --input-bg:    #d8d8dc;
 
   /* Active/dark */
   --active-bg:   linear-gradient(150deg, #2e2e36, #0e0e12);
@@ -41,7 +41,7 @@
   --shadow-raised: 8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1);
   --shadow-soft:   4px 4px 10px rgba(140,140,152,0.36), -4px -4px 10px rgba(255,255,255,0.94);
   --shadow-active: 0 5px 22px rgba(0,0,0,0.44), 0 2px 7px rgba(0,0,0,0.18);
-  --shadow-inset:  inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.88);
+  --shadow-inset:  inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9);
   --shadow-dark:   rgba(140,140,152,0.42);
   --shadow-light:  rgba(255,255,255,1);
 
@@ -172,43 +172,45 @@ button.ghost:active,
 
 /* ─── Global inputs ──────────────────────────────────── */
 
-input,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
 textarea,
 select {
-  background: #f0f0f0;
-  color: var(--text-primary);
-  box-shadow: none;
-  border: 1px solid #e0e0e0;
-  border-radius: var(--radius-pill);
-  transition: border-color 150ms ease;
+  background: #d8d8dc !important;
+  border: none !important;
+  outline: none;
+  border-radius: var(--radius-sm) !important;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #4a4a52 !important;
+  -webkit-text-fill-color: #4a4a52;
+  box-shadow: inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9) !important;
+  transition: box-shadow 150ms ease;
 }
 input::placeholder,
 textarea::placeholder {
-  color: var(--text-muted);
+  color: #aaaab2 !important;
+  -webkit-text-fill-color: #aaaab2 !important;
 }
-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):focus,
 textarea:focus,
 select:focus {
   outline: none;
-  box-shadow: none;
-  border-color: #000;
+  box-shadow: inset 5px 5px 12px rgba(140,140,152,0.45), inset -5px -5px 12px rgba(255,255,255,0.95) !important;
 }
-select { cursor: pointer; }
-
-/* Checkboxes keep neumorphic look — remove the global border */
-input[type="checkbox"],
-input[type="radio"] {
-  border: none;
+select {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* Autofill override */
+/* Autofill override — force neumorphic background, never browser dark fill */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 100px #f0f0f0 inset !important;
-  -webkit-text-fill-color: #222 !important;
-  background-color: #f0f0f0 !important;
+  -webkit-box-shadow: 0 0 0 100px #d8d8dc inset !important;
+  -webkit-text-fill-color: #4a4a52 !important;
+  background-color: #d8d8dc !important;
 }
 
 /* ─── Cards / containers ─────────────────────────────── */
@@ -267,13 +269,19 @@ header {
 /* ─── Pagination ─────────────────────────────────────── */
 
 .neu-pagination {
-  background: var(--surface);
+  background: #f2f2f5;
   border-radius: 24px;
-  padding: 10px 14px;
-  box-shadow: var(--shadow-raised);
+  padding: 16px 20px;
+  box-shadow: 8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  overflow: visible;
+}
+/* Wrapper around pagination must not clip the shadow */
+.neu-pagination-wrap {
+  overflow: visible !important;
+  padding: 8px;
 }
 .neu-page-btn {
   width: 48px;
@@ -503,14 +511,14 @@ input[type="checkbox"].compact {
 
 .float-field {
   position: relative;
-  background: #f0f0f0;
-  border: 1px solid #e0e0e0 !important;
-  box-shadow: none !important;
+  background: #d8d8dc;
+  border: none !important;
+  box-shadow: inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9) !important;
   border-radius: var(--radius-sm);
-  transition: border-color 150ms ease;
+  transition: box-shadow 150ms ease;
 }
 .float-field:focus-within {
-  border-color: #000 !important;
+  box-shadow: inset 5px 5px 12px rgba(140,140,152,0.45), inset -5px -5px 12px rgba(255,255,255,0.95) !important;
 }
 .float-field input,
 .float-field textarea {
@@ -521,6 +529,9 @@ input[type="checkbox"].compact {
   padding-bottom: 8px;
   height: auto;
   border-radius: 0 !important;
+  font-size: 15px;
+  color: #4a4a52;
+  -webkit-text-fill-color: #4a4a52;
 }
 .float-field label {
   position: absolute;
