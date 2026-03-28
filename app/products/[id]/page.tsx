@@ -221,11 +221,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       <div className="max-w-screen-xl mx-auto px-6 py-7">
 
-        {/* ── Main 2-col: left scrollable | right sticky purchase panel ── */}
+        {/* ── Main 2-col: left 70% scrollable | right 30% sticky panel ── */}
         <div style={{ display: "flex", gap: "28px", alignItems: "flex-start" }}>
 
-          {/* LEFT: thumbnails + image (sticky), then all info below */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          {/* LEFT 70%: thumbnails + image (sticky), then all info below */}
+          <div style={{ flex: "0 0 70%", minWidth: 0 }}>
 
             {/* Thumbnails + image side by side — sticky */}
             <div style={{ position: "sticky", top: "80px", display: "flex", gap: "12px", background: "#fff", zIndex: 1 }}>
@@ -247,9 +247,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   />
                 ))}
               </div>
-              {/* Main image */}
+              {/* Main image — fixed width, not full column width */}
               <div style={{
-                flex: 1,
+                width: 400,
+                flexShrink: 0,
                 background: "#f0f0f0",
                 borderRadius: "12px",
                 height: 420,
@@ -387,9 +388,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          {/* RIGHT: Purchase panel — sticky */}
+          {/* RIGHT 30%: Purchase panel — sticky */}
           <div style={{
-            flex: "0 0 260px",
+            flex: 1,
             position: "sticky", top: "80px", alignSelf: "flex-start",
             border: "1px solid #e0e0e0",
             borderRadius: "8px",
