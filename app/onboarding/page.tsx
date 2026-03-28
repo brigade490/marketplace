@@ -38,6 +38,10 @@ export default function OnboardingPage() {
   function goTo(next: Step) {
     setDir('fwd');
     setStep(next);
+    // Save progress after each forward step (fire-and-forget)
+    if (next !== 'b-done' && next !== 's-done' && next !== 'splash' && next !== 'welcome' && next !== 'account-type') {
+      saveStepProgress(next).catch(console.error);
+    }
   }
   function goBack(prev: Step) {
     setDir('bck');
@@ -51,7 +55,7 @@ export default function OnboardingPage() {
     return () => clearTimeout(t);
   }, [step]);
 
-  // Auth check on mount: pre-fill known fields, skip if already onboarded
+  // Auth check on mount: pre-fill known fields, skip if already onboarded, resume if mid-flow
   useEffect(() => {
     async function checkAuth() {
       const supabase = createClient();
@@ -59,7 +63,7 @@ export default function OnboardingPage() {
       if (user) {
         const { data } = await supabase
           .from('users')
-          .select('onboarding_completed, role, full_name, email, city')
+          .select('onboarding_completed, role, full_name, email, city, state, pincode, business_name, gst_number, onboarding_step')
           .eq('id', user.id)
           .single();
         if (data?.onboarding_completed) {
@@ -67,9 +71,39 @@ export default function OnboardingPage() {
           return;
         }
         // Pre-fill email from auth
-        const email = user.email ?? '';
-        setBuyerBasic(v => ({ ...v, email, name: v.name || data?.full_name || '' }));
-        setSellerBasic(v => ({ ...v, email, name: v.name || data?.full_name || '' }));
+        const prefillEmail = user.email ?? '';
+        const prefillName = data?.full_name ?? '';
+        setBuyerBasic(v => ({ ...v, email: prefillEmail, name: v.name || prefillName }));
+        setSellerBasic(v => ({ ...v, email: prefillEmail, name: v.name || prefillName }));
+
+        // Resume from saved step if available
+        const savedStep = data?.onboarding_step as Step | undefined;
+        if (savedStep && (savedStep.startsWith('b-') || savedStep.startsWith('s-'))) {
+          const isBuyer = savedStep.startsWith('b-');
+          if (isBuyer) {
+            const { data: bd } = await supabase.from('buyers').select('*').eq('user_id', user.id).maybeSingle();
+            if (bd) {
+              setBuyerBusiness({ businessName: bd.company_name || '', businessType: bd.business_type || '' });
+              setBuyerCategories(bd.categories || []);
+              setBuyerLocation({ city: bd.city || data?.city || '', state: bd.state || data?.state || '', pincode: bd.pincode || data?.pincode || '' });
+              if (bd.preferences && typeof bd.preferences === 'object') setBuyerPrefs(bd.preferences as { orderType: string; frequency: string; urgency: string });
+              if (bd.payment_methods && typeof bd.payment_methods === 'object') setBuyerPayment(bd.payment_methods as { upi: boolean; bankTransfer: boolean; emi: boolean; cod: boolean });
+              if (bd.notifications && typeof bd.notifications === 'object') setBuyerNotifs(bd.notifications as { orderUpdates: boolean; sellerResponses: boolean; priceAlerts: boolean; promotions: boolean });
+            }
+          } else {
+            const { data: sd } = await supabase.from('sellers').select('*').eq('user_id', user.id).maybeSingle();
+            if (sd) {
+              setSellerBusiness({ businessName: sd.company_name || '', businessType: sd.business_type || '' });
+              setSellerCategories(sd.categories || []);
+              setSellerLocation({ city: sd.city || data?.city || '', state: sd.state || data?.state || '', pincode: sd.pincode || data?.pincode || '' });
+              setSellerGst(sd.gstin || data?.gst_number || '');
+              if (sd.preferences && typeof sd.preferences === 'object') setSellerSelling(sd.preferences as typeof sellerSelling);
+              if (sd.bank_details && typeof sd.bank_details === 'object') setSellerBank(sd.bank_details as typeof sellerBank);
+              if (sd.notifications && typeof sd.notifications === 'object') setSellerNotifs(sd.notifications as typeof sellerNotifs);
+            }
+          }
+          setStep(savedStep);
+        }
       }
       setAuthChecked(true);
     }
@@ -84,6 +118,61 @@ export default function OnboardingPage() {
     const { data: up, error } = await supabase.storage.from('uploads').upload(path, file, { upsert: true });
     if (error || !up) return undefined;
     return supabase.storage.from('uploads').getPublicUrl(up.path).data.publicUrl;
+  }
+
+  // ── Save step progress (called on each forward navigation) ──
+  async function saveStepProgress(nextStep: Step) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const isBuyer = nextStep.startsWith('b-');
+    const isSeller = nextStep.startsWith('s-');
+    if (!isBuyer && !isSeller) return;
+    try {
+      // Build users update — only include non-empty values
+      const userFields: Record<string, unknown> = {
+        id: user.id, email: user.email,
+        onboarding_step: nextStep,
+        role: isBuyer ? 'buyer' : 'seller',
+        updated_at: new Date().toISOString(),
+      };
+      const src = isBuyer
+        ? { name: buyerBasic.name, loc: buyerLocation, biz: buyerBusiness, gst: '' }
+        : { name: sellerBasic.name, loc: sellerLocation, biz: sellerBusiness, gst: sellerGst };
+      if (src.name) userFields.full_name = src.name;
+      if (src.loc.city) userFields.city = src.loc.city;
+      if (src.loc.state) userFields.state = src.loc.state;
+      if (src.loc.pincode) userFields.pincode = src.loc.pincode;
+      if (src.biz.businessName) userFields.business_name = src.biz.businessName;
+      if (src.gst) userFields.gst_number = src.gst;
+      await supabase.from('users').upsert(userFields, { onConflict: 'id' });
+
+      if (isBuyer) {
+        const buyerFields: Record<string, unknown> = { user_id: user.id };
+        if (buyerBusiness.businessName) buyerFields.company_name = buyerBusiness.businessName;
+        if (buyerBusiness.businessType) buyerFields.business_type = buyerBusiness.businessType;
+        if (buyerCategories.length) buyerFields.categories = buyerCategories;
+        if (buyerLocation.city) buyerFields.city = buyerLocation.city;
+        if (buyerLocation.state) buyerFields.state = buyerLocation.state;
+        if (buyerLocation.pincode) buyerFields.pincode = buyerLocation.pincode;
+        buyerFields.preferences = { orderType: buyerPrefs.orderType, frequency: buyerPrefs.frequency, urgency: buyerPrefs.urgency };
+        buyerFields.payment_methods = buyerPayment;
+        buyerFields.notifications = buyerNotifs;
+        await supabase.from('buyers').upsert(buyerFields, { onConflict: 'user_id' });
+      } else {
+        const sellerFields: Record<string, unknown> = { user_id: user.id, company_name: sellerBusiness.businessName || 'My Business' };
+        if (sellerBusiness.businessType) sellerFields.business_type = sellerBusiness.businessType;
+        if (sellerCategories.length) sellerFields.categories = sellerCategories;
+        if (sellerLocation.city) sellerFields.city = sellerLocation.city;
+        if (sellerLocation.state) sellerFields.state = sellerLocation.state;
+        if (sellerLocation.pincode) sellerFields.pincode = sellerLocation.pincode;
+        if (sellerGst) sellerFields.gstin = sellerGst;
+        sellerFields.preferences = { orderType: sellerSelling.orderType, delivery: sellerSelling.delivery, upi: sellerSelling.upi, bankTransfer: sellerSelling.bankTransfer, emi: sellerSelling.emi };
+        sellerFields.bank_details = { upiId: sellerBank.upiId || null, accountNumber: sellerBank.accountNumber || null, ifsc: sellerBank.ifsc || null, holderName: sellerBank.holderName || null };
+        sellerFields.notifications = sellerNotifs;
+        await supabase.from('sellers').upsert(sellerFields, { onConflict: 'user_id' });
+      }
+    } catch (err) { console.error('saveStepProgress error:', err); }
   }
 
   // ── Save buyer data on completion ─────────────────────────

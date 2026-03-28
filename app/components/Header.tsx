@@ -82,12 +82,23 @@ export default function Header() {
     }, 300);
   }
 
-  function handleSearchSubmit() {
+  async function handleSearchSubmit() {
     if (!searchQuery.trim()) return;
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    const q = searchQuery.trim();
+    router.push(`/search?q=${encodeURIComponent(q)}`);
     setShowDropdown(false);
     setSearchQuery('');
     setSearchResults([]);
+    // Log search query (fire-and-forget)
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      await supabase.from('search_logs').insert({
+        user_id: user?.id ?? null,
+        search_query: q,
+        created_at: new Date().toISOString(),
+      });
+    } catch { /* non-critical */ }
   }
 
   async function handleSignOut() {
