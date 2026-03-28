@@ -25,7 +25,7 @@
   /* Surfaces */
   --bg:          #e4e4e8;
   --surface:     #f2f2f5;
-  --input-bg:    #d8d8dc;
+  --input-bg:    #f0f0f0;
 
   /* Active/dark */
   --active-bg:   linear-gradient(150deg, #2e2e36, #0e0e12);
@@ -175,11 +175,12 @@ button.ghost:active,
 input,
 textarea,
 select {
-  background: var(--input-bg);
+  background: #f0f0f0;
   color: var(--text-primary);
-  box-shadow: var(--shadow-inset);
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
   border-radius: var(--radius-pill);
-  transition: var(--transition);
+  transition: border-color 150ms ease;
 }
 input::placeholder,
 textarea::placeholder {
@@ -188,19 +189,26 @@ textarea::placeholder {
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: var(--shadow-inset), 0 0 0 2px rgba(44,44,51,0.12);
+  outline: none;
+  box-shadow: none;
+  border-color: #000;
 }
 select { cursor: pointer; }
 
-/* Autofill override — force browser to use our background, never dark */
+/* Checkboxes keep neumorphic look — remove the global border */
+input[type="checkbox"],
+input[type="radio"] {
+  border: none;
+}
+
+/* Autofill override */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 100px #d8d8dc inset !important;
-  -webkit-text-fill-color: #4a4a52 !important;
-  background-color: #d8d8dc !important;
-  color: #4a4a52 !important;
+  -webkit-box-shadow: 0 0 0 100px #f0f0f0 inset !important;
+  -webkit-text-fill-color: #222 !important;
+  background-color: #f0f0f0 !important;
 }
 
 /* ─── Cards / containers ─────────────────────────────── */
@@ -495,13 +503,24 @@ input[type="checkbox"].compact {
 
 .float-field {
   position: relative;
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-sm);
+  transition: border-color 150ms ease;
+}
+.float-field:focus-within {
+  border-color: #000 !important;
 }
 .float-field input,
 .float-field textarea {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
   padding-top: 20px;
   padding-bottom: 8px;
   height: auto;
-  border-radius: var(--radius-sm) !important;
+  border-radius: 0 !important;
 }
 .float-field label {
   position: absolute;

@@ -46,10 +46,12 @@ export default function ResetPasswordPage() {
     padding: '40px 36px',
   };
   const inputStyle: React.CSSProperties = {
-    borderRadius: 'var(--radius-sm)',
-    background: 'var(--input-bg)',
-    boxShadow: 'var(--shadow-inset)',
-    color: 'var(--text-primary)',
+    borderRadius: '8px',
+    background: '#f0f0f0',
+    border: '1px solid #e0e0e0',
+    boxShadow: 'none',
+    color: '#111',
+    outline: 'none',
   };
 
   if (done) {
