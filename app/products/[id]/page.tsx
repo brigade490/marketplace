@@ -221,52 +221,118 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       <div className="max-w-screen-xl mx-auto px-6 py-7">
 
-        {/* ── Main 2-col: sticky image left, scrollable info right ── */}
-        <div style={{ display: "flex", gap: "28px", alignItems: "flex-start" }}>
+        {/* ── Main 4-col: thumbnails | image+content | info | purchase panel ── */}
+        <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
 
-          {/* LEFT: sticky thumbnail strip + main image */}
-          <div style={{ flex: "0 0 auto", width: "520px", position: "sticky", top: "80px", alignSelf: "flex-start" }}>
-            <div style={{ display: "flex", gap: "12px" }}>
+          {/* Col 1: Thumbnail strip — sticky */}
+          <div style={{
+            flex: "0 0 auto", width: "72px",
+            position: "sticky", top: "80px", alignSelf: "flex-start",
+            display: "flex", flexDirection: "column", gap: "8px",
+          }}>
+            {Array.from({ length: THUMB_COUNT }).map((_, i) => (
+              <div
+                key={i}
+                onClick={() => setActiveThumb(i)}
+                style={{
+                  width: 60, height: 60,
+                  background: "#ebebeb",
+                  borderRadius: "8px",
+                  border: activeThumb === i ? "2px solid #111" : "2px solid transparent",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                  transition: "border-color 0.12s",
+                }}
+              />
+            ))}
+          </div>
 
-              {/* Thumbnail strip */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", flexShrink: 0 }}>
-                {Array.from({ length: THUMB_COUNT }).map((_, i) => (
-                  <div
-                    key={i}
-                    onClick={() => setActiveThumb(i)}
-                    style={{
-                      width: 60, height: 60,
-                      background: "#ebebeb",
-                      borderRadius: "8px",
-                      border: activeThumb === i ? "2px solid #111" : "2px solid transparent",
-                      cursor: "pointer",
-                      flexShrink: 0,
-                      transition: "border-color 0.12s",
-                    }}
-                  />
-                ))}
+          {/* Col 2: Sticky image + description/specs/reviews below */}
+          <div style={{ flex: "0 0 380px" }}>
+
+            {/* Sticky image */}
+            <div style={{
+              position: "sticky",
+              top: "80px",
+              background: "#f0f0f0",
+              borderRadius: "12px",
+              height: 420,
+              border: "1px solid #e4e4e4",
+            }} />
+
+            {/* Description, key details, specs, reviews — below image */}
+            <div style={{ marginTop: "28px" }}>
+
+              <div style={{ marginBottom: "30px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
+                <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
               </div>
 
-              {/* Main image */}
-              <div style={{
-                flex: 1,
-                background: "#f0f0f0",
-                borderRadius: "12px",
-                height: 420,
-                border: "1px solid #e4e4e4",
-              }} />
+              <div style={{ marginBottom: "30px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Key Details</h3>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <tbody>
+                    {[
+                      ["Category", product.category],
+                      ["Location", product.location],
+                      ["Min. Order", product.minOrder],
+                      ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
+                    ].map(([k, v]) => (
+                      <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "140px" }}>{k}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={{ marginBottom: "30px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Technical Specifications</h3>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <tbody>
+                    {product.specs.map((spec, i) => (
+                      <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{spec.label}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
+                  Reviews ({product.reviews})
+                </h3>
+                {product.reviewList.length === 0 ? (
+                  <p style={{ fontSize: "14px", color: "#bbb", padding: "16px 0" }}>No reviews yet for this product.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {product.reviewList.map((r, i) => (
+                      <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "14px", fontWeight: 600, color: "#222" }}>{r.author}</span>
+                          <span style={{ fontSize: "14px", color: "#bbb" }}>{r.date}</span>
+                        </div>
+                        <Stars rating={r.rating} size={13} />
+                        <p style={{ fontSize: "14px", color: "#555", marginTop: "8px", lineHeight: 1.65 }}>{r.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
 
-          {/* RIGHT: one continuous scrollable column */}
-          <div style={{ flex: 1, minWidth: 0, background: "#fff", borderRadius: "14px", border: "1px solid #e8e8e8", padding: "28px 28px" }}>
+          {/* Col 3: Product info — name, seller, rating, taxes, EMI, offers, delivery icons */}
+          <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Product name */}
             <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: "0 0 10px" }}>
               {product.name}
             </h1>
 
-            {/* Seller + verified */}
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
               <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
               {product.verified && (
@@ -276,30 +342,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               )}
             </div>
 
-            {/* Rating */}
             <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px" }}>
               <Stars rating={product.rating} size={14} />
               <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
               <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
             </div>
 
-            {/* Price */}
-            <div style={{ marginBottom: "6px" }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
-                <span style={{ fontSize: "36px", fontWeight: 800, color: "#111", letterSpacing: "-1px" }}>
-                  ₹{product.price}
-                </span>
-                <span style={{ fontSize: "14px", color: "#aaa" }}>/ {product.unit}</span>
-              </div>
-            </div>
-
-            {/* Taxes + EMI */}
             <p style={{ fontSize: "14px", color: "#aaa", marginBottom: "3px" }}>Inclusive of all taxes</p>
             <p style={{ fontSize: "14px", color: "#555", marginBottom: "22px" }}>
               EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
             </p>
 
-            {/* Offers */}
             <div style={{ marginBottom: "22px" }}>
               <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Offers</p>
               <div style={{ display: "flex", gap: "8px" }}>
@@ -308,7 +361,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   { title: "Cashback", desc: "2% cashback via UPI" },
                   { title: "Bulk Discount", desc: "10% off on 50+ units" },
                 ].map((offer) => (
-                  <div key={offer.title} style={{ flex: 1, padding: "10px 10px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}>
+                  <div key={offer.title} style={{ flex: 1, padding: "10px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}>
                     <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
                     <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
                   </div>
@@ -316,8 +369,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Delivery icons */}
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "22px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               {[
                 { icon: <IconTruck />, label: "Fast Delivery" },
                 { icon: <IconShield />, label: "Secure Payment" },
@@ -331,116 +383,92 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               ))}
             </div>
 
-            {/* Quantity */}
-            <div style={{ marginBottom: "16px" }}>
-              <p style={{ fontSize: "11px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Quantity</p>
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden", width: "fit-content" }}>
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
-                >−</button>
-                <span style={{ width: 48, textAlign: "center", fontSize: "14px", fontWeight: 700, color: "#111", userSelect: "none" }}>
-                  {quantity}
+          </div>
+
+          {/* Col 4: Purchase panel — sticky */}
+          <div style={{
+            flex: "0 0 260px",
+            position: "sticky", top: "80px", alignSelf: "flex-start",
+            border: "1px solid #e0e0e0",
+            borderRadius: "8px",
+            padding: "20px",
+            background: "#fff",
+          }}>
+
+            {/* Price */}
+            <div style={{ marginBottom: "12px" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
+                <span style={{ fontSize: "28px", fontWeight: 800, color: "#111", letterSpacing: "-0.5px" }}>
+                  ₹{product.price}
                 </span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
-                >+</button>
+                <span style={{ fontSize: "13px", color: "#aaa" }}>/ {product.unit}</span>
               </div>
             </div>
 
-            {/* CTA buttons */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
-              <button
-                onClick={() => { window.location.href = "/auth/buyer"; }}
-                style={{ width: "100%", padding: "14px", background: "#000", color: "#fff", borderRadius: "8px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
-              >
-                Place Order
-              </button>
-              <button
-                onClick={() => { window.location.href = "/auth/buyer"; }}
-                style={{ width: "100%", padding: "14px", background: "#007AFF", color: "#fff", borderRadius: "8px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
-              >
-                Contact Seller
-              </button>
-            </div>
+            {/* FREE delivery */}
+            <p style={{ fontSize: "14px", color: "#555", marginBottom: "6px" }}>
+              <span style={{ fontWeight: 700, color: "#111" }}>FREE</span> delivery by{" "}
+              <span style={{ fontWeight: 600 }}>Mon, 7 Apr</span>
+            </p>
 
-            {/* Shipping info */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "36px" }}>
+            {/* Delivering to */}
+            <p style={{ fontSize: "14px", color: "#555", marginBottom: "16px" }}>
+              Delivering to <span style={{ fontWeight: 600, color: "#111" }}>{product.location}</span>
+            </p>
+
+            {/* Ships from / Sold by / Payment */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "7px", marginBottom: "18px" }}>
               {[
                 { label: "Ships from", value: product.seller },
                 { label: "Sold by", value: product.seller },
                 { label: "Payment", value: "Secure transaction" },
               ].map(({ label, value }) => (
-                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "14px", color: "#aaa" }}>{label}</span>
-                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#333" }}>{value}</span>
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px" }}>
+                  <span style={{ fontSize: "13px", color: "#aaa", flexShrink: 0 }}>{label}</span>
+                  <span style={{ fontSize: "13px", fontWeight: 600, color: "#333", textAlign: "right" }}>{value}</span>
                 </div>
               ))}
             </div>
 
-            {/* Product Description */}
-            <div style={{ marginBottom: "30px" }}>
-              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
-              <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
+            {/* Quantity */}
+            <div style={{ marginBottom: "16px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>Quantity</p>
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden", width: "fit-content" }}>
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  style={{ width: 36, height: 36, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", border: "none" }}
+                >−</button>
+                <span style={{ width: 44, textAlign: "center", fontSize: "14px", fontWeight: 700, color: "#111", userSelect: "none" }}>
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  style={{ width: 36, height: 36, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", border: "none" }}
+                >+</button>
+              </div>
             </div>
 
-            {/* Key Details */}
-            <div style={{ marginBottom: "30px" }}>
-              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Key Details</h3>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <tbody>
-                  {[
-                    ["Category", product.category],
-                    ["Location", product.location],
-                    ["Min. Order", product.minOrder],
-                    ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
-                  ].map(([k, v]) => (
-                    <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
-                      <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{k}</td>
-                      <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {/* CTA buttons */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "14px" }}>
+              <button
+                onClick={() => { window.location.href = "/auth/buyer"; }}
+                style={{ width: "100%", padding: "12px", background: "#000", color: "#fff", borderRadius: "8px", fontSize: "14px", fontWeight: 700, cursor: "pointer", border: "none" }}
+              >
+                Place Order
+              </button>
+              <button
+                onClick={() => { window.location.href = "/auth/buyer"; }}
+                style={{ width: "100%", padding: "12px", background: "#007AFF", color: "#fff", borderRadius: "8px", fontSize: "14px", fontWeight: 700, cursor: "pointer", border: "none" }}
+              >
+                Contact Seller
+              </button>
             </div>
 
-            {/* Technical Specifications */}
-            <div style={{ marginBottom: "30px" }}>
-              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Technical Specifications</h3>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <tbody>
-                  {product.specs.map((spec, i) => (
-                    <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
-                      <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "180px" }}>{spec.label}</td>
-                      <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Reviews */}
-            <div>
-              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
-                Reviews ({product.reviews})
-              </h3>
-              {product.reviewList.length === 0 ? (
-                <p style={{ fontSize: "14px", color: "#bbb", padding: "16px 0" }}>No reviews yet for this product.</p>
-              ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {product.reviewList.map((r, i) => (
-                    <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                        <span style={{ fontSize: "14px", fontWeight: 600, color: "#222" }}>{r.author}</span>
-                        <span style={{ fontSize: "14px", color: "#bbb" }}>{r.date}</span>
-                      </div>
-                      <Stars rating={r.rating} size={13} />
-                      <p style={{ fontSize: "14px", color: "#555", marginTop: "8px", lineHeight: 1.65 }}>{r.comment}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {/* Add to Wishlist */}
+            <div style={{ textAlign: "center" }}>
+              <button style={{ background: "none", border: "none", fontSize: "13px", color: "#007AFF", cursor: "pointer", fontWeight: 600 }}>
+                Add to Wishlist
+              </button>
             </div>
 
           </div>
