@@ -221,14 +221,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       <div className="max-w-screen-xl mx-auto px-6 py-7">
 
-        {/* ── Main 2-col grid ────────────────────────────────── */}
+        {/* ── Main 2-col: sticky image left, scrollable info right ── */}
         <div style={{ display: "flex", gap: "28px", alignItems: "flex-start" }}>
 
-          {/* LEFT */}
-          <div style={{ flex: "0 0 auto", width: "600px", minWidth: 0 }}>
-
-            {/* Image row: thumbnails + main */}
-            <div style={{ display: "flex", gap: "14px", marginBottom: "24px" }}>
+          {/* LEFT: sticky thumbnail strip + main image */}
+          <div style={{ flex: "0 0 auto", width: "520px", position: "sticky", top: "80px", alignSelf: "flex-start" }}>
+            <div style={{ display: "flex", gap: "12px" }}>
 
               {/* Thumbnail strip */}
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", flexShrink: 0 }}>
@@ -254,227 +252,197 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 flex: 1,
                 background: "#f0f0f0",
                 borderRadius: "12px",
-                height: 360,
+                height: 420,
                 border: "1px solid #e4e4e4",
               }} />
             </div>
-
-            {/* All content — no tabs, just scroll */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-
-              {/* Description */}
-              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
-                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
-                <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
-              </div>
-
-              {/* Key Details */}
-              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
-                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>Key Details</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <tbody>
-                    {[
-                      ["Category", product.category],
-                      ["Location", product.location],
-                      ["Min. Order", product.minOrder],
-                      ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
-                    ].map(([k, v]) => (
-                      <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
-                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{k}</td>
-                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Specifications */}
-              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
-                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>Technical Specifications</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <tbody>
-                    {product.specs.map((spec, i) => (
-                      <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
-                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "180px" }}>{spec.label}</td>
-                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Reviews */}
-              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
-                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
-                  Reviews ({product.reviews})
-                </h3>
-                {product.reviewList.length === 0 ? (
-                  <p style={{ fontSize: "14px", color: "#bbb", textAlign: "center", padding: "24px 0" }}>No reviews yet for this product.</p>
-                ) : (
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px", padding: "16px 20px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
-                      <div style={{ textAlign: "center" }}>
-                        <div style={{ fontSize: "38px", fontWeight: 800, color: "#111", lineHeight: 1 }}>{product.rating}</div>
-                        <Stars rating={product.rating} size={16} />
-                        <div style={{ fontSize: "14px", color: "#aaa", marginTop: "4px" }}>{product.reviews} reviews</div>
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      {product.reviewList.map((r, i) => (
-                        <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
-                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                            <span style={{ fontSize: "14px", fontWeight: 600, color: "#222" }}>{r.author}</span>
-                            <span style={{ fontSize: "14px", color: "#bbb" }}>{r.date}</span>
-                          </div>
-                          <Stars rating={r.rating} size={13} />
-                          <p style={{ fontSize: "14px", color: "#555", marginTop: "8px", lineHeight: 1.65 }}>{r.comment}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-            </div>
           </div>
 
-          {/* RIGHT: sticky panel */}
-          <div style={{ width: 340, flexShrink: 0 }}>
-            <div
-              className="sticky"
-              style={{ top: 80, background: "#fff", borderRadius: "14px", border: "1px solid #e8e8e8", padding: "22px 20px", display: "flex", flexDirection: "column", gap: "14px" }}
-            >
+          {/* RIGHT: one continuous scrollable column */}
+          <div style={{ flex: 1, minWidth: 0, background: "#fff", borderRadius: "14px", border: "1px solid #e8e8e8", padding: "28px 28px" }}>
 
-              {/* Product name */}
-              <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: 0 }}>
-                {product.name}
-              </h1>
+            {/* Product name */}
+            <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: "0 0 10px" }}>
+              {product.name}
+            </h1>
 
-              {/* Seller + verified */}
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: -4 }}>
-                <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
-                {product.verified && (
-                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 7px", letterSpacing: "0.02em" }}>
-                    Verified
-                  </span>
-                )}
+            {/* Seller + verified */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+              <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
+              {product.verified && (
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 7px" }}>
+                  Verified
+                </span>
+              )}
+            </div>
+
+            {/* Rating */}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px" }}>
+              <Stars rating={product.rating} size={14} />
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
+              <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
+            </div>
+
+            {/* Price */}
+            <div style={{ marginBottom: "6px" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
+                <span style={{ fontSize: "36px", fontWeight: 800, color: "#111", letterSpacing: "-1px" }}>
+                  ₹{product.price}
+                </span>
+                <span style={{ fontSize: "14px", color: "#aaa" }}>/ {product.unit}</span>
               </div>
+            </div>
 
-              {/* Rating */}
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: -2 }}>
-                <Stars rating={product.rating} size={14} />
-                <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
-                <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
+            {/* Taxes + EMI */}
+            <p style={{ fontSize: "14px", color: "#aaa", marginBottom: "3px" }}>Inclusive of all taxes</p>
+            <p style={{ fontSize: "14px", color: "#555", marginBottom: "22px" }}>
+              EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
+            </p>
+
+            {/* Offers */}
+            <div style={{ marginBottom: "22px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Offers</p>
+              <div style={{ display: "flex", gap: "8px" }}>
+                {[
+                  { title: "Bank Offer", desc: "5% off on HDFC cards" },
+                  { title: "Cashback", desc: "2% cashback via UPI" },
+                  { title: "Bulk Discount", desc: "10% off on 50+ units" },
+                ].map((offer) => (
+                  <div key={offer.title} style={{ flex: 1, padding: "10px 10px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}>
+                    <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
+                    <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              <div style={{ borderTop: "1px solid #f0f0f0" }} />
-
-              {/* Price */}
-              <div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
-                  <span style={{ fontSize: "36px", fontWeight: 800, color: "#111", letterSpacing: "-1px" }}>
-                    ₹{product.price}
-                  </span>
-                  <span style={{ fontSize: "14px", color: "#aaa" }}>/ {product.unit}</span>
+            {/* Delivery icons */}
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "22px" }}>
+              {[
+                { icon: <IconTruck />, label: "Fast Delivery" },
+                { icon: <IconShield />, label: "Secure Payment" },
+                { icon: <IconAward />, label: "Warranty" },
+                { icon: <IconRefresh />, label: "Easy Returns" },
+              ].map(({ icon, label }) => (
+                <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", flex: 1 }}>
+                  {icon}
+                  <span style={{ fontSize: "11px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
                 </div>
-                <p style={{ fontSize: "14px", color: "#aaa", marginTop: "2px" }}>Inclusive of all taxes</p>
-                <p style={{ fontSize: "14px", color: "#555", marginTop: "3px" }}>
-                  EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
-                </p>
-              </div>
+              ))}
+            </div>
 
-              {/* Offers */}
-              <div>
-                <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Offers</p>
-                <div style={{ display: "flex", gap: "6px" }}>
+            {/* Quantity */}
+            <div style={{ marginBottom: "16px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Quantity</p>
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden", width: "fit-content" }}>
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                >−</button>
+                <span style={{ width: 48, textAlign: "center", fontSize: "14px", fontWeight: 700, color: "#111", userSelect: "none" }}>
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                >+</button>
+              </div>
+            </div>
+
+            {/* CTA buttons */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+              <button
+                onClick={() => { window.location.href = "/auth/buyer"; }}
+                style={{ width: "100%", padding: "14px", background: "#000", color: "#fff", borderRadius: "8px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
+              >
+                Place Order
+              </button>
+              <button
+                onClick={() => { window.location.href = "/auth/buyer"; }}
+                style={{ width: "100%", padding: "14px", background: "#007AFF", color: "#fff", borderRadius: "8px", fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
+              >
+                Contact Seller
+              </button>
+            </div>
+
+            {/* Shipping info */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "36px" }}>
+              {[
+                { label: "Ships from", value: product.seller },
+                { label: "Sold by", value: product.seller },
+                { label: "Payment", value: "Secure transaction" },
+              ].map(({ label, value }) => (
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "14px", color: "#aaa" }}>{label}</span>
+                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#333" }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Product Description */}
+            <div style={{ marginBottom: "30px" }}>
+              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
+              <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
+            </div>
+
+            {/* Key Details */}
+            <div style={{ marginBottom: "30px" }}>
+              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Key Details</h3>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <tbody>
                   {[
-                    { title: "Bank Offer", desc: "5% off on HDFC cards" },
-                    { title: "Cashback", desc: "2% cashback via UPI" },
-                    { title: "Bulk Discount", desc: "10% off on 50+ units" },
-                  ].map((offer) => (
-                    <div
-                      key={offer.title}
-                      style={{ flex: 1, padding: "9px 8px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}
-                    >
-                      <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
-                      <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
+                    ["Category", product.category],
+                    ["Location", product.location],
+                    ["Min. Order", product.minOrder],
+                    ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
+                  ].map(([k, v]) => (
+                    <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
+                      <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{k}</td>
+                      <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Technical Specifications */}
+            <div style={{ marginBottom: "30px" }}>
+              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Technical Specifications</h3>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <tbody>
+                  {product.specs.map((spec, i) => (
+                    <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
+                      <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "180px" }}>{spec.label}</td>
+                      <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Reviews */}
+            <div>
+              <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
+                Reviews ({product.reviews})
+              </h3>
+              {product.reviewList.length === 0 ? (
+                <p style={{ fontSize: "14px", color: "#bbb", padding: "16px 0" }}>No reviews yet for this product.</p>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {product.reviewList.map((r, i) => (
+                    <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 600, color: "#222" }}>{r.author}</span>
+                        <span style={{ fontSize: "14px", color: "#bbb" }}>{r.date}</span>
+                      </div>
+                      <Stars rating={r.rating} size={13} />
+                      <p style={{ fontSize: "14px", color: "#555", marginTop: "8px", lineHeight: 1.65 }}>{r.comment}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Delivery icons */}
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "4px 0" }}>
-                {[
-                  { icon: <IconTruck />, label: "Fast Delivery" },
-                  { icon: <IconShield />, label: "Secure Payment" },
-                  { icon: <IconAward />, label: "Warranty" },
-                  { icon: <IconRefresh />, label: "Easy Returns" },
-                ].map(({ icon, label }) => (
-                  <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", flex: 1 }}>
-                    {icon}
-                    <span style={{ fontSize: "11px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ borderTop: "1px solid #f0f0f0" }} />
-
-              {/* Quantity */}
-              <div>
-                <p style={{ fontSize: "11px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Quantity</p>
-                <div style={{ display: "flex", alignItems: "center", gap: "0", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden", width: "fit-content" }}>
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
-                  >
-                    −
-                  </button>
-                  <span style={{ width: 48, textAlign: "center", fontSize: "14px", fontWeight: 700, color: "#111", userSelect: "none" }}>
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    style={{ width: 38, height: 38, background: "#f8f8f8", fontSize: "20px", fontWeight: 300, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* CTA buttons */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                <button
-                  onClick={() => { window.location.href = "/auth/buyer"; }}
-                  style={{ width: "100%", padding: "13px", background: "#000", color: "#fff", borderRadius: "8px", fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
-                >
-                  Place Order
-                </button>
-                <button
-                  onClick={() => { window.location.href = "/auth/buyer"; }}
-                  style={{ width: "100%", padding: "13px", background: "#fff", color: "#000", border: "1.5px solid #000", borderRadius: "8px", fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
-                >
-                  Contact Seller
-                </button>
-              </div>
-
-              <div style={{ borderTop: "1px solid #f0f0f0" }} />
-
-              {/* Shipping info */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
-                {[
-                  { label: "Ships from", value: product.seller },
-                  { label: "Sold by", value: product.seller },
-                  { label: "Payment", value: "Secure transaction" },
-                ].map(({ label, value }) => (
-                  <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "14px", color: "#aaa" }}>{label}</span>
-                    <span style={{ fontSize: "14px", fontWeight: 600, color: "#333" }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-
+              )}
             </div>
+
           </div>
 
         </div>
