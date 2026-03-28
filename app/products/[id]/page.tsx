@@ -221,53 +221,112 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       <div className="max-w-screen-xl mx-auto px-6 py-7">
 
-        {/* ── Main 4-col: thumbnails | image+content | info | purchase panel ── */}
-        <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
+        {/* ── Main 2-col: left scrollable | right sticky purchase panel ── */}
+        <div style={{ display: "flex", gap: "28px", alignItems: "flex-start" }}>
 
-          {/* Col 1: Thumbnail strip — sticky */}
-          <div style={{
-            flex: "0 0 auto", width: "72px",
-            position: "sticky", top: "80px", alignSelf: "flex-start",
-            display: "flex", flexDirection: "column", gap: "8px",
-          }}>
-            {Array.from({ length: THUMB_COUNT }).map((_, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveThumb(i)}
-                style={{
-                  width: 60, height: 60,
-                  background: "#ebebeb",
-                  borderRadius: "8px",
-                  border: activeThumb === i ? "2px solid #111" : "2px solid transparent",
-                  cursor: "pointer",
-                  flexShrink: 0,
-                  transition: "border-color 0.12s",
-                }}
-              />
-            ))}
-          </div>
+          {/* LEFT: thumbnails + image (sticky), then all info below */}
+          <div style={{ flex: 1, minWidth: 0 }}>
 
-          {/* Col 2: Sticky image + description/specs/reviews below */}
-          <div style={{ flex: "0 0 380px" }}>
+            {/* Thumbnails + image side by side — sticky */}
+            <div style={{ position: "sticky", top: "80px", display: "flex", gap: "12px", background: "#fff", zIndex: 1 }}>
+              {/* Thumbnail strip */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", flexShrink: 0 }}>
+                {Array.from({ length: THUMB_COUNT }).map((_, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setActiveThumb(i)}
+                    style={{
+                      width: 60, height: 60,
+                      background: "#ebebeb",
+                      borderRadius: "8px",
+                      border: activeThumb === i ? "2px solid #111" : "2px solid transparent",
+                      cursor: "pointer",
+                      flexShrink: 0,
+                      transition: "border-color 0.12s",
+                    }}
+                  />
+                ))}
+              </div>
+              {/* Main image */}
+              <div style={{
+                flex: 1,
+                background: "#f0f0f0",
+                borderRadius: "12px",
+                height: 420,
+                border: "1px solid #e4e4e4",
+              }} />
+            </div>
 
-            {/* Sticky image */}
-            <div style={{
-              position: "sticky",
-              top: "80px",
-              background: "#f0f0f0",
-              borderRadius: "12px",
-              height: 420,
-              border: "1px solid #e4e4e4",
-            }} />
-
-            {/* Description, key details, specs, reviews — below image */}
+            {/* All product info below image */}
             <div style={{ marginTop: "28px" }}>
 
+              {/* Product name */}
+              <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: "0 0 10px" }}>
+                {product.name}
+              </h1>
+
+              {/* Seller + verified */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
+                {product.verified && (
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 7px" }}>
+                    Verified
+                  </span>
+                )}
+              </div>
+
+              {/* Rating */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px" }}>
+                <Stars rating={product.rating} size={14} />
+                <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
+                <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
+              </div>
+
+              {/* Taxes + EMI */}
+              <p style={{ fontSize: "14px", color: "#aaa", marginBottom: "3px" }}>Inclusive of all taxes</p>
+              <p style={{ fontSize: "14px", color: "#555", marginBottom: "22px" }}>
+                EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
+              </p>
+
+              {/* Offers */}
+              <div style={{ marginBottom: "22px" }}>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Offers</p>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  {[
+                    { title: "Bank Offer", desc: "5% off on HDFC cards" },
+                    { title: "Cashback", desc: "2% cashback via UPI" },
+                    { title: "Bulk Discount", desc: "10% off on 50+ units" },
+                  ].map((offer) => (
+                    <div key={offer.title} style={{ flex: 1, padding: "10px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}>
+                      <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
+                      <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Delivery icons */}
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "32px" }}>
+                {[
+                  { icon: <IconTruck />, label: "Fast Delivery" },
+                  { icon: <IconShield />, label: "Secure Payment" },
+                  { icon: <IconAward />, label: "Warranty" },
+                  { icon: <IconRefresh />, label: "Easy Returns" },
+                ].map(({ icon, label }) => (
+                  <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", flex: 1 }}>
+                    {icon}
+                    <span style={{ fontSize: "11px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Product Description */}
               <div style={{ marginBottom: "30px" }}>
                 <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
                 <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
               </div>
 
+              {/* Key Details */}
               <div style={{ marginBottom: "30px" }}>
                 <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Key Details</h3>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -279,7 +338,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                       ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
                     ].map(([k, v]) => (
                       <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
-                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "140px" }}>{k}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{k}</td>
                         <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
                       </tr>
                     ))}
@@ -287,13 +346,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </table>
               </div>
 
+              {/* Technical Specifications */}
               <div style={{ marginBottom: "30px" }}>
                 <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Technical Specifications</h3>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <tbody>
                     {product.specs.map((spec, i) => (
                       <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
-                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{spec.label}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "180px" }}>{spec.label}</td>
                         <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
                       </tr>
                     ))}
@@ -301,6 +361,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </table>
               </div>
 
+              {/* Reviews */}
               <div>
                 <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
                   Reviews ({product.reviews})
@@ -326,66 +387,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          {/* Col 3: Product info — name, seller, rating, taxes, EMI, offers, delivery icons */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-
-            <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: "0 0 10px" }}>
-              {product.name}
-            </h1>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-              <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
-              {product.verified && (
-                <span style={{ fontSize: "11px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 7px" }}>
-                  Verified
-                </span>
-              )}
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px" }}>
-              <Stars rating={product.rating} size={14} />
-              <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
-              <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
-            </div>
-
-            <p style={{ fontSize: "14px", color: "#aaa", marginBottom: "3px" }}>Inclusive of all taxes</p>
-            <p style={{ fontSize: "14px", color: "#555", marginBottom: "22px" }}>
-              EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
-            </p>
-
-            <div style={{ marginBottom: "22px" }}>
-              <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Offers</p>
-              <div style={{ display: "flex", gap: "8px" }}>
-                {[
-                  { title: "Bank Offer", desc: "5% off on HDFC cards" },
-                  { title: "Cashback", desc: "2% cashback via UPI" },
-                  { title: "Bulk Discount", desc: "10% off on 50+ units" },
-                ].map((offer) => (
-                  <div key={offer.title} style={{ flex: 1, padding: "10px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}>
-                    <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
-                    <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {[
-                { icon: <IconTruck />, label: "Fast Delivery" },
-                { icon: <IconShield />, label: "Secure Payment" },
-                { icon: <IconAward />, label: "Warranty" },
-                { icon: <IconRefresh />, label: "Easy Returns" },
-              ].map(({ icon, label }) => (
-                <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", flex: 1 }}>
-                  {icon}
-                  <span style={{ fontSize: "11px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
-                </div>
-              ))}
-            </div>
-
-          </div>
-
-          {/* Col 4: Purchase panel — sticky */}
+          {/* RIGHT: Purchase panel — sticky */}
           <div style={{
             flex: "0 0 260px",
             position: "sticky", top: "80px", alignSelf: "flex-start",
