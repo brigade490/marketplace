@@ -757,7 +757,7 @@ function BuyerBasicScreen({
         {/* Full Name */}
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -773,7 +773,7 @@ function BuyerBasicScreen({
         {/* Email */}
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="email"
@@ -822,7 +822,7 @@ function BuyerBusinessScreen({
         {/* Business Name */}
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -984,7 +984,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -999,7 +999,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -1014,7 +1014,7 @@ function BuyerLocationScreen({
 
         <div
           className="float-field"
-          style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
+          style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}
         >
           <input
             type="text"
@@ -1368,7 +1368,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Tell us a bit about yourself.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1380,7 +1380,7 @@ function SellerBasicScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>Full Name</label>
         </div>
 
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="email"
             placeholder=" "
@@ -1419,7 +1419,7 @@ function SellerBusinessScreen({ animClass, values, onChange, onBack, onNext }: {
       <p className="text-sm text-gray-500 mb-8">Help buyers find and trust your business.</p>
 
       <div className="flex flex-col gap-6 mb-auto">
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1559,7 +1559,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           {detectStatus === 'detecting' ? 'Detecting location…' : detectStatus === 'done' ? 'Location detected' : 'Detect My Location'}
         </button>
 
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1571,7 +1571,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>City</label>
         </div>
 
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1583,7 +1583,7 @@ function SellerLocationScreen({ animClass, values, onChange, onBack, onNext }: {
           <label>State</label>
         </div>
 
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1624,7 +1624,7 @@ function SellerGstScreen({ animClass, value, onChange, onBack, onNext, onSkip }:
       <p className="text-sm text-gray-500 mb-8">Add your GSTIN to unlock all seller features.</p>
 
       <div className="flex flex-col gap-4 mb-auto">
-        <div className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <div className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
           <input
             type="text"
             placeholder=" "
@@ -1853,7 +1853,7 @@ function SellerBankScreen({ animClass, values, onChange, onBack, onNext, onSkip 
 
       <div className="flex flex-col gap-4 mb-auto">
         {fields.map(({ key, label, mono, maxLen, upper, numeric }) => (
-          <div key={key} className="float-field" style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+          <div key={key} className="float-field" style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
             <input
               type="text"
               placeholder=" "

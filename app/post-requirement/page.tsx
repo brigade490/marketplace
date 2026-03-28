@@ -110,7 +110,7 @@ export default function PostRequirementPage() {
                 value={form.category}
                 onChange={e => set('category', e.target.value)}
                 className="w-full px-4 py-3 text-sm  outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -125,7 +125,7 @@ export default function PostRequirementPage() {
                 placeholder="Describe your requirement in detail — specifications, quality standards, delivery requirements..."
                 rows={4}
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none resize-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -211,7 +211,7 @@ function Field({
         placeholder={placeholder}
         required={required}
         className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+        style={{ borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
         onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />

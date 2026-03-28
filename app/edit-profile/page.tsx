@@ -193,7 +193,7 @@ export default function EditProfilePage() {
                   value={form.business_type}
                   onChange={e => set('business_type', e.target.value)}
                   className="w-full px-4 py-3 text-sm  outline-none"
-                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                  style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
                 >
                   <option value="">Select type</option>
                   {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
@@ -213,7 +213,7 @@ export default function EditProfilePage() {
                   value={form.state}
                   onChange={e => set('state', e.target.value)}
                   className="w-full px-4 py-3 text-sm  outline-none"
-                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                  style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
                 >
                   <option value="">Select state</option>
                   {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -268,7 +268,7 @@ function Field({
         disabled={disabled}
         className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
         style={{
-          boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc',
+          borderRadius: 'var(--radius-sm)', background: '#d8d8dc',
           color: disabled ? 'var(--text-inactive)' : 'var(--text-primary)',
         }}
         onFocus={e => !disabled && (e.currentTarget.style.borderColor = '#000')}

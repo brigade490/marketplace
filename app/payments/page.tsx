@@ -177,7 +177,7 @@ export default function PaymentsPage() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">UPI ID *</label>
                   <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} placeholder="name@upi"
                     className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                    style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                    style={{ borderRadius: 'var(--radius-sm)' }}
                     onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')} />
                 </div>
@@ -191,7 +191,7 @@ export default function PaymentsPage() {
                       <input type="text" value={bankForm[field as keyof typeof bankForm]}
                         onChange={e => setBankForm(f => ({ ...f, [field]: e.target.value }))}
                         className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                        style={{ borderRadius: 'var(--radius-sm)' }}
                         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                         onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')} />
                     </div>

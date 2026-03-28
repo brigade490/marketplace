@@ -134,7 +134,7 @@ Thank you for trading on Karobarrr!
               value={dateFrom}
               onChange={e => setDateFrom(e.target.value)}
               className="px-3 py-2 text-sm  outline-none"
-              style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-xs)' }}
+              style={{ borderRadius: 'var(--radius-xs)' }}
             />
           </div>
           <div>
@@ -144,7 +144,7 @@ Thank you for trading on Karobarrr!
               value={dateTo}
               onChange={e => setDateTo(e.target.value)}
               className="px-3 py-2 text-sm  outline-none"
-              style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-xs)' }}
+              style={{ borderRadius: 'var(--radius-xs)' }}
             />
           </div>
           {(dateFrom || dateTo) && (

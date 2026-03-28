@@ -290,41 +290,41 @@ export default function RequirementsPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Title</label>
-                    <input type="text" name="title" required value={form.title} onChange={handleChange} placeholder="e.g. Need 500 units industrial conveyor belts" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                    <input type="text" name="title" required value={form.title} onChange={handleChange} placeholder="e.g. Need 500 units industrial conveyor belts" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Description</label>
-                    <textarea name="description" required value={form.description} onChange={handleChange} rows={3} placeholder="Specifications, certifications, delivery terms..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                    <textarea name="description" required value={form.description} onChange={handleChange} rows={3} placeholder="Specifications, certifications, delivery terms..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ borderRadius: "10px" }} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Category</label>
-                      <select name="category" required value={form.category} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                      <select name="category" required value={form.category} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }}>
                         <option value="">Select...</option>
                         {categories.filter(c => c !== "All").map((c) => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Quantity</label>
-                      <input type="text" name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 500 units" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                      <input type="text" name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 500 units" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Budget</label>
-                      <input type="text" name="budget" required value={form.budget} onChange={handleChange} placeholder="₹50,000" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                      <input type="text" name="budget" required value={form.budget} onChange={handleChange} placeholder="₹50,000" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1.5">Deadline</label>
-                      <input type="date" name="deadline" value={form.deadline} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                      <input type="date" name="deadline" value={form.deadline} onChange={handleChange} className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1.5">Your City</label>
-                    <input type="text" name="location" value={form.location} onChange={handleChange} placeholder="Mumbai, Delhi, Bangalore..." className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                    <input type="text" name="location" value={form.location} onChange={handleChange} placeholder="Mumbai, Delhi, Bangalore..." className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                   </div>
                   <div className="flex gap-2 pt-1">
-                    <button type="button" onClick={() => setShowPostModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>
+                    <button type="button" onClick={() => setShowPostModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>
                       Cancel
                     </button>
                     <button type="submit" disabled={posting} className="flex-1 py-3 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)", opacity: posting ? 0.6 : 1 }}>

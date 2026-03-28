@@ -264,7 +264,7 @@ export default function MessagesPage() {
                     onChange={e => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
                     className="flex-1 px-4 py-2.5 text-sm  outline-none"
-                    style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-pill)' }}
+                    style={{ borderRadius: 'var(--radius-pill)' }}
                     onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                   />

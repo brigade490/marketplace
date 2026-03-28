@@ -183,8 +183,7 @@ select {
   font-size: 15px;
   color: #4a4a52 !important;
   -webkit-text-fill-color: #4a4a52;
-  box-shadow: inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9) !important;
-  transition: box-shadow 150ms ease;
+  box-shadow: none !important;
 }
 input::placeholder,
 textarea::placeholder {
@@ -195,7 +194,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="r
 textarea:focus,
 select:focus {
   outline: none;
-  box-shadow: inset 5px 5px 12px rgba(140,140,152,0.45), inset -5px -5px 12px rgba(255,255,255,0.95) !important;
+  box-shadow: none !important;
 }
 select {
   cursor: pointer;
@@ -513,12 +512,11 @@ input[type="checkbox"].compact {
   position: relative;
   background: #d8d8dc;
   border: none !important;
-  box-shadow: inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9) !important;
+  box-shadow: none !important;
   border-radius: var(--radius-sm);
-  transition: box-shadow 150ms ease;
 }
 .float-field:focus-within {
-  box-shadow: inset 5px 5px 12px rgba(140,140,152,0.45), inset -5px -5px 12px rgba(255,255,255,0.95) !important;
+  box-shadow: none !important;
 }
 .float-field input,
 .float-field textarea {

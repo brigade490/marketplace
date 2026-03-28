@@ -332,7 +332,7 @@ export default function SettingsPage() {
                   value={businessType}
                   onChange={e => setBusinessType(e.target.value)}
                   className="w-full px-4 py-3 text-sm outline-none"
-                  style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}
+                  style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}
                 >
                   <option value="">Select type...</option>
                   {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
@@ -353,7 +353,7 @@ export default function SettingsPage() {
                 value={profile.state}
                 onChange={e => setProfile(p => ({ ...p, state: e.target.value }))}
                 className="w-full px-4 py-3 text-sm outline-none"
-                style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}
+                style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}
               >
                 <option value="">Select state...</option>
                 {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -396,21 +396,21 @@ export default function SettingsPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-inactive)' }}>Order Type</label>
-                <select value={orderType} onChange={e => setOrderType(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
+                <select value={orderType} onChange={e => setOrderType(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
                   <option value="">Select...</option>
                   {ORDER_TYPES.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-inactive)' }}>Purchase Frequency</label>
-                <select value={frequency} onChange={e => setFrequency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
+                <select value={frequency} onChange={e => setFrequency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
                   <option value="">Select...</option>
                   {FREQUENCIES.map(f => <option key={f} value={f}>{f}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-inactive)' }}>Delivery Urgency</label>
-                <select value={urgency} onChange={e => setUrgency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
+                <select value={urgency} onChange={e => setUrgency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
                   <option value="">Select...</option>
                   {URGENCY_OPTS.map(u => <option key={u} value={u}>{u}</option>)}
                 </select>
@@ -481,13 +481,13 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-inactive)' }}>Language</label>
-              <select value={language} onChange={e => setLanguage(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
+              <select value={language} onChange={e => setLanguage(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
                 {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-inactive)' }}>Currency</label>
-              <select value={currency} onChange={e => setCurrency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
+              <select value={currency} onChange={e => setCurrency(e.target.value)} className="w-full px-4 py-3 text-sm outline-none" style={{ background: 'var(--input-bg)', borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)' }}>
                 <option value="INR">INR (₹)</option>
                 <option value="USD">USD ($)</option>
                 <option value="EUR">EUR (€)</option>
@@ -562,7 +562,6 @@ function Field({ label, value, onChange, placeholder, disabled, type = 'text' }:
         className="w-full px-4 py-3 text-sm outline-none"
         style={{
           background: disabled ? 'var(--bg)' : 'var(--input-bg)',
-          boxShadow: 'var(--shadow-inset)',
           borderRadius: 'var(--radius-sm)',
           color: disabled ? 'var(--text-muted)' : 'var(--text-primary)',
         }}

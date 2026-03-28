@@ -133,7 +133,7 @@ export default function BecomeSellerPage() {
                 placeholder="ABC Manufacturers Pvt. Ltd."
                 required
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -145,7 +145,7 @@ export default function BecomeSellerPage() {
                 value={form.business_type}
                 onChange={e => set('business_type', e.target.value)}
                 className="w-full px-4 py-3 text-sm  outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
               >
                 {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
               </select>
@@ -159,7 +159,7 @@ export default function BecomeSellerPage() {
                 onChange={e => set('country', e.target.value)}
                 placeholder="India"
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -173,7 +173,7 @@ export default function BecomeSellerPage() {
                 onChange={e => set('website', e.target.value)}
                 placeholder="https://yourcompany.com"
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -187,7 +187,7 @@ export default function BecomeSellerPage() {
                 onChange={e => set('tax_id', e.target.value)}
                 placeholder="22AAAAA0000A1Z5"
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />

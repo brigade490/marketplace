@@ -165,7 +165,7 @@ export default function HelpPage() {
                   placeholder="Brief description of your issue"
                   required
                   className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                  style={{ borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                   onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />
@@ -179,7 +179,7 @@ export default function HelpPage() {
                   rows={4}
                   required
                   className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none resize-none"
-                  style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                  style={{ borderRadius: 'var(--radius-sm)' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                   onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
                 />

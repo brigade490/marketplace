@@ -171,7 +171,7 @@ function AddProductInner() {
                 onChange={e => set('category', e.target.value)}
                 required
                 className="w-full px-4 py-3 text-sm  outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -199,7 +199,7 @@ function AddProductInner() {
                 placeholder="Describe your product, specifications, and key features..."
                 rows={4}
                 className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none resize-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+                style={{ borderRadius: 'var(--radius-sm)' }}
                 onFocus={e => (e.currentTarget.style.borderColor = '#000')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
               />
@@ -323,7 +323,7 @@ function Field({
         min={type === 'number' ? '0' : undefined}
         step={type === 'number' ? 'any' : undefined}
         className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+        style={{ borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
         onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />

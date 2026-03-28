@@ -218,7 +218,7 @@ export default function SellerDashboardPage() {
           {tab === "products" && (
             <div>
               <div className="flex items-center justify-between gap-3 mb-4">
-                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none w-64" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }} />
+                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none w-64" style={{ background: '#d8d8dc', borderRadius: "var(--radius-xs)" }} />
                 <button onClick={() => { setSaveError(""); setShowAddModal(true); }} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-xs)" }}>
                   + Add Product
                 </button>
@@ -313,7 +313,7 @@ export default function SellerDashboardPage() {
                               value={order.status}
                               onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
                               className="px-3 py-2 text-xs font-medium text-gray-700 outline-none bg-white"
-                              style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }}
+                              style={{ borderRadius: "var(--radius-xs)" }}
                             >
                               {["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"].map(s => <option key={s}>{s}</option>)}
                             </select>
@@ -362,11 +362,11 @@ export default function SellerDashboardPage() {
             <form onSubmit={handleCreateSellerProfile} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Company Name</label>
-                <input type="text" required value={setupForm.company_name} onChange={(e) => setSetupForm(p => ({ ...p, company_name: e.target.value }))} placeholder="Your company name" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                <input type="text" required value={setupForm.company_name} onChange={(e) => setSetupForm(p => ({ ...p, company_name: e.target.value }))} placeholder="Your company name" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Business Type</label>
-                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', borderRadius: "10px" }}>
                   <option value="manufacturer">Manufacturer</option>
                   <option value="distributor">Distributor</option>
                   <option value="wholesaler">Wholesaler</option>
@@ -393,16 +393,16 @@ export default function SellerDashboardPage() {
             <form onSubmit={handleAddProduct} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Product Name</label>
-                <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Industrial Conveyor Belt" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                <input type="text" required value={newProduct.name} onChange={(e) => setNewProduct(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Industrial Conveyor Belt" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Price (₹)</label>
-                  <input type="number" required value={newProduct.price} onChange={(e) => setNewProduct(p => ({ ...p, price: e.target.value }))} placeholder="0.00" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                  <input type="number" required value={newProduct.price} onChange={(e) => setNewProduct(p => ({ ...p, price: e.target.value }))} placeholder="0.00" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Unit</label>
-                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', borderRadius: "10px" }}>
                     {["unit", "kg", "meter", "liter", "piece", "set", "bag", "panel", "batch"].map(u => <option key={u} value={u}>{u}</option>)}
                   </select>
                 </div>
@@ -410,22 +410,22 @@ export default function SellerDashboardPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Category</label>
-                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', borderRadius: "10px" }}>
                     <option value="">Select...</option>
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Stock Available</label>
-                  <input type="number" value={newProduct.stock} onChange={(e) => setNewProduct(p => ({ ...p, stock: e.target.value }))} placeholder="0" className="w-full px-4 py-3 text-sm outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                  <input type="number" value={newProduct.stock} onChange={(e) => setNewProduct(p => ({ ...p, stock: e.target.value }))} placeholder="0" className="w-full px-4 py-3 text-sm outline-none" style={{ borderRadius: "10px" }} />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Description</label>
-                <textarea value={newProduct.description} onChange={(e) => setNewProduct(p => ({ ...p, description: e.target.value }))} rows={3} placeholder="Describe your product..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }} />
+                <textarea value={newProduct.description} onChange={(e) => setNewProduct(p => ({ ...p, description: e.target.value }))} rows={3} placeholder="Describe your product..." className="w-full px-4 py-3 text-sm resize-none outline-none" style={{ borderRadius: "10px" }} />
               </div>
               <div className="flex gap-2 pt-1">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>Cancel</button>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 text-sm font-semibold text-gray-600" style={{ borderRadius: "var(--radius-pill)", background: "var(--surface)" }}>Cancel</button>
                 <button type="submit" disabled={saving} className="flex-1 py-3 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-pill)", opacity: saving ? 0.6 : 1 }}>
                   {saving ? "Adding..." : "Add Product"}
                 </button>

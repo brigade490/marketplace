@@ -180,7 +180,7 @@ export default function AddressesPage() {
                     onChange={e => set('state', e.target.value)}
                     required
                     className="w-full px-4 py-3 text-sm  outline-none"
-                    style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
+                    style={{ borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
                   >
                     <option value="">Select state</option>
                     {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -213,7 +213,7 @@ function Field({ label, value, onChange, placeholder, required, type = 'text' }:
       <label className="block text-xs font-semibold text-gray-700 mb-1.5">{label}</label>
       <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} required={required}
         className="w-full px-4 py-3 text-sm  placeholder-gray-400 outline-none"
-        style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)' }}
+        style={{ borderRadius: 'var(--radius-sm)' }}
         onFocus={e => (e.currentTarget.style.borderColor = '#000')}
         onBlur={e => (e.currentTarget.style.borderColor = 'var(--surface)')}
       />
