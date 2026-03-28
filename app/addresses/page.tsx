@@ -180,7 +180,7 @@ export default function AddressesPage() {
                     onChange={e => set('state', e.target.value)}
                     required
                     className="w-full px-4 py-3 text-sm  outline-none"
-                    style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
+                    style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
                   >
                     <option value="">Select state</option>
                     {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}

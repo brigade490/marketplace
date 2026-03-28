@@ -161,7 +161,7 @@ function ProductsPageInner() {
   else if (sort === "Rating") filtered = [...filtered].sort((a, b) => b.rating - a.rating);
   else if (sort === "Most Reviews") filtered = [...filtered].sort((a, b) => b.reviews - a.reviews);
 
-  const inputSel: React.CSSProperties = { width: '100%', padding: '6px 8px', fontSize: '12px', background: '#fafafa', border: '1px solid #e8e8e8', borderRadius: '6px', color: '#333', outline: 'none' };
+  const inputSel: React.CSSProperties = { width: '100%', padding: '6px 8px', fontSize: '12px', background: '#d8d8dc', border: '1px solid #e8e8e8', borderRadius: '6px', color: '#333', outline: 'none' };
 
   const Sidebar = () => (
     <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: '10px', padding: '16px 14px' }}>

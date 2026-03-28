@@ -171,7 +171,7 @@ function AddProductInner() {
                 onChange={e => set('category', e.target.value)}
                 required
                 className="w-full px-4 py-3 text-sm  outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}

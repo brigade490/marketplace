@@ -145,7 +145,7 @@ export default function BecomeSellerPage() {
                 value={form.business_type}
                 onChange={e => set('business_type', e.target.value)}
                 className="w-full px-4 py-3 text-sm  outline-none"
-                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: 'var(--surface)' }}
+                style={{ boxShadow: 'var(--shadow-inset)', borderRadius: 'var(--radius-sm)', background: '#d8d8dc' }}
               >
                 {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
               </select>

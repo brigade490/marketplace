@@ -218,7 +218,7 @@ export default function SellerDashboardPage() {
           {tab === "products" && (
             <div>
               <div className="flex items-center justify-between gap-3 mb-4">
-                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none bg-white w-64" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }} />
+                <input type="text" placeholder="Search products..." value={productSearch} onChange={(e) => setProductSearch(e.target.value)} className="px-4 py-2.5 text-sm outline-none w-64" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "var(--radius-xs)" }} />
                 <button onClick={() => { setSaveError(""); setShowAddModal(true); }} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold" style={{ background: "var(--active-bg)", color: "var(--surface)", borderRadius: "var(--radius-xs)" }}>
                   + Add Product
                 </button>
@@ -366,7 +366,7 @@ export default function SellerDashboardPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">Business Type</label>
-                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                <select value={setupForm.business_type} onChange={(e) => setSetupForm(p => ({ ...p, business_type: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                   <option value="manufacturer">Manufacturer</option>
                   <option value="distributor">Distributor</option>
                   <option value="wholesaler">Wholesaler</option>
@@ -402,7 +402,7 @@ export default function SellerDashboardPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Unit</label>
-                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                  <select value={newProduct.price_unit} onChange={(e) => setNewProduct(p => ({ ...p, price_unit: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                     {["unit", "kg", "meter", "liter", "piece", "set", "bag", "panel", "batch"].map(u => <option key={u} value={u}>{u}</option>)}
                   </select>
                 </div>
@@ -410,7 +410,7 @@ export default function SellerDashboardPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Category</label>
-                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none bg-white" style={{ boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
+                  <select required value={newProduct.category} onChange={(e) => setNewProduct(p => ({ ...p, category: e.target.value }))} className="w-full px-4 py-3 text-sm outline-none" style={{ background: '#d8d8dc', boxShadow: "var(--shadow-inset)", borderRadius: "10px" }}>
                     <option value="">Select...</option>
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
