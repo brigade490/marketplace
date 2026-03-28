@@ -125,7 +125,7 @@ function SearchResults() {
                   href={`/products/${product.id}`}
                   className="block group"
                   style={{
-                    background: '#f2f2f5',
+                    background: '#ffffff',
                     borderRadius: '20px',
                     boxShadow: '4px 4px 12px rgba(140,140,152,0.2), -4px -4px 12px rgba(255,255,255,0.85)',
                     transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1)',
@@ -137,13 +137,13 @@ function SearchResults() {
                     {/* Image placeholder */}
                     <div
                       className="flex items-center justify-center"
-                      style={{ height: '160px', background: '#e4e4e8', fontSize: '52px', borderRadius: '20px 20px 0 0' }}
+                      style={{ height: '160px', background: '#ffffff', fontSize: '52px', borderRadius: '20px 20px 0 0' }}
                     >
                       {emoji}
                     </div>
 
                     {/* Content */}
-                    <div style={{ padding: '14px 16px 18px', background: '#f2f2f5' }}>
+                    <div style={{ padding: '14px 16px 18px', background: '#ffffff' }}>
                       {product.category && (
                         <span
                           className="text-xs font-semibold"

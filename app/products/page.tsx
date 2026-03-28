@@ -339,17 +339,17 @@ function ProductsPageInner() {
       >Clear All Filters</button>
 
       <button className="lg:hidden" onClick={() => setShowFilters(false)} style={{
-        width: '100%', marginTop: '6px', padding: '7px', background: '#f7f7f8',
+        width: '100%', marginTop: '6px', padding: '7px', background: '#ffffff',
         color: '#555', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
       }}>Close</button>
     </div>
   );
 
   return (
-    <div className="min-h-screen" style={{ background: '#f7f7f8' }}>
+    <div className="min-h-screen" style={{ background: '#ffffff' }}>
 
       {/* ── Category chips ────────────────────────────────── */}
-      <div className="sticky top-[60px] z-20" style={{ background: '#f7f7f8', borderBottom: '1px solid #e8e8e8' }}>
+      <div className="sticky top-[60px] z-20" style={{ background: '#ffffff', borderBottom: '1px solid #e8e8e8' }}>
         <div className="max-w-screen-xl mx-auto px-6">
           <div ref={tabBarRef} style={{ display: 'flex', gap: '4px', overflowX: 'auto', scrollbarWidth: 'none', cursor: 'grab', padding: '10px 0' } as React.CSSProperties}>
             {categories.map((cat) => {

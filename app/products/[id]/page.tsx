@@ -203,7 +203,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div style={{ background: "#f7f7f8", minHeight: "100vh" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh" }}>
 
       {/* Breadcrumb */}
       <div style={{ background: "#fff", borderBottom: "1px solid #ececec" }}>

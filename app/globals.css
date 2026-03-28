@@ -23,8 +23,8 @@
 
 :root {
   /* Surfaces */
-  --bg:          #e4e4e8;
-  --surface:     #f2f2f5;
+  --bg:          #ffffff;
+  --surface:     #ffffff;
   --input-bg:    #d8d8dc;
 
   /* Active/dark */
@@ -268,7 +268,7 @@ header {
 /* ─── Pagination ─────────────────────────────────────── */
 
 .neu-pagination {
-  background: #f2f2f5;
+  background: #ffffff;
   border-radius: 24px;
   padding: 16px 20px;
   box-shadow: 8px 8px 20px rgba(140,140,152,0.42), -8px -8px 20px rgba(255,255,255,1);
