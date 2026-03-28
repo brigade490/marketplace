@@ -454,32 +454,30 @@ function ProductsPageInner() {
                       {/* Spacer */}
                       <div style={{ flex: 1 }} />
 
-                      {/* Price + buttons row */}
-                      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '12px', flexWrap: 'wrap', gap: '10px' }}>
-                        <div>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                            <span style={{ fontSize: '24px', fontWeight: 800, color: '#111' }}>{product.price}</span>
-                            <span style={{ fontSize: '12px', color: '#999' }}>/ {product.unit}</span>
-                          </div>
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <button style={{
-                            padding: '9px 22px', background: '#000', color: '#fff',
-                            border: 'none', borderRadius: '999px', fontSize: '13px', fontWeight: 600,
-                            cursor: 'pointer', whiteSpace: 'nowrap', transition: 'opacity 0.15s',
-                          }}
-                            onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '0.8')}
-                            onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '1')}
-                          >Add to Cart</button>
-                          <button style={{
-                            padding: '9px 22px', background: '#fff', color: '#000',
-                            border: '1.5px solid #000', borderRadius: '999px', fontSize: '13px', fontWeight: 600,
-                            cursor: 'pointer', whiteSpace: 'nowrap', transition: 'background 0.15s',
-                          }}
-                            onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = '#f5f5f5')}
-                            onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = '#fff')}
-                          >Get a Quote</button>
-                        </div>
+                      {/* Price */}
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '12px' }}>
+                        <span style={{ fontSize: '24px', fontWeight: 800, color: '#111' }}>{product.price}</span>
+                        <span style={{ fontSize: '12px', color: '#999' }}>/ {product.unit}</span>
+                      </div>
+
+                      {/* Buttons — side by side below price */}
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                        <button style={{
+                          flex: 1, padding: '10px 16px', background: '#000', color: '#fff',
+                          border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600,
+                          cursor: 'pointer', whiteSpace: 'nowrap',
+                        }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '0.85')}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = '1')}
+                        >Add to Cart</button>
+                        <button style={{
+                          flex: 1, padding: '10px 16px', background: '#fff', color: '#000',
+                          border: '1.5px solid #000', borderRadius: '8px', fontSize: '13px', fontWeight: 600,
+                          cursor: 'pointer', whiteSpace: 'nowrap',
+                        }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = '#f5f5f5')}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = '#fff')}
+                        >Get a Quote</button>
                       </div>
                     </div>
                   </div>

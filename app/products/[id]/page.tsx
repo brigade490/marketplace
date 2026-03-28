@@ -144,7 +144,6 @@ const boughtTogether = [
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const [product, setProduct] = useState<ProductData>(() => getFallback(id));
-  const [tab, setTab] = useState<"overview" | "specs" | "reviews">("overview");
   const [quantity, setQuantity] = useState(1);
   const [activeThumb, setActiveThumb] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -226,10 +225,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         <div style={{ display: "flex", gap: "28px", alignItems: "flex-start" }}>
 
           {/* LEFT */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ flex: "0 0 auto", width: "600px", minWidth: 0 }}>
 
             {/* Image row: thumbnails + main */}
-            <div style={{ display: "flex", gap: "14px", marginBottom: "20px" }}>
+            <div style={{ display: "flex", gap: "14px", marginBottom: "24px" }}>
 
               {/* Thumbnail strip */}
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", flexShrink: 0 }}>
@@ -255,115 +254,87 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 flex: 1,
                 background: "#f0f0f0",
                 borderRadius: "12px",
-                height: 400,
+                height: 360,
                 border: "1px solid #e4e4e4",
               }} />
             </div>
 
-            {/* Tabs panel */}
-            <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", overflow: "hidden" }}>
+            {/* All content — no tabs, just scroll */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
 
-              {/* Tab bar */}
-              <div style={{ display: "flex", borderBottom: "1px solid #f0f0f0" }}>
-                {(["overview", "specs", "reviews"] as const).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTab(t)}
-                    style={{
-                      flex: 1, padding: "14px 0",
-                      fontSize: "13px",
-                      fontWeight: tab === t ? 700 : 500,
-                      color: tab === t ? "#111" : "#999",
-                      background: "transparent",
-                      borderBottom: tab === t ? "2px solid #111" : "2px solid transparent",
-                      cursor: "pointer",
-                      textTransform: "capitalize",
-                      transition: "color 0.12s",
-                    }}
-                  >
-                    {t}{t === "reviews" ? ` (${product.reviews})` : ""}
-                  </button>
-                ))}
+              {/* Description */}
+              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "12px" }}>Product Description</h3>
+                <p style={{ fontSize: "16px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
               </div>
 
-              {/* Tab content */}
-              <div style={{ padding: "24px 26px" }}>
+              {/* Key Details */}
+              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>Key Details</h3>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <tbody>
+                    {[
+                      ["Category", product.category],
+                      ["Location", product.location],
+                      ["Min. Order", product.minOrder],
+                      ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
+                    ].map(([k, v]) => (
+                      <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "160px" }}>{k}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#222" }}>{v}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-                {tab === "overview" && (
+              {/* Specifications */}
+              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>Technical Specifications</h3>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <tbody>
+                    {product.specs.map((spec, i) => (
+                      <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
+                        <td style={{ padding: "11px 0", fontSize: "14px", color: "#888", width: "180px" }}>{spec.label}</td>
+                        <td style={{ padding: "11px 0", fontSize: "14px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Reviews */}
+              <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #e8e8e8", padding: "24px 26px" }}>
+                <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>
+                  Reviews ({product.reviews})
+                </h3>
+                {product.reviewList.length === 0 ? (
+                  <p style={{ fontSize: "14px", color: "#bbb", textAlign: "center", padding: "24px 0" }}>No reviews yet for this product.</p>
+                ) : (
                   <div>
-                    <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#111", marginBottom: "10px" }}>Product Description</h3>
-                    <p style={{ fontSize: "13px", color: "#555", lineHeight: 1.75 }}>{product.description}</p>
-
-                    <div style={{ marginTop: "22px", background: "#fafafa", borderRadius: "10px", padding: "18px", border: "1px solid #efefef" }}>
-                      <p style={{ fontSize: "10px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "14px" }}>Key Details</p>
-                      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                        <tbody>
-                          {[
-                            ["Category", product.category],
-                            ["Location", product.location],
-                            ["Min. Order", product.minOrder],
-                            ["Rating", `${product.rating} / 5 (${product.reviews} reviews)`],
-                          ].map(([k, v]) => (
-                            <tr key={k} style={{ borderTop: "1px solid #f0f0f0" }}>
-                              <td style={{ padding: "9px 0", fontSize: "12px", color: "#999", width: "140px" }}>{k}</td>
-                              <td style={{ padding: "9px 0", fontSize: "12px", fontWeight: 600, color: "#222" }}>{v}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px", padding: "16px 20px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: "38px", fontWeight: 800, color: "#111", lineHeight: 1 }}>{product.rating}</div>
+                        <Stars rating={product.rating} size={16} />
+                        <div style={{ fontSize: "14px", color: "#aaa", marginTop: "4px" }}>{product.reviews} reviews</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                      {product.reviewList.map((r, i) => (
+                        <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                            <span style={{ fontSize: "14px", fontWeight: 600, color: "#222" }}>{r.author}</span>
+                            <span style={{ fontSize: "14px", color: "#bbb" }}>{r.date}</span>
+                          </div>
+                          <Stars rating={r.rating} size={13} />
+                          <p style={{ fontSize: "14px", color: "#555", marginTop: "8px", lineHeight: 1.65 }}>{r.comment}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
-
-                {tab === "specs" && (
-                  <div>
-                    <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#111", marginBottom: "16px" }}>Technical Specifications</h3>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                      <tbody>
-                        {product.specs.map((spec, i) => (
-                          <tr key={spec.label} style={{ borderTop: i === 0 ? "none" : "1px solid #f5f5f5" }}>
-                            <td style={{ padding: "11px 0", fontSize: "12px", color: "#888", width: "180px" }}>{spec.label}</td>
-                            <td style={{ padding: "11px 0", fontSize: "13px", fontWeight: 600, color: "#111" }}>{spec.value}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                {tab === "reviews" && (
-                  <div>
-                    {product.reviewList.length === 0 ? (
-                      <div style={{ textAlign: "center", padding: "40px 0" }}>
-                        <p style={{ fontSize: "13px", color: "#bbb" }}>No reviews yet for this product.</p>
-                      </div>
-                    ) : (
-                      <div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px", padding: "16px 20px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
-                          <div style={{ textAlign: "center" }}>
-                            <div style={{ fontSize: "38px", fontWeight: 800, color: "#111", lineHeight: 1 }}>{product.rating}</div>
-                            <Stars rating={product.rating} size={16} />
-                            <div style={{ fontSize: "11px", color: "#aaa", marginTop: "4px" }}>{product.reviews} reviews</div>
-                          </div>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                          {product.reviewList.map((r, i) => (
-                            <div key={i} style={{ padding: "16px", background: "#fafafa", borderRadius: "10px", border: "1px solid #f0f0f0" }}>
-                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                                <span style={{ fontSize: "13px", fontWeight: 600, color: "#222" }}>{r.author}</span>
-                                <span style={{ fontSize: "11px", color: "#bbb" }}>{r.date}</span>
-                              </div>
-                              <Stars rating={r.rating} size={12} />
-                              <p style={{ fontSize: "12px", color: "#555", marginTop: "7px", lineHeight: 1.65 }}>{r.comment}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
               </div>
+
             </div>
           </div>
 
@@ -375,25 +346,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             >
 
               {/* Product name */}
-              <h1 style={{ fontSize: "18px", fontWeight: 800, color: "#111", lineHeight: 1.35, margin: 0 }}>
+              <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111", lineHeight: 1.3, margin: 0 }}>
                 {product.name}
               </h1>
 
               {/* Seller + verified */}
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: -6 }}>
-                <span style={{ fontSize: "13px", color: "#555" }}>{product.seller}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: -4 }}>
+                <span style={{ fontSize: "14px", color: "#555" }}>{product.seller}</span>
                 {product.verified && (
-                  <span style={{ fontSize: "10px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 6px", letterSpacing: "0.02em" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#1a8a5a", background: "#eafaf2", borderRadius: "4px", padding: "2px 7px", letterSpacing: "0.02em" }}>
                     Verified
                   </span>
                 )}
               </div>
 
               {/* Rating */}
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: -4 }}>
-                <Stars rating={product.rating} size={13} />
-                <span style={{ fontSize: "13px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
-                <span style={{ fontSize: "12px", color: "#bbb" }}>({product.reviews} reviews)</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: -2 }}>
+                <Stars rating={product.rating} size={14} />
+                <span style={{ fontSize: "14px", fontWeight: 700, color: "#333" }}>{product.rating}</span>
+                <span style={{ fontSize: "14px", color: "#bbb" }}>({product.reviews} reviews)</span>
               </div>
 
               <div style={{ borderTop: "1px solid #f0f0f0" }} />
@@ -401,20 +372,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               {/* Price */}
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
-                  <span style={{ fontSize: "30px", fontWeight: 800, color: "#111", letterSpacing: "-0.5px" }}>
+                  <span style={{ fontSize: "36px", fontWeight: 800, color: "#111", letterSpacing: "-1px" }}>
                     ₹{product.price}
                   </span>
-                  <span style={{ fontSize: "13px", color: "#aaa" }}>/ {product.unit}</span>
+                  <span style={{ fontSize: "14px", color: "#aaa" }}>/ {product.unit}</span>
                 </div>
-                <p style={{ fontSize: "11px", color: "#aaa", marginTop: "2px" }}>Inclusive of all taxes</p>
-                <p style={{ fontSize: "11px", color: "#555", marginTop: "3px" }}>
+                <p style={{ fontSize: "14px", color: "#aaa", marginTop: "2px" }}>Inclusive of all taxes</p>
+                <p style={{ fontSize: "14px", color: "#555", marginTop: "3px" }}>
                   EMI from <strong>₹{emiAmount}/month</strong> — No cost EMI available
                 </p>
               </div>
 
               {/* Offers */}
               <div>
-                <p style={{ fontSize: "10px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Offers</p>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Offers</p>
                 <div style={{ display: "flex", gap: "6px" }}>
                   {[
                     { title: "Bank Offer", desc: "5% off on HDFC cards" },
@@ -425,8 +396,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                       key={offer.title}
                       style={{ flex: 1, padding: "9px 8px", border: "1px solid #e8e8e8", borderRadius: "8px", background: "#fafafa" }}
                     >
-                      <p style={{ fontSize: "10px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
-                      <p style={{ fontSize: "10px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
+                      <p style={{ fontSize: "12px", fontWeight: 700, color: "#111", marginBottom: "3px" }}>{offer.title}</p>
+                      <p style={{ fontSize: "11px", color: "#888", lineHeight: 1.4 }}>{offer.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -442,7 +413,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 ].map(({ icon, label }) => (
                   <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", flex: 1 }}>
                     {icon}
-                    <span style={{ fontSize: "9px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
+                    <span style={{ fontSize: "11px", color: "#666", fontWeight: 600, textAlign: "center", lineHeight: 1.3 }}>{label}</span>
                   </div>
                 ))}
               </div>
@@ -451,7 +422,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
               {/* Quantity */}
               <div>
-                <p style={{ fontSize: "10px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Quantity</p>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "#777", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Quantity</p>
                 <div style={{ display: "flex", alignItems: "center", gap: "0", border: "1px solid #e0e0e0", borderRadius: "8px", overflow: "hidden", width: "fit-content" }}>
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -497,8 +468,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   { label: "Payment", value: "Secure transaction" },
                 ].map(({ label, value }) => (
                   <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "12px", color: "#aaa" }}>{label}</span>
-                    <span style={{ fontSize: "12px", fontWeight: 600, color: "#333" }}>{value}</span>
+                    <span style={{ fontSize: "14px", color: "#aaa" }}>{label}</span>
+                    <span style={{ fontSize: "14px", fontWeight: 600, color: "#333" }}>{value}</span>
                   </div>
                 ))}
               </div>
