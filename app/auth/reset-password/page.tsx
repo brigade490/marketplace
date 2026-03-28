@@ -45,15 +45,7 @@ export default function ResetPasswordPage() {
     borderRadius: 'var(--radius-md)',
     padding: '40px 36px',
   };
-  const inputStyle: React.CSSProperties = {
-    borderRadius: '14px',
-    background: '#d8d8dc',
-    border: 'none',
-    outline: 'none',
-    boxShadow: 'inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9)',
-    color: '#4a4a52',
-    fontSize: '15px',
-  };
+  const inputStyle: React.CSSProperties = { background: '#d8d8dc' };
 
   if (done) {
     return (

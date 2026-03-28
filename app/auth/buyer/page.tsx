@@ -16,7 +16,7 @@ function parseAuthError(msg: string): string {
 type View = 'choose' | 'login' | 'signup-email' | 'signup-password' | 'login-found' | 'forgot' | 'email-sent' | 'forgot-sent';
 
 const inputCls = 'w-full px-4 py-3 text-sm';
-const inputSt: React.CSSProperties = { borderRadius: '14px', background: '#d8d8dc', border: 'none', outline: 'none', boxShadow: 'inset 4px 4px 10px rgba(140,140,152,0.4), inset -4px -4px 10px rgba(255,255,255,0.9)', color: '#4a4a52', fontSize: '15px' };
+const inputSt: React.CSSProperties = { background: '#d8d8dc' };
 
 export default function AuthPage() {
   const router = useRouter();
